@@ -11,9 +11,9 @@
         //відправляємо запит на серевер
         $.get($('#header-journal').attr('data-url'), journal)
             .done(function (data ) {
-                console.log(data);
+                $('#table-journal').html(data);
         });
-        console.log(journal);
+        //console.log(journal);
     })
 
 
