@@ -28,12 +28,24 @@ class Login extends CI_Controller {
                 $result = $this->login_model->validation($this->input->post('login'), $this->input->post('password'));
                 // якщо логін і пароль знайдено то завантажуєм відповідну сторінку користувача
                 if ($result == TRUE) {
-                    redirect('/' . $_SESSION['role'] . '/');
+                    redirect('/' . strtolower($_SESSION['role']));
                 }
             }
         }
         // якщо користувач не авторизований то віддкриваємо форму для "входу"
         $this->load->view('login/login');
+    }
+
+    // вихід
+    public function logout(){
+        $this->load->model('login_model');
+        $this->login_model->logout();
+    }
+
+    // створює відповідні талиці бази даних
+    public function create_database(){
+        //$this->load->model('CreateDatabase_model', 'CreateBase');
+        //$this->CreateBase->create_database_table();
     }
 
 } // end Login class.
