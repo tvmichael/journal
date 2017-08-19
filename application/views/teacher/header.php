@@ -16,7 +16,7 @@
 <body>
 <!-- HEADER ------------------------------------------------------------------------- -->
 
-<header id="header-journal" data-url="<?php echo base_url('Teacher/ajax_get_data')?>">
+<header>
     <nav class="navbar navbar-default navbar-fixed-top">
         <div class="container-fluid">
             <div class="navbar-header">
@@ -31,34 +31,21 @@
             </div>
 
             <div class="collapse navbar-collapse" id="navbar-journal">
-                <?php if ($navbar_menu == 'journal') { ?>
-                <ul class="nav navbar-nav">
-                    <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-                            Виберіть групу<span class="caret"></span>
-                        </a>
-                        <ul id="list-teacher-group" class="dropdown-menu">
-                            <?php
-                            foreach ($navbar_list as $row){
-                                echo "<li></b><a href='#'";
-                                echo "data-id-teacher='",$row['id_teacher'], "' data-id-group='", $row['id_group'], "' data-id-subject='", $row['id_subject'], "'";
-                                echo "title='", $row['groups_fullname'], ' | ', $row['subject_fullname'],  "'>";
-                                echo "<b>", $row['groups_shortname'], "</b>";
-                                echo "<span class='h-select-subject'> ", $row['subject_shortname'], "</span>";
-                                echo "</a></li>";
-                            }
-                            ?>
-                        </ul>
-                    </li>
-                </ul>
-                <?php }; ?>
                 <?php if ($navbar_menu == 'settings') { ?>
                     <ul class="nav navbar-nav">
                         <li>
-                            <a href="<?php echo base_url('teacher');?>">Відкрити журнал</a>
+                            <a href="<?php echo base_url('teacher');?>">Відкрити список груп</a>
                         </li>
                     </ul>
                 <?php }; ?>
+                <?php if ($navbar_menu == 'journal') { ?>
+                    <ul class="nav navbar-nav">
+                        <li>
+                            <a href="<?php echo base_url('teacher');?>">Відкрити список груп</a>
+                        </li>
+                    </ul>
+                <?php }; ?>
+
 
                 <ul class="nav navbar-nav navbar-right">
                     <li><a href="<?php echo base_url('teacher/settings')?>">
