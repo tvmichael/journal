@@ -46,39 +46,55 @@ class Teacher extends CI_Controller {
         // завантажуємо журнал
         $journal = $this->teacher_model->load_journal();
 
-        $this->load->view('teacher/header', $header);
-        $this->load->view('teacher/journal', $journal);
-        $this->load->view('teacher/footer');
+        if ($journal['error'] == 0) {
+            $this->load->view('teacher/header', $header);
+            $this->load->view('teacher/journal', $journal);
+            $this->load->view('teacher/footer');
+        }
+        else {
+            $data = ['heading'=>'Помилка завантаження даних', 'message'=>'Дана сторінка відсутня'];
+            $this->load->view('errors/html/error_general', $data);
+        }
     } // end journal
 
 
     // 3. сторінка - налаштування користувача
     public function settings(){
+        $this->load->helper('form');
+        $this->load->library('form_validation');
+
         $header = ['navbar_text'=>'Налаштування', 'navbar_menu'=>'settings'];
         //
+        if ( isset($_POST['submit']) ) {
+            // перевіряємо форму на правильність введених даних
+            $this->form_validation->set_rules('login', '(Логін)', 'min_length[3]|max_length[16]');
+            $this->form_validation->set_rules('surname', '(Прізвище)', 'required|min_length[3]|max_length[16]');
+            $this->form_validation->set_rules('name', '(Імя)', 'required|min_length[2]|max_length[25]');
+            $this->form_validation->set_rules('patronymic', '(по батькові)', 'min_length[2]|max_length[25]');
+            $this->form_validation->set_rules('email', '(Email)', 'min_length[3]|max_length[100]|valid_emails');
+
+            $this->form_validation->set_rules('password', '(Пароль)', 'min_length[3]|max_length[16]');
+            $this->form_validation->set_rules('password1', '(Пароль-1)', 'min_length[3]|max_length[16]');
+            $this->form_validation->set_rules('password2', '(Пароль-2)', 'min_length[3]|max_length[16]|matches[password1]');
+            if ($this->form_validation->run() == TRUE) {
+
+                // якщо данні введено правильно то зберігаємо користувача в БД
+
+            }
+        }
+
         $this->load->view('teacher/header', $header);
         $this->load->view('teacher/settings');
         $this->load->view('teacher/footer');
     } // end settings
 
 
-
-
-
-
     // завантажуємо журнал (ajax - get)
     public function ajax_get_data(){
-
-        // відкриваємо журнал викладча
-        if ($this->input->get('action') == 'openJournal'){
-            //$this->teacher_data = $this->teacher->table_journal();
-            $this->teacher_data = $this->teacher->table_journal_join();
-
-            //$this->load->view('teacher/table_journal', $this->teacher_data);
-        }
         // додаємо нову ДАТУ до журналу викладача
-        if ($this->input->get('action') == 'newJournalDate'){
-            //$res = $this->teacher_model->add_new_data_journal();
+        if ($this->input->get('action') == 'addColumnToTable'){
+            $res = $this->teacher_model->saveNewTableColumn();
+            echo ' Додано: (', $res, ') записи(ів).';
             //echo json_encode($res);
         }
         // додаємо нову ОЦІНКУ до журнала викладача
