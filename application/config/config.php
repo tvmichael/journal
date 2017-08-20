@@ -458,7 +458,7 @@ $config['global_xss_filtering'] = TRUE;
 $config['csrf_protection'] = TRUE;
 $config['csrf_token_name'] = 'csrf_token_journal';
 $config['csrf_cookie_name'] = 'csrf_cookie_journal';
-$config['csrf_expire'] = 60*60*24;
+$config['csrf_expire'] = 60*60*24*7;
 $config['csrf_regenerate'] = TRUE;
 $config['csrf_exclude_uris'] = array();
 
