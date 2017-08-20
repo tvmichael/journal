@@ -33,10 +33,12 @@ class Teacher extends CI_Controller {
         $_SESSION['list_group'] = array_unique($list_group);
         $_SESSION['list_subject'] = array_unique($list_subject);
 
+        //
+        $footer = ['js_file'=>''];
         // показуєм сторінки
         $this->load->view('teacher/header', $header);
         $this->load->view('teacher/main', $main);
-        $this->load->view('teacher/footer');
+        $this->load->view('teacher/footer', $footer);
     } // end index
 
 
@@ -45,11 +47,12 @@ class Teacher extends CI_Controller {
         $header = ['navbar_text'=>'Електронний журнал', 'navbar_menu'=>'journal'];
         // завантажуємо журнал
         $journal = $this->teacher_model->load_journal();
+        $footer = ['js_file'=>'teacher.js'];
 
         if ($journal['error'] == 0) {
             $this->load->view('teacher/header', $header);
             $this->load->view('teacher/journal', $journal);
-            $this->load->view('teacher/footer');
+            $this->load->view('teacher/footer', $footer);
         }
         else {
             $data = ['heading'=>'Помилка завантаження даних', 'message'=>'Дана сторінка відсутня'];
@@ -99,14 +102,11 @@ class Teacher extends CI_Controller {
         }
         // додаємо нову ОЦІНКУ до журнала викладача
         if ($this->input->get('action') == 'addNewMark'){
-            //$res = $this->teacher_model->add_new_mark();
+            $res = $this->teacher_model->add_new_mark();
             //echo json_encode($res);
+            echo 'Оновлено (', $res, ') запис.';
         }
     }
-
-
-
-
 
 
 
