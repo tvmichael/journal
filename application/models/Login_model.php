@@ -1,15 +1,11 @@
 <?php
-/**
- * User: Michael
- * Date: 14.08.2017
- * Time: 18:07
- */
+defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Login_model extends CI_Model
 {
     // перевіряємо чи є користувач в бaзі даних
     public function validation($login, $password){
-        $this->db->where('login', $login);
+        $this->db->where('login', strtolower($login));
         $this->db->where('password', sha1($password));
         $query = $this->db->get('users');
 
@@ -27,9 +23,9 @@ class Login_model extends CI_Model
             date_default_timezone_set('Europe/Kiev');
             $log = array(
                 'id_user' => $_SESSION['id'],
-                'date' => date('o-m-j G:i:s')
+                'datetime' => date('o-m-j G:i:s')
             );
-            $this->db->insert('log', $log);
+            $this->db->insert('logs', $log);
 
             // повертаємо true якщо користувач є
             return TRUE;
