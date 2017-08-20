@@ -1,0 +1,205 @@
+<?php defined('BASEPATH') OR exit('No direct script access allowed'); ?>
+
+<!-- MAIN --------------------------------------------------------------------------- -->
+<main id="main-journal" class="m-main-content" data-url="<?php echo base_url('teacher/ajax_get_data')?>">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <p class="m-table-headline">
+                    <span class="m-table-headline-c"> <?php echo $groupe['course']; ?> </span>
+                    <span class="m-table-headline-g"> <?php echo $groupe['groupe']; ?> </span>
+                    <span class="m-table-headline-s"> <?php echo $groupe['subgroup']; ?> </span>
+                    <span id="table-headline-message" class="m-table-headline-m"></span>
+                </p>
+
+            <!-- TABLE JOURNAL -->
+            <div class="m-table-container">
+
+                <div id="table-student-list" class="m-table-student-list">
+                    <table id="table-list" class="table table-bordered">
+                        <thead>
+                        <tr>
+                            <th>
+                                Прізвише Ім'я <br> по-батькові <br>
+                                <span class="m-table-stud-num">№</span>
+                            </th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <?php
+                        foreach ($students as $s){
+                            echo "<tr><td data-id-student='", $s['id_student'], "'>";
+                            echo $s['surname'], ' ';
+                            echo $s['name'], ' ';
+                            echo $s['patronymic'];
+                            echo '</td></tr>';
+                        }
+                        ?>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div id="table-student-mark" class="m-table-mark-scrolling">
+                    <table id="table-mark"
+                           class="table table-hover table-bordered"
+                        <?php echo "data-id-teacher='$id_teacher' data-id-group='$id_group' data-id-subject='$id_subject'";?> >
+                        <thead>
+                            <tr>
+                            <?php
+                            // BASE --
+                            // id, lesson_type
+                            // id_student, id_group, name, surname, patronymic
+                            // id_teacher, id_subject, id_group, id_student, id_lesson_type, lesson_number, mark, remark, date
+                            // VARIABLES --
+                            // $journal, $students,  $groupe, $lesson_type
+
+                            // виводимо окремі дати в заголовок таблиці
+                            // створюємо окремий масив дат і типу заняття
+                            $count_date = [];
+                            $i=0;
+                            foreach ($journal as $v){
+                                $count_date[$i] = [];
+                                $count_date[$i]['date'] = $v['date'];
+                                $count_date[$i]['lesson_number'] = $v['lesson_number'];
+                                $count_date[$i]['lesson_type'] = $v['id_lesson_type'];
+                                $i++;
+                            }
+
+                            // виділяємо унікальні дати з масиву дат - моя функція
+                            /*
+                            $count_date = [];
+                            $i = 0;
+                            foreach ($journal as $v){
+                                if ($i == 0){
+                                    $count_date[$i] = [];
+                                    $count_date[$i]['date'] = $v['date'];
+                                    $count_date[$i]['lesson_type'] = $v['id_lesson_type'];
+                                    $count_date[$i]['lesson_number'] = $v['lesson_number'];
+                                    $i++;
+                                } else {
+                                    $k = 0;
+                                    foreach ($count_date as $d){
+                                        if  ($d['date'] == $v['date'])
+                                            if ( $d['lesson_number'] == $v['lesson_number'])
+                                                if ( $d['lesson_type'] == $v['id_lesson_type']) {
+                                            $k++;
+                                        }
+                                    }
+                                    if($k == 0){
+                                        $count_date[$i] = [];
+                                        $count_date[$i]['date'] = $v['date'];
+                                        $count_date[$i]['lesson_type'] = $v['id_lesson_type'];
+                                        $count_date[$i]['lesson_number'] = $v['lesson_number'];
+                                        $i++;
+                                    }
+
+                                }
+                            }
+                            /**/
+                            // ... або засобами php, мабуть так краще?
+                            $count_date = array_unique($count_date, SORT_REGULAR);
+                            $count_date = array_values($count_date);
+                            // сортування масиву
+                            array_multisort($count_date, SORT_ASC);
+
+
+                            // стовбці заголовка таблиці з датами
+                            for ($i = 0; $i < count($count_date); $i++){
+                                echo "<th class='text-center m-table-type-", $count_date[$i]['lesson_type'], "'";
+                                echo "data-lesson-type='", $count_date[$i]['lesson_type'],
+                                     "' data-date='", $count_date[$i]['date'],
+                                     "' data-lesson-number='", $count_date[$i]['lesson_number'],
+                                     "' title='",$lesson_type[$count_date[$i]['lesson_type']]['lesson_type'], "'>";
+                                $s = explode('-', $count_date[$i]['date']);
+                                echo "<span class='m-table-h-day'>", $s[2], "</span><br>";
+                                echo "<span class='m-table-h-month'>", $s[1], "</span><br>";
+                                echo "<span class='m-table-stud-count'>", $i+1, "</span>";
+                                echo "</th>";
+                            }
+                            ?>
+
+                            <td class="text-right">
+                                <button id="add-new-date" type="button" class="btn btn-default">
+                                    <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+                                </button>
+                            </td>
+                        </tr>
+                        </thead>
+
+                        <tbody>
+                        <?php
+
+                        // виводимо журнал до таблиці
+                        foreach ($students as $s){
+                            echo "<tr>";
+                            foreach ($count_date  as $d){
+                                foreach ($journal as $j){
+                                    if( $d['date'] == $j['date'] and
+                                        $d['lesson_number'] == $j['lesson_number'] and
+                                        $d['lesson_type'] == $j['id_lesson_type'] and
+                                        $s['id_student'] == $j['id_student'] ){
+                                        echo "<td ";
+
+                                        //якщо нб, то підсвічуємо
+                                        if ($j['mark'] == 'н') echo "class='m-table-nb'";
+
+
+                                        echo "data-id-teacher='", $j['id_teacher'], "' ";
+                                        echo "data-id-subject='", $j['id_subject'], "' ";
+                                        echo "data-id-group='", $j['id_group'], "' ";
+                                        echo "data-id-student='", $j['id_student'], "' ";
+                                        echo "data-id-lesson-type='", $j['id_lesson_type'], "' ";
+                                        echo "data-lesson-number='", $j['lesson_number'], "' ";
+                                        echo "data-mark='", $j['mark'], "' ";
+                                        echo "data-date='", $j['date'], "' ";
+                                        echo ">",$j['mark'], "</td>";
+                                    }
+                                }
+                            }
+                            echo "<td class='text-right'>.</td>";
+                            echo "</tr>";
+                        }
+
+                        ?>
+                        </tbody>
+                    </table>
+                </div> <!-- END TABLE MARK -->
+
+            </div>
+            <!-- END TABLE JOURNAL -->
+
+
+                <!-- ADD NEW DATE -->
+                <div id="box-add-new-date" class="m-box-add-new-date">
+                    <div class="m-add-new-date-header">
+                        <p>Додати пару</p>
+                    </div>
+                    <div>
+                        <div class="m-lesson-input-box">
+                        <select id="add-new-lesson-input" class="m-add-new-lesson-input" name="add-new-lesson-input">
+                            <?php
+                            foreach ($lesson_type as $v){
+                                echo "<option value='", $v['id'], "'>", $v['lesson_type'], "</option>";
+                            }
+                            ?>
+                        </select>
+                        </div>
+                        <div class="text-center">
+                            <input id="add-new-date-input" class="m-add-new-date-input" type="date" name="new-d"><br>
+                        </div>
+                        <div class="text-center">
+                            <input id="add-new-date-ok" class="btn btn-primary add-new-date-ok-cancel" type="button" value="Додати">
+                            <input id="add-new-date-cancel" class="btn btn-danger add-new-date-ok-cancel" type="button" value="Відміна">
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+
+</main>
+<?php
+//d($lesson_type);
+?>

@@ -19,6 +19,9 @@
 <script src="<?php echo base_url()?>resources/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
 
 <!-- MY javascript -->
-<script src="<?php echo base_url()?>resources/js/teacher.js" type="text/javascript"></script>
+<?php
+if ($js_file != '')
+    echo "<script src='", base_url(), "resources/js/", $js_file, "' type='text/javascript'></script>";
+?>
 </body>
 </html>
