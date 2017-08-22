@@ -1,6 +1,5 @@
 ;(function () {
-    function l(s){ console.log(s);}
-    l('START-TEACHER-JOURNAL')
+    function l(s){ console.log(s);} l('START-TEACHER-JOURNAL');
 
     var journal = {
         action:'',
@@ -13,27 +12,31 @@
         date:'',
         mark:''
     };
-    var markTable = document.getElementById('table-mark');
+
+    var markTable = document.getElementById('table-mark');  // таблиця оцінок студентів
 
     var listJournalLesson = Array(); // список номерів пар і їхніх дат в таблиці
 
-    var tableCellPosition = {
+    var tableCellPosition = { // позиція активної позиції в таблиці
         currentRow: 1,
         currentCell: 0,
         nRow: markTable.rows.length,
         nCell: markTable.rows[0].cells.length,
         editCell: false,
         mark: '',
+        oldMark: '',
         td: '',
         input: ''
     };
 
+    var sW = 330; // зменьшуємо ширину таблиці Mark, щоб не виходила за праву межу екрана
 
 
-/** ============================================================================================ */
+/** Додаткові функції ========================================================================== */
+
     // змінюємо розмір таблиці оцінок відповідно до розмірів вікна
     function tableMarkWidth() {
-        $('#table-student-mark').width($(window).width()-340);
+        $('#table-student-mark').width($(window).width()-sW);
     };
 
     // змінюємо розміри таблиці при зміні розмірів вікна
@@ -70,9 +73,6 @@
     };
 
 
-
-/** Загрузка документа ========================================================================= */
-
     // отримати список наявних дат (присутніх в таблиці)
     function createListJournalDate() {
         var i = 0;
@@ -85,8 +85,56 @@
         });
     };
 
+    // вкорочуємо прізвиша студентів для маленького екрану
+    function shortStudentList() {
+        $('#table-student-list td').each(function () {
+            var s;
+            s = $(this).text();
+            s = s.split(' ');
+            $(this).text( s[0] + ' '+ s[1][0] +'.'+ s[2][0]+'.' );
+        });
+        sW = 180;
+        $('#table-student-list').width(150);
+        $('#table-student-mark').css('left', 150);
+        $('#table-student-mark').width($(window).width()-sW);
+    };
+
+    // середній бал для кожного студента
+    function averadgeStudentMark() {
+        $('#table-student-mark tbody tr').each(function () {
+            var i,
+                tr = $(this),
+                lastTd,
+                averadge = [],
+                sum = 0,
+                n = 0;
+            $('td', tr).each(function () {
+                averadge.push($(this).text());
+                lastTd = $(this);
+            });
+            averadge.pop();
+            for (i = 0; i < averadge.length; i++){
+                if ( parseInt(averadge[i]) ){
+                    sum += parseInt(averadge[i]);
+                    n++;
+                }
+            }
+            if(n != 0)
+                sum = Math.round((sum/n) * 10) / 10;
+            else
+                sum ='.';
+            lastTd.text(sum);
+        });
+    };
+
+
+/** Загрузка документа ========================================================================= */
+
     // загрузка документа
     $(document).ready(function() {
+        //змінюємо позицію 'footer', роблю так бо незнаю як краще
+        $('#main-journal').height($('#table-student-list').height()+60);
+        //змінюємо ширину таблиці при загрузці
         tableMarkWidth();
         //заносимо основін дані до обєкта - journal
         journal['teacher'] =$('#table-mark').attr('data-id-teacher');
@@ -94,6 +142,22 @@
         journal['subject'] =$('#table-mark').attr('data-id-subject');
         // список дат на момент загрузки
         createListJournalDate();
+        // визначаємо тип браузера
+        var isMobile = {
+            Android: function() {return navigator.userAgent.match(/Android/i);},
+            BlackBerry: function() {return navigator.userAgent.match(/BlackBerry/i);},
+            iOS: function() {return navigator.userAgent.match(/iPhone|iPad|iPod/i);},
+            Opera: function() {return navigator.userAgent.match(/Opera Mini/i);},
+            Windows: function() {return navigator.userAgent.match(/IEMobile/i);},
+            any: function() {
+                return (isMobile.Android() || isMobile.BlackBerry() || isMobile.iOS() || isMobile.Opera() || isMobile.Windows());
+            }
+        };
+        if(isMobile.any()){
+            shortStudentList();
+        };
+        // середня оцінка для кожного студента
+        averadgeStudentMark();
     });
 
 
@@ -208,8 +272,10 @@
         tableCellPosition.td.style.padding = '0px';
         tableCellPosition.td.style.position = 'relative';
 
-        // додаємо елемент "інпут" до клітинки
+        // запамятовуємо оцінку в клікинці
         tableCellPosition.mark = tableCellPosition.td.innerHTML;
+
+        // додаємо елемент "інпут" до клітинки
         tableCellPosition.input.id = 'i-' + r +'-' + c;
         tableCellPosition.input.value = tableCellPosition.mark;
         tableCellPosition.input.style.position ='absolute';
@@ -230,15 +296,18 @@
         toEditCurrentCell();
     });
 
-    // пізіціонування клітинки мишкою
-    $('#table-mark tbody').on('click', '[data-mark]', function (e) {
-        selectActiveCell('mouse', {c: e.target.cellIndex, r: this.parentNode.rowIndex});
-    });
-
     // видаляємо 'інпут' і зберігаємо інформацію в таблиці і БД
     function exitEditCurrentCell(){
+        var saveDb = false,
+            str = tableCellPosition.input.value;
+
+        // забираємо всі пропуки з рядка
+        str = str.replace(/\s/g, '');
+        str = str.toLowerCase();
+
+        //
         function find(value) {
-            var array = ['0','1','2','3','4','5','6','7','8','9','10','11','12','н'];
+            var array = ['0','1','2','3','4','5','6','7','8','9','10','11','12','н', ''];
             value = value.toLowerCase();
             for (var i = 0; i < array.length; i++) {
                 if (array[i] == value) return i;
@@ -250,8 +319,11 @@
         tableCellPosition.editCell = false;
 
         // перевіряємо чи правильно введена оцінка
-        if (find(tableCellPosition.input.value) > 0)
-            tableCellPosition.mark = tableCellPosition.input.value.toLowerCase();
+        if (find(str) > 0) {
+            if (tableCellPosition.mark != str)
+                saveDb = true;
+            tableCellPosition.mark = str;
+        }
 
         // видалити 'інпут'
         $('#' + tableCellPosition.input.id).unbind('focusout', exitEditCurrentCell);
@@ -268,10 +340,22 @@
         journal.action = 'addNewMark';
         tableCellPosition.td.innerHTML = journal.mark;
 
-        // зберігаємо інформацію в базі даних
-        sendDataToServer('addNewMark');
-        l(journal);
+        //якщо оцінка змінена то збарігаємо
+        if(saveDb) {
+            // зберігаємо інформацію в базі даних
+            sendDataToServer('addNewMark');
+            // перераховуємо середні оцінки
+            averadgeStudentMark();
+        }
     };
+
+
+/** Рух по таблиці ============================================================================= */
+
+    // пізіціонування клітинки мишкою
+    $('#table-mark tbody').on('click', '[data-mark]', function (e) {
+        selectActiveCell('mouse', {c: e.target.cellIndex, r: this.parentNode.rowIndex});
+    });
 
     // змінюємо поточну позицію курсора на таблиці
     function selectActiveCell(direction, step) {
@@ -329,12 +413,6 @@
             }
         };
     });
-    
-    
-    
-
-
-
 
 
 

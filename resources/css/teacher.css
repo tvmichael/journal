@@ -1,21 +1,34 @@
+html {
+    height: 100%;
+    box-sizing: border-box;
+}
 
-/* HEADER ----------------------------------------------------- */
-.h-select-subject{
-    padding-left: 10px;
-    color: darkgrey;
+*,
+*:before,
+*:after {
+    box-sizing: inherit;
+}
+
+body {
+    position: relative;
+    margin: 0;
+    padding-bottom: 6rem;
+    min-height: 100%;
 }
 
 
 /* MAIN ------------------------------------------------------- */
+.m-main-content{
+    height: 150%;
+}
+
+/* list group*/
 #list-group-teacher{
     position: relative;
     background-color: #eeeeee;
 }
 #list-group-teacher:hover{
     background-color: #f5f5f5;
-}
-.m-main-content{
-    margin-top: 60px;
 }
 .m-course-name{
     color: black;
@@ -44,7 +57,6 @@
     margin-bottom: 100px;
 }
 
-
 /* TABLE --------- */
 /* student */
 .m-table-stud-num{
@@ -55,9 +67,10 @@
     color: #81d782;
     font-size: 10px;
 }
+
 /* mark header */
 .m-table-headline{
-    padding: 2px 10px;
+    padding: 0px 10px;
 }
 .m-table-headline-g{
     padding-left: 10px;
@@ -78,7 +91,6 @@
 }
 .m-table-active-cell{
     background-color: #e9e9e9;
-
 }
 
 /* lessons type */
@@ -94,12 +106,14 @@
 .m-table-type-4{
     background-color: #fff9d4;
 }
-
 .m-table-nb{
     color: #8d02b8;
     font-weight: bold;
 }
-/* main content */
+
+/* --- Main content --- */
+
+/* list student */
 .m-table-container{
     position: relative;
 }
@@ -107,7 +121,6 @@
     position: absolute;
     left: 0px;
     width: 300px;
-    margin-bottom: 100px;
 }
 .m-tr-center{
    text-align: center;
@@ -161,13 +174,22 @@
 
 /* FOOTER ------------------------------------------------------- */
 .footer{
-    position: fixed;
-    bottom: 0px;
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    padding: 1rem;
+    border-top: 1px solid #dfdfdf;
+    background-color: #f5f5f5;
+    text-align: center;
+    /*
+    margin-top: 20px;
     width: 100%;
     height: 40px;
     border-top: 1px solid #dfdfdf;
     background-color: #f5f5f5;
     padding: 10px;
+    */
 }
 .f-info{
     text-align: right;
