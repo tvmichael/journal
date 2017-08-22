@@ -1,16 +1,17 @@
-<?php defined('BASEPATH') OR exit('No direct script access allowed'); ?>
-
+<?php
+defined('BASEPATH') OR exit('No direct script access allowed'); ?>
 
 <!-- MAIN --------------------------------------------------------------------------- -->
 <main class="m-main-content">
     <div class="container-fluid">
         <div class="row">
+
             <?php echo form_open('teacher/settings');?>
             <div class="col-sm-6">
                 <label for="login" class="m-settings-label">Логін</label>
                 <div class="input-group" style="width: 100%">
                     <?php
-                    echo form_input('login', $_SESSION['login'], "id='login' class='form-control' name='login'  placeholder='Логін' disabled required");
+                    echo form_input('login', $_SESSION['login'], "id='login' class='form-control' name='login'  placeholder='Логін' disabled required title='Ви не можете змінити логін. Зверніться до адміністратора.'");
                     echo form_error('login', '<div class="alert alert-danger alert-top">', '</div>');
                     ?>
                 </div>
@@ -80,13 +81,19 @@
                 <div class="input-group text-center m-settings-bot" style="width: 100%">
                     <?php
                     echo form_submit('submit', 'Зберегти інформацію',"class='btn btn-success'");
-
                     ?>
                 </div>
 
             </div>
 
-            <?php echo form_close(); ?>
+            <?php
+                echo form_hidden('userId', $_SESSION['id']);
+                echo form_close();
+            ?>
+
+            <div class="text-center">
+                <h4><?php echo $message;?></h4>
+            </div>
         </div>
     </div>
 </main>

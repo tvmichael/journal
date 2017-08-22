@@ -1,6 +1,8 @@
-<?php defined('BASEPATH') OR exit('No direct script access allowed'); ?>
+<?php
+defined('BASEPATH') OR exit('No direct script access allowed'); ?>
 
 <!-- FOOTER ------------------------------------------------------------------------- -->
+
 <footer class="footer">
     <div class="container-fluid">
         <div class="row">

@@ -1,4 +1,5 @@
-<?php defined('BASEPATH') OR exit('No direct script access allowed'); ?>
+<?php
+defined('BASEPATH') OR exit('No direct script access allowed'); ?>
 
 <!DOCTYPE html>
 <html lang="ua">
@@ -15,12 +16,13 @@
 </head>
 <body>
 <!-- HEADER ------------------------------------------------------------------------- -->
-
 <header>
-    <nav class="navbar navbar-default navbar-fixed-top">
+    <nav class="navbar navbar-default navbar-top">
         <div class="container-fluid">
+
             <div class="navbar-header">
                 <span class="navbar-brand"><?php echo $navbar_text; ?></span>
+
                 <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
                         data-target="#navbar-journal" aria-expanded="false">
                     <span class="sr-only">Toggle navigation</span>
@@ -31,21 +33,13 @@
             </div>
 
             <div class="collapse navbar-collapse" id="navbar-journal">
-                <?php if ($navbar_menu == 'settings') { ?>
+                <?php if (($navbar_menu == 'journal') || ($navbar_menu == 'settings') ) { ?>
                     <ul class="nav navbar-nav">
                         <li>
                             <a href="<?php echo base_url('teacher');?>">Відкрити список груп</a>
                         </li>
                     </ul>
                 <?php }; ?>
-                <?php if ($navbar_menu == 'journal') { ?>
-                    <ul class="nav navbar-nav">
-                        <li>
-                            <a href="<?php echo base_url('teacher');?>">Відкрити список груп</a>
-                        </li>
-                    </ul>
-                <?php }; ?>
-
 
                 <ul class="nav navbar-nav navbar-right">
                     <li><a href="<?php echo base_url('teacher/settings')?>">
@@ -60,7 +54,7 @@
                         </a>
                     </li>
                 </ul>
-            </div><!-- /.navbar-collapse -->
+            </div><!-- navbar-collapse -->
 
         </div>
     </nav>

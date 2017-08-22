@@ -1,4 +1,5 @@
-<?php defined('BASEPATH') OR exit('No direct script access allowed'); ?>
+<?php
+defined('BASEPATH') OR exit('No direct script access allowed'); ?>
 
 <!DOCTYPE html>
 <html lang="ua">
@@ -24,14 +25,14 @@
 
         <div class="form-group">
         <?php
-            echo form_input('login', 'mik', "class='form-control' name='username'  placeholder='Логін' required autofocus ");
+            echo form_input('login', '', "class='form-control' name='username'  placeholder='Логін' required autofocus ");
             echo form_error('login', '<div class="alert alert-danger alert-top">', '</div>');
         ?>
         </div>
 
         <div class="form-group">
         <?php
-            echo form_password('password', 'mik', "class='form-control' name='password'  placeholder='Пароль' required ");
+            echo form_password('password', '', "class='form-control' name='password'  placeholder='Пароль' required ");
             echo form_error('password', '<div class="alert alert-danger alert-top">', '</div>');
         ?>
         </div>
@@ -45,6 +46,10 @@
         </div>
 
         <?php echo form_close(); ?>
+
+        <div style="border-top: 1px solid darkgrey; margin-top: 30px;">
+            <a href="http://meduch.esy.es/timetable/"><h5>Розклад занять</h5></a>
+        </div>
 
     </div>
 </div>
