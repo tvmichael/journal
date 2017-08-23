@@ -25,7 +25,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 */
 
 // $config['base_url'] = '';
-$config['base_url'] = 'http://localhost/journal/';
+//$config['base_url'] = 'http://localhost/journal/';
+$config['base_url'] = 'http://meduch.esy.es/journal/';
+
 
 /*
 |--------------------------------------------------------------------------
@@ -226,7 +228,7 @@ $config['allow_get_array'] = TRUE;
 | your log files will fill up very fast.
 |
 */
-$config['log_threshold'] = 0;
+$config['log_threshold'] = 1;
 
 /*
 |--------------------------------------------------------------------------
