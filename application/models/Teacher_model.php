@@ -115,14 +115,25 @@ class Teacher_model extends CI_Model
         $data['date'] = date("Y-m-d", strtotime($this->input->get('date')));
 
         // знаходимо попередню оцінку студента
-        $this->db->select('remark');
+        $this->db->select('mark, remark');
         $query = $this->db->get_where('journals', $data);
         // якщо оцінка існує то змінюємо її
         if($query->num_rows() == 1 ) {
             $row = $query->row_array();
-            $mark = intval($this->input->get('mark'));
-            $remark = $mark.'|'.$data['date'].' '.$row['remark'];
+            //перевіряємо чи правильна оцінка
+            $array = Array('1', '2', '3',  '4', '5', '6', '7', '8', '9', '10', '11', '12', 'н', '');
+            if( in_array($this->input->get('mark'), $array) ){
+                $mark = $this->input->get('mark');
+            }
+            else {
+                $mark = $row['mark'];
+            }
 
+            //якщо оцінка стерта
+            if($mark == '' and $row['remark'] != '')
+                $remark = 'X|'.$data['date'].' '.$row['remark'];
+            else
+                $remark = $mark.'|'.$data['date'].' '.$row['remark'];
             $this->db->where($data);
             $this->db->update('journals', Array('mark'=>$mark, 'remark'=>$remark));
         }
@@ -130,6 +141,50 @@ class Teacher_model extends CI_Model
         return $query->num_rows();
     }
 
+    // оновлюємо інформацію по користувачу
+    public function updateUserInfo(){
+        $data['surname'] = $this->input->post('surname');
+        $data['name'] = $this->input->post('name');
+        $data['patronymic'] = $this->input->post('patronymic');
+        $data['email'] = $this->input->post('email');
+        $password  = sha1($this->input->post('password'));
+        $password1 = sha1($this->input->post('password1'));
+        $password2 = sha1($this->input->post('password2'));
+
+        // якщо пароль не введено то змінюємо тільки пасивні поля
+        if ($this->input->post('password') == '' ){
+            $this->db->where('id', $_SESSION['id']);
+            $this->db->update('users', $data);
+
+            // оновлюємо масив сесії для відображення актуальних даних
+            $_SESSION['surname'] = $this->input->post('surname');
+            $_SESSION['name'] = $this->input->post('name');
+            $_SESSION['patronymic'] = $this->input->post('patronymic');
+            $_SESSION['email'] = $this->input->post('email');
+            $s = 'Інформація оновлена N='.$_SESSION['id'];
+            return $s;
+        }
+        else{
+            $query = $this->db->get_where('users', array('id' => $_SESSION['id']));
+            $row = $query->row_array();
+            if( ( $row['password'] == $password) and
+                ( $password1 == $password2) and
+                ( $_SESSION['id'] == $this->input->post('userId')))
+            {
+                $data['password'] = sha1($this->input->post('password1'));
+                $this->db->where('id', $_SESSION['id']);
+                $this->db->update('users', $data);
+
+                // оновлюємо масив сесії для відображення актуальних даних
+                $_SESSION['surname'] = $this->input->post('surname');
+                $_SESSION['name'] = $this->input->post('name');
+                $_SESSION['patronymic'] = $this->input->post('patronymic');
+                $_SESSION['email'] = $this->input->post('email');
+                return 'Пароль змінено!';
+            }
+        }
+        return 'Помилка. Інформація не збережена.';
+    }
 
 
 } // end Teacher_model
