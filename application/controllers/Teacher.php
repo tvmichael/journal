@@ -9,9 +9,6 @@ class Teacher extends CI_Controller {
         if ( !isset($_SESSION['open']) ) redirect(base_url());
         // підключаємо модель для роботи з базою даних
         $this->load->model('Teacher_model', 'teacher_model');
-
-        //додатково для перевірки роботи
-        $this->load->library('kint/Kint');
     } // end __construct
 
 
@@ -34,7 +31,7 @@ class Teacher extends CI_Controller {
         $_SESSION['list_subject'] = array_unique($list_subject);
 
         //
-        $footer = ['js_file'=>''];
+        $footer = ['js_file'=>'footer.js'];
         // показуєм сторінки
         $this->load->view('teacher/header', $header);
         $this->load->view('teacher/main', $main);
@@ -65,9 +62,11 @@ class Teacher extends CI_Controller {
     public function settings(){
         $this->load->helper('form');
         $this->load->library('form_validation');
-
         $header = ['navbar_text'=>'Налаштування', 'navbar_menu'=>'settings'];
-        //
+        $footer = ['js_file'=>'footer.js'];
+        $setting = ['message'=>''];
+
+        // перевіряємо чи відправлені дані з форми
         if ( isset($_POST['submit']) ) {
             // перевіряємо форму на правильність введених даних
             $this->form_validation->set_rules('login', '(Логін)', 'min_length[3]|max_length[16]');
@@ -80,15 +79,14 @@ class Teacher extends CI_Controller {
             $this->form_validation->set_rules('password1', '(Пароль-1)', 'min_length[3]|max_length[16]');
             $this->form_validation->set_rules('password2', '(Пароль-2)', 'min_length[3]|max_length[16]|matches[password1]');
             if ($this->form_validation->run() == TRUE) {
-
                 // якщо данні введено правильно то зберігаємо користувача в БД
-
+                $error = $this->teacher_model->updateUserInfo();
+                $setting = ['message'=> $error ];
             }
         }
-
         $this->load->view('teacher/header', $header);
-        $this->load->view('teacher/settings');
-        $this->load->view('teacher/footer');
+        $this->load->view('teacher/settings', $setting);
+        $this->load->view('teacher/footer', $footer);
     } // end settings
 
 
