@@ -12,7 +12,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
 <body>
 <div class="container">
     <div class="center">
-        <h1>File</h1>
+        <h1>Завантаження файлу (excel)</h1>
         <!-- -->
         <form action="<?php echo base_url($actions);?>" enctype="multipart/form-data" method="post">
             <input type="hidden" name="MAX_FILE_SIZE" value="500000">
