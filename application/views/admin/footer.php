@@ -11,6 +11,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
 <!-- BOOTSTRAP javascript -->
 <script src="<?php echo base_url()?>resources/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
 
+<!-- MY javascript -->
+<script src="<?php echo base_url()?>resources/js/admin.js" type="text/javascript"></script>
 
 </body>
 </html>
