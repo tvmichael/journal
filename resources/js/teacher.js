@@ -411,7 +411,7 @@
                 exitEditCurrentCell();
                 return;
             }
-        };
+        }
     });
 
 

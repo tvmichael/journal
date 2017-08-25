@@ -1,9 +1,25 @@
 /* HEADER ======================================================================= */
-.m-header-bg-c{
-    background-color: rgba(235, 235, 235, 0.4);
-    border-bottom: 1px solid #ccc;
-}
+
 
 /* MAIN ========================================================================= */
 
 /*--- Teacher --- */
+.t-sel-list-font{
+    font-size: 16px;
+}
+.t-save-chioce{
+    display: none;
+}
+
+
+
+/*--- Student --- */
+.s-open-excel-file{
+    display: inline-block;
+    width: 60%;
+}
+.s-open-excel-but{
+    display: inline-block;
+    text-align: right;
+    width: 35%;
+}
