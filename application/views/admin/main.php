@@ -2,12 +2,14 @@
 defined('BASEPATH') OR exit('No direct script access allowed');?>
 
 <main>
-    <h1>MAIN</h1>
-    <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
-    <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
-    <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
-    <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
-    <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+    <div class="col-md-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">Сторінка адміністратора</div>
+            <div class="panel-body">
+
+            </div>
+        </div>
+    </div>
 
 </main>
 
