@@ -100,10 +100,10 @@ $db['default'] = array(
 
 $db['journal'] = array(
 	'dsn'	=> '',
-	'hostname' => 'mysql.hostinger.com.ua',
-	'username' => 'u698108498_mj',
-	'password' => 'n6asNLhAp',
-	'database' => 'u698108498_mj',
+	'hostname' => '',
+	'username' => '',
+	'password' => '',
+	'database' => '',
 	'dbdriver' => 'mysqli',
 	'dbprefix' => '',
 	'pconnect' => FALSE,
