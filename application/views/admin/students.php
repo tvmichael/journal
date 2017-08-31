@@ -7,6 +7,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
       data-admin="student">
 
     <div class="row">
+
+        <!--  -->
         <div class="col-md-4">
             <div class="panel panel-default">
                 <div class="panel-heading">Список студентів</div>
@@ -59,6 +61,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
             </div>
         </div>
 
+        <!-- STUDENTS LIST -->
         <div class="col-md-12">
             <div class="panel panel-default">
                 <div class="panel-heading">Пререгляд груп студентів</div>
@@ -68,14 +71,17 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                         <select size="20" multiple class="form-control t-sel-list-font"
                                 id="sel-s-group-list">
                             <?php
+                            $str = '';
                             foreach ($group as $i){
-                                echo "<option value='", $i['id'], "''>";
-                                echo $i['course'], ' ';
-                                echo $i['groupe'], ' ';
-                                echo $i['subgroup'];
-                                echo "</option>";
+                                $str = $str."<option value='".$i['id']."'>".
+                                 $i['course'].' '.
+                                 $i['groupe'].' '.
+                                 $i['subgroup'].
+                                 "</option>";
                             }
+                            echo $str;
                             ?>
+
                         </select>
                     </div>
                     <div class="col-md-8">
@@ -83,18 +89,30 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                             Список студентів:
                             <span id="sel-s-count-student"></span>
                         </label>
-                        <select size="20" multiple class="form-control t-sel-list-font"
-                                id="sel-s-student-list">
+                        <table id="sel-s-student-list" class="table table-bordered table-condensed table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Прізвиеще</th>
+                                    <th>Ім'я</th>
+                                    <th>по батькові</th>
+                                    <th>Група</th>
+                                </tr>
+                            </thead>
+                            <tbody>
                             <?php
                             foreach ($student as $i){
-                                echo "<option value='", $i['id'], "''>";
-                                echo $i['surname'], ' ';
-                                echo $i['name'], ' ';
-                                echo $i['patronymic'];
-                                echo "</option>";
+                                echo "<tr value='", $i['id'], "'>";
+                                echo '<td>', $i['surname'], '</td>';
+                                echo '<td>', $i['name'], '</td>';
+                                echo '<td>', $i['patronymic'], '</td>';
+                                echo '<td>';
+                                echo "<select>$str</select>";
+                                echo '</td>';
+                                echo "</tr>";
                             }
                             ?>
-                        </select>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>

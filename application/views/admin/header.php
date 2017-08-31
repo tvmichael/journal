@@ -42,8 +42,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                             <span class="caret"></span>
                         </a>
                         <ul class="dropdown-menu">
-                            <li><a href="<?php echo base_url('admin/teacher');?>">Навантаження викладачів</a></li>
-                            <li><a href="<?php echo base_url('admin/teacher');?>">Список викладачів</a></li>
+                            <li><a href="<?php echo base_url('admin/working_load');?>">Навантаження викладачів</a></li>
+                            <li><a href="<?php echo base_url('admin/list_teacher');?>">Список викладачів</a></li>
                         </ul>
                     </li>
                     <li><a href="<?php echo base_url('admin/student');?>">Студенти</a></li>
@@ -56,13 +56,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                             <span class="caret"></span>
                         </a>
                         <ul class="dropdown-menu">
-                            <li><a href="#">Action</a></li>
-                            <li><a href="#">Another action</a></li>
-                            <li><a href="#">Something else here</a></li>
+                            <li><a href="#">1</a></li>
+                            <li><a href="#">2</a></li>
                             <li role="separator" class="divider"></li>
-                            <li class="dropdown-header">Nav header</li>
-                            <li><a href="#">Separated link</a></li>
-                            <li><a href="#">One more separated link</a></li>
+                            <li class="dropdown-header">меню</li>
+                            <li><a href="#">3</a></li>
+                            <li><a href="#">4</a></li>
                         </ul>
                     </li>
                 </ul>

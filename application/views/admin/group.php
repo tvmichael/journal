@@ -7,7 +7,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
             <div class="panel panel-default">
                 <div class="panel-heading">Список груп</div>
                 <div class="panel-body">
-                    <?php d($groups); ?>
+                    <?php  ?>
                 </div>
             </div>
         </div>

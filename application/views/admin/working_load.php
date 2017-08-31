@@ -3,7 +3,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
 
 <main id="t-main"
       class="container-fluid"
-      data-url="<?php echo base_url('admin/teacher');?>"
+      data-url="<?php echo base_url('admin/working_load');?>"
       data-admin="teacher">
 
     <div class="row">
@@ -20,6 +20,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                                 <?php
                                     foreach ($teacher as $t){
                                         echo "<option value='", $t['id'], "''>";
+                                        if($t['count'] == 0 ){$str = '&nbsp;&nbsp;&nbsp;'; }
+                                            else {$str = $t['count'];}
+                                        echo $str, '&nbsp;';
                                         echo $t['surname'], ' ';
                                         echo $t['name'], ' ';
                                         echo $t['patronymic'];
