@@ -320,8 +320,10 @@
 
         // перевіряємо чи правильно введена оцінка
         if (find(str) > 0) {
-            if (tableCellPosition.mark != str)
+            // якщо оцінка змінена то дозволяємо збереження
+            if ( tableCellPosition.mark != str )
                 saveDb = true;
+            // якщо оцінка така сама то залишаємо цю оцінку
             tableCellPosition.mark = str;
         }
 
@@ -389,27 +391,26 @@
             if (ev.keyCode == '37') { //left
                 selectActiveCell('lr', -1);
             }
-
             if (ev.keyCode == '39') { // right
                 selectActiveCell('lr', 1);
             }
-
             if (ev.keyCode == '38') { // up
                 selectActiveCell('ud', -1);
             }
-
             if (ev.keyCode == '40') { // down
                 selectActiveCell('ud', 1);
             }
         }
         if (ev.keyCode == '13') { // enter
-            if( !tableCellPosition.editCell ){
-                toEditCurrentCell();
-                return;
-            }
-            if( tableCellPosition.editCell ){
-                exitEditCurrentCell();
-                return;
+            if( listJournalLesson.length > 0 ){
+                if( !tableCellPosition.editCell ){
+                    toEditCurrentCell();
+                    return;
+                }
+                if( tableCellPosition.editCell ){
+                    exitEditCurrentCell();
+                    return;
+                }
             }
         }
     });

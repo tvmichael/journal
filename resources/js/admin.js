@@ -109,8 +109,7 @@ if( adminPage == 'student' ) {
     function sSendToServer() {
         $.get(baseUrl, sGroup)
             .done(function (data) {
-                $('#sel-s-student-list').html(data);
-                $('#teacher-current-choice').html();
+                $('#sel-s-student-list tbody').html(data);
 
                 $('#sel-s-count-student').html(
                     $('#sel-s-student-list option').length + '  ' +
