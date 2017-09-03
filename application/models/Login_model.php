@@ -16,7 +16,7 @@ class Login_model extends CI_Model
                 if($key !== 'password') $_SESSION[$key] = $value;
             }
 
-            //користувача увійшо на сайт
+            //користувач увійшо на сайт
             $_SESSION['open'] = true;
 
             // зберігаємо дату відвідування для користувача
