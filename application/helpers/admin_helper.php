@@ -50,27 +50,29 @@ if ( ! function_exists('teacher_working_table'))
 
 
 // ------------------------------------------------------------------------
-if ( ! function_exists('student_select_option'))
+if ( ! function_exists('student_select_table'))
 {
     /**
      * Student_select_option
      *
-     * Повертає  список студентів відповідної групи, формуючи список "option" для select
+     * Повертає список студентів відповідної групи, формуючи список "tbody" для table
      *
      * @mas 	масив записів з БД
-     * @return	повертає список "option"
+     * @return	повертає tbody
      *
      */
-    function student_select_option($mas)
+    function student_select_table($mas)
     {
         // id_student, id_group, id, surname, name, patronymic
-        d($mas);
-        foreach ($mas as $i) {
-            echo "<option value='", $i['id'], "'>";
-            echo $i['surname'], ' ';
-            echo $i['name'], ' ';
-            echo $i['patronymic'];
-            echo '</option>>';
+        foreach ($mas as $i){
+            echo "<tr value='", $i['id'], "'>";
+            echo '<td>', $i['surname'], '</td>';
+            echo '<td>', $i['name'], '</td>';
+            echo '<td>', $i['patronymic'], '</td>';
+            echo '<td>';
+            echo "<select>x</select>";
+            echo '</td>';
+            echo "</tr>";
         }
     }
 }
