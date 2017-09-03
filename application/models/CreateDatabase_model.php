@@ -13,10 +13,12 @@ class CreateDatabase_model extends CI_Model
         // JOURNAL
         $sql = "CREATE TABLE journals
               (
-              id_user int,
+              id_teacher int,
               id_subject int,
               id_group int,              
-              id_student int,              
+              id_student int,
+              id_lesson_type tinyint,
+              lesson_number tinyint,              
               mark char(2),
               remark char(255),
               date date
@@ -45,17 +47,17 @@ class CreateDatabase_model extends CI_Model
               email char(100),
               remember_token char(100),
               role char(10),
-              PRIMARY KEY (id)
+              PRIMARY KEY (id),
+              UNIQUE (login)
               ) CHARACTER SET utf8 COLLATE utf8_general_ci";
         //$query = $this->db->query($sql); echo "CREATE TABLE: users <br>";
 
         // STUDENT
         $sql = "CREATE TABLE students
               (
-              id int NOT NULL AUTO_INCREMENT,
-              id_group int,
-              name char(25),
+              id int NOT NULL AUTO_INCREMENT,              
               surname char(25),
+              name char(25),              
               patronymic char(25),
               PRIMARY KEY (id)
               ) CHARACTER SET utf8 COLLATE utf8_general_ci";
@@ -67,8 +69,7 @@ class CreateDatabase_model extends CI_Model
               id int NOT NULL AUTO_INCREMENT,
               course char(10),
               groupe char(25),
-              subgroup char(25),
-              longname char(50),              
+              subgroup char(25),                            
               PRIMARY KEY (id)
               ) CHARACTER SET utf8 COLLATE utf8_general_ci";
         //$query = $this->db->query($sql); echo "CREATE TABLE: groups <br>";
@@ -88,7 +89,7 @@ class CreateDatabase_model extends CI_Model
         // LIST TEACHER - SUBJECT<>GROUPS
         $sql = "CREATE TABLE list_group_teachers
               (
-              id_user int,
+              id_teacher int,
               id_group int,
               id_subject int
               ) CHARACTER SET utf8 COLLATE utf8_general_ci";
