@@ -180,10 +180,12 @@ class Teacher_model extends CI_Model
                 $_SESSION['name'] = $this->input->post('name');
                 $_SESSION['patronymic'] = $this->input->post('patronymic');
                 $_SESSION['email'] = $this->input->post('email');
-                return 'Пароль змінено!';
+                $s = 'Пароль змінено!';
+                return $s;
             }
         }
-        return 'Помилка. Інформація не збережена.';
+        $s = 'Помилка. Інформація не збережена.';
+        return $s;
     }
 
 
