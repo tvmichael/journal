@@ -13,7 +13,7 @@ class Login extends CI_Controller {
         $this->load->library('form_validation');
     }
 
-    // Load login page
+    // Login page
     public function index()
     {
         if ( isset($_POST['submit']) ) {
@@ -42,10 +42,5 @@ class Login extends CI_Controller {
         $this->login_model->logout();
     }
 
-    // створює відповідні талиці бази даних
-    public function create_database(){
-        //$this->load->model('CreateDatabase_model', 'CreateBase');
-        //$this->CreateBase->create_database_table();
-    }
 
 } // end Login class.
