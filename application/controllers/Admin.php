@@ -25,8 +25,8 @@ class Admin extends CI_Controller
     }
 
 
-    // сторінка налаштування викладачів
-    public function teacher(){
+    // сторінка налаштування навантаження викладачів
+    public function working_load(){
         // таблиця нагрузки викладача
         if ($this->input->get('action') == 'teacherWorkingLoad' ){
             $this->load->helper('admin');
@@ -51,7 +51,7 @@ class Admin extends CI_Controller
         }
 
 
-        $header = ['navbar_header'=>'Адміністратор'];
+        $header = ['navbar_header'=>'Навантаження'];
         // загрузка списку вчителів
         $main['teacher'] = $this->admin->load_list_teacher();
         //загрузка списку груп
@@ -60,16 +60,24 @@ class Admin extends CI_Controller
         $main['subject'] = $this->admin->load_list_subject();
 
         $this->load->view('admin/header', $header);
-        $this->load->view('admin/teacher', $main);
+        $this->load->view('admin/working_load', $main);
         $this->load->view('admin/footer');
     }
 
 
+    // редагування списку викладачів
+    public function list_teacher(){
+        $header = ['navbar_header'=>'Список викладачів'];
+
+        $this->load->view('admin/header', $header);
+        $this->load->view('admin/list_teacher');
+        $this->load->view('admin/footer');
+    }
 
 
     // сторінка налаштування студентів
     public function student(){
-        $header = ['navbar_header'=>'Адміністратор'];
+        $header = ['navbar_header'=>'Студенти'];
         $csrf = array(
             'name' => $this->security->get_csrf_token_name(),
             'hash' => $this->security->get_csrf_hash()
@@ -89,7 +97,7 @@ class Admin extends CI_Controller
         // виводимо список студентів відповідної групи
         if($this->input->get('action') == 'readGroupIdStudent'){
             $this->load->helper('admin');
-            return student_select_option($this->admin->readGroupIdStudent());
+            return student_select_table($this->admin->readGroupIdStudent());
         }
 
         // список студентів
@@ -106,7 +114,11 @@ class Admin extends CI_Controller
 
     // загальні налаштування
     public function group(){
-        echo 'group';
+        $header = ['navbar_header'=>'Групи'];
+
+        $this->load->view('admin/header', $header);
+        $this->load->view('admin/group');
+        $this->load->view('admin/footer');
     }
 
 
@@ -228,6 +240,12 @@ class Admin extends CI_Controller
     }
 
 
+
+    // створює відповідні талиці бази даних
+    public function create_database(){
+        //$this->load->model('CreateDatabase_model', 'CreateBase');
+        //$this->CreateBase->create_database_table();
+    }
 
 
 
