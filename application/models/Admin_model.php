@@ -7,8 +7,12 @@ class Admin_model extends CI_Model
     /** для роботи з викладачами --------------------------------------------------------------- */
     // список усіх викладачів
     public function load_list_teacher(){
+        $q = "SELECT users.id, users.name, users.patronymic, users.surname AS surname, ( SELECT COUNT(list_group_teachers.id_teacher) FROM list_group_teachers WHERE list_group_teachers.id_teacher = users.id ) AS count FROM users WHERE users.role = 'Teacher' GROUP BY users.surname ORDER BY users.surname;";
+        $query = $this->db->query($q);
+        /*
         $this->db->order_by('surname', 'ASC');
         $query = $this->db->get_where('users', array('role'=>'Teacher'));
+        /**/
         return  $query->result_array();
     }
 
