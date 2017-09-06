@@ -4,9 +4,9 @@
     var baseUrl = $('#t-main').attr('data-url'),
         adminPage = $('#t-main').attr('data-admin');
 
-/** Сторінка роботи з викладачами ======================================================= */
+/** Сторінка роботи з навантаженням викладача =========================================== */
 
-if( adminPage == 'teacher' ) {
+if( adminPage == 'working-load' ) {
     var teacher = {
         action: '',
         teacherId: '',
@@ -83,7 +83,7 @@ if( adminPage == 'teacher' ) {
         $('#group-current-choice').html($('option:checked', this).text());
     });
 
-    // додати предмет-група по викладачу
+    // додати "предмет-група" по викладачу
     $('#button-add').click(function () {
         teacher.action = 'teacherWorkingWrite';
         if (teacher.teacherId != '' && teacher.subjectId != '' && teacher.groupId != '') {
@@ -105,33 +105,56 @@ if( adminPage == 'student' ) {
         studentId: ''
     }
 
+    var sNewStudent = {
+        action:'',
+        course: '',
+        group: '',
+        subgroup: '',
+        student: []
+    }
+
     // відправляємо дані на сервер
     function sSendToServer() {
         $.get(baseUrl, sGroup)
             .done(function (data) {
-                $('#sel-s-student-list tbody').html(data);
-
-                $('#sel-s-count-student').html(
-                    $('#sel-s-student-list option').length + '  ' +
-                    "<label class='label label-default'>" +
-                    $("#sel-s-group-list option:selected").text() + "</label>"
-                );
+                if (sGroup.action == 'readGroupIdStudent'){
+                    $('#sel-s-student-list tbody').html(data);
+                    editStudentId();
+                    $('#sel-s-count-student').html(
+                        $('#sel-s-student-list tbody tr').length + '  ' +
+                        "<label class='label label-default'>" +
+                        $("#sel-s-group-list option:selected").text() + "</label>"
+                    );
+                }
+                if (sGroup.action == 'editStudentId'){
+                    $('#modal-edit-student-data').html(data);
+                }
             });
     }
 
-    //
+    // завантажуємо вибрану групу
     $('#sel-s-group-list').click(function () {
         sGroup.groupId = this.value;
         sGroup.action = 'readGroupIdStudent';
         sSendToServer();
-        l(sGroup);
     });
     $('#sel-s-group-list').keyup(function () {
         sGroup.groupId = this.value;
         sGroup.action = 'readGroupIdStudent';
         sSendToServer();
-        l(sGroup);
     });
+
+    // редагуємо студента
+    function editStudentId() {
+        $('#sel-s-student-list button').on('click', function (e) {
+            sGroup.action = 'editStudentId';
+            sGroup.studentId = $(this).attr('data-student-id');
+            sSendToServer();
+            l(sGroup);
+        })
+    }
+    editStudentId();
+
 
 } // END STUDENT
 

@@ -17,7 +17,7 @@
 
     var listJournalLesson = Array(); // список номерів пар і їхніх дат в таблиці
 
-    var tableCellPosition = { // позиція активної позиції в таблиці
+    var tableCellPosition = { // позиція активної клітинки в таблиці
         currentRow: 1,
         currentCell: 0,
         nRow: markTable.rows.length,
@@ -76,6 +76,7 @@
     // отримати список наявних дат (присутніх в таблиці)
     function createListJournalDate() {
         var i = 0;
+        listJournalLesson.length = 0;
         $("#table-mark thead th").each(function() {
             listJournalLesson[i] = Array();
             listJournalLesson[i][0] = $(this).attr('data-date');
