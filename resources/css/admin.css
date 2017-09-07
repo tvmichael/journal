@@ -23,3 +23,15 @@
     text-align: right;
     width: 35%;
 }
+.s-textarea{
+    width: 100%;
+    resize: none;
+    height: 300px;
+}
+.s-student-div{
+    display: none;
+}
+.s-student-added-group{
+    width: 100%;
+    margin: 3px 0px;
+}

@@ -183,6 +183,22 @@ body {
 }
 
 
+/* Message ----------------------------------------------------- */
+.m-textarea-message{
+    width: 100%;
+    resize: none;
+    font-size: 18px;
+    height: 150px;
+}
+.m-message-text{
+    margin: 10px 0px;
+    padding: 5px;
+}
+.m-list-message{
+    max-height: 800px;
+    overflow: auto;
+}
+
 /* FOOTER ------------------------------------------------------- */
 .footer{
     position: absolute;
