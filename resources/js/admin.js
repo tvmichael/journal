@@ -97,6 +97,7 @@ if( adminPage == 'working-load' ) {
 
 /** Сторінка роботи зі студентами ======================================================= */
 
+// списки груп студентів
 if( adminPage == 'student' ) {
 
     var sGroup = {
@@ -154,9 +155,115 @@ if( adminPage == 'student' ) {
         })
     }
     editStudentId();
-
-
 } // END STUDENT
 
 
-})();
+// додати список (групу) студентів
+if( adminPage == 'add-new-student' ) {
+
+    var studentList = Array();
+
+    // беремо список студентів з текстової області
+    $('#textarea-button').click(function () {
+        var student = $('#s-textarea').val().split('\n');
+        var temp = [];
+        for (var i=0; i<student.length; i++){
+            studentList[i]= {
+                surname: '',
+                name: '',
+                patronymic: '',
+                group: []
+            };
+            student[i] = student[i].trim();
+            temp = student[i].split(' ');
+            studentList[i].surname = temp[0];
+            studentList[i].name = temp[1];
+            studentList[i].patronymic = temp[2];
+        }
+        //На основі списку студентів створюємо таблицю
+        sMakeStudentTable();
+        $('#textarea-container').hide();
+        $('#student-div').show();
+    });
+
+    // таблиця налаштування студентів - встановлення груп
+    function sMakeStudentTable() {
+        var tbody = '';
+        for(var i=0; i<studentList.length; i++){
+            tbody = tbody
+                + '<tr>'
+                + '<td>'+ (i+1) + '</td>'
+                + '<td>'+ studentList[i].surname + '</td>'
+                + '<td>'+ studentList[i].name + '</td>'
+                + '<td>'+ studentList[i].patronymic + '</td>'
+                + '<td>'+ "<input type='checkbox' style='transform: scale(1.2);'>" + '</td>'
+                + '<td>' + '</td>'
+                + '</tr>';
+        }
+        $('#edit-student-table tbody').html(tbody);
+    }
+
+    // встановлюємо звязки груп зі студентами
+    $('#button-add-group').click(function () {
+        var table = document.getElementById('edit-student-table'),
+            tbody = table.getElementsByTagName('tbody')[0],
+            tr = tbody.getElementsByTagName('tr');
+        // якщо не вибрано групу то виходимо
+        if( $('#group-selected').val() == -1) return;
+
+        // перебір рядків таблиці і занесення інформації
+        for(var i=0; i<tr.length; i++){ // і - номер студента в таблиці і в "обєкті"
+            var td = tr[i].getElementsByTagName('td');
+            // якщо студент відмічений то додаємо групу
+            if(td[4].getElementsByTagName('input')[0].checked){
+                var s = td[5].innerHTML;
+                var s = s
+                    + "<div class='s-student-added-group'>"
+                    + "<span class='label label-default'>"
+                    + $('#group-selected option:selected').text().trim()
+                    + " <button data-n-student='" + i + "' data-id-group='" + $('#group-selected').val() + "'"
+                    + " type='button' class='btn btn-warning btn-xs'> X </button>"
+                    + '</span>'
+                    + '</div>';
+                td[5].innerHTML = s;
+                studentList[i].group.push($('#group-selected').val());
+            };
+        }
+
+        // видаляємо записану групу
+        $('#edit-student-table tbody button').on('click', function () {
+            var n = $(this).attr('data-n-student');
+            for (var i=0; i<studentList[n].group.length; i++) {
+                if ( studentList[n].group[i] == $(this).attr('data-id-group') ) {
+                 studentList[n].group.splice(i, 1);
+                }
+            }
+            //l( studentList[n]);
+            $(this).parent().parent().remove();
+        })
+    });
+
+    //
+    $('#save-student-group').click(function () {
+        l(baseUrl);
+        l(studentList);
+        var data = {
+            action:'saveStudentGroup',
+            student: studentList
+        }
+
+        $.get(baseUrl, data)
+            .done(function (data) {
+                l(data);
+            });
+    });
+
+
+} //
+
+
+
+
+
+
+})(); // * END * //
