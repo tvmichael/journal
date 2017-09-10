@@ -178,6 +178,9 @@
     $("#add-new-date-cancel").click(function(){
         $('#box-add-new-date').hide(100);
     });
+    $('#add-new-date-cancel-attention').click(function () {
+        $('#box-add-new-date').hide(100);
+    });
 
     //додати новий стовбчик до таблиці
     function addNewColumnToTable() {
@@ -217,7 +220,7 @@
             markTable.rows[i].cells[n_cells-1].setAttribute("data-id-student", idS);
             markTable.rows[i].cells[n_cells-1].setAttribute("data-id-lesson-type", journal.type);
             markTable.rows[i].cells[n_cells-1].setAttribute("data-lesson-number", journal.number);
-            markTable.rows[i].cells[n_cells-1].setAttribute("data-mark", "");
+            markTable.rows[i].cells[n_cells-1].setAttribute("data-mark", '');
             markTable.rows[i].cells[n_cells-1].setAttribute("data-date", journal.date);
         };
         // обновляємо список присутніх дат в таблиці
@@ -237,7 +240,7 @@
             newLessonType = $('#add-new-lesson-input').val();
 
         if( newDateInTable == '' ) return;
-        if(!confirm("Ви дійсно бажаєте дотати '"+ tSelect.options[ tSelect.selectedIndex ].innerHTML + "', дата: " + newDateInTable)) return;
+        //if(!confirm("Ви дійсно бажаєте дотати '"+ tSelect.options[ tSelect.selectedIndex ].innerHTML + "', дата: " + newDateInTable)) return;
 
         // первіряємо які дати присутні, якщо прара є то збільшуємо кількість на "1"
         for (i = 0; i < listJournalLesson.length; i++) {
@@ -253,6 +256,14 @@
 
         // зберігаємо інформацію в базі даних
         sendDataToServer('addNewColumnToTable');
+    });
+
+    // показати дату що додається до журналу
+    $('#add-new-date-attendion').click(function () {
+        var d = new Date($('#add-new-date-input').val()),
+        month =['01','02','03','04','05','06','07','08','09','10','11','12'];
+
+        $('#add-new-date-display').html(d.getDate() +'-'+ month[d.getMonth()] +'-'+ d.getFullYear());
     });
 
 
@@ -415,7 +426,5 @@
             }
         }
     });
-
-
 
 })();

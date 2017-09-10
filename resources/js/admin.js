@@ -179,6 +179,7 @@ if( adminPage == 'add-new-student' ) {
             studentList[i].surname = temp[0];
             studentList[i].name = temp[1];
             studentList[i].patronymic = temp[2];
+            studentList[i].group = [];
         }
         //На основі списку студентів створюємо таблицю
         sMakeStudentTable();
@@ -254,7 +255,7 @@ if( adminPage == 'add-new-student' ) {
 
         $.get(baseUrl, data)
             .done(function (data) {
-                l(data);
+                $('#student-div').html(data);
             });
     });
 
