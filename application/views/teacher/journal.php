@@ -11,7 +11,8 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                     <span class="m-table-headline-c"> <?php echo $groupe['course']; ?> </span>
                     <span class="m-table-headline-g"> <?php echo $groupe['groupe']; ?> </span>
                     <span class="m-table-headline-s"> <?php echo $groupe['subgroup']; ?> </span>
-                    <span id="table-headline-message" class="m-table-headline-m"></span>
+                    <span class="text-info m-table-headline-p"> <?php echo $subject['fullname']; ?> </span>
+                    <span id="table-headline-message" class="label label-info m-table-headline-m"></span>
                 </p>
 
                 <!-- TABLE JOURNAL -->
@@ -111,7 +112,8 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                     echo "data-lesson-type='", $count_date[$i]['lesson_type'],
                                          "' data-date='", $count_date[$i]['date'],
                                          "' data-lesson-number='", $count_date[$i]['lesson_number'],
-                                         "' title='",$lesson_type[$count_date[$i]['lesson_type']]['lesson_type'], "'>";
+                                         // типи занять в масиві змішені на 1, тому що масив впочинається з 0
+                                         "' title='",$lesson_type[$count_date[$i]['lesson_type']-1]['lesson_type'], "'>";
                                     $s = explode('-', $count_date[$i]['date']);
                                     echo "<span class='m-table-h-day'>", $s[2], "</span><br>";
                                     echo "<span class='m-table-h-month'>", $s[1], "</span><br>";
@@ -190,8 +192,28 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                             <input id="add-new-date-input" class="m-add-new-date-input" type="date" name="new-d"><br>
                         </div>
                         <div class="text-center">
-                            <input id="add-new-date-ok" class="btn btn-primary add-new-date-ok-cancel" type="button" value="Додати">
-                            <input id="add-new-date-cancel" class="btn btn-danger add-new-date-ok-cancel" type="button" value="Відміна">
+                            <button id="add-new-date-attendion" class="btn btn-primary add-new-date-ok-cancel" type="button" data-toggle="modal" data-target="#attendion-new-date">Додати</button>
+                            <button id="add-new-date-cancel" class="btn btn-danger add-new-date-ok-cancel" type="button">Відміна</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- (ATTENTION MESSAGE) -->
+                <div class="modal fade" id="attendion-new-date" role="dialog">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button id="add-new-date-cancel-attention" type="button" class="close" data-dismiss="modal">&times;</button>
+                                <h3 class="modal-title text-danger">Увага!</h3>
+                            </div>
+                            <div class="modal-body">
+                                <h4>Ви не зможите змінити введену дату.</h4>
+                                <h4 id="add-new-date-display" class="text-primary">01-01-2017</h4>
+                            </div>
+                            <div class="modal-footer">
+                                <button id="add-new-date-ok" type="button" class="btn btn-success" data-dismiss="modal">Продовжити, дата вірна</button>
+                                <button type="button" class="btn btn-danger" data-dismiss="modal">Змінти дату</button>
+                            </div>
                         </div>
                     </div>
                 </div>

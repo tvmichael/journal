@@ -22,8 +22,9 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
 
 <!-- MY javascript -->
 <?php
-if ($js_file != '')
-    echo "<script src='", base_url(), "resources/js/", $js_file, "' type='text/javascript'></script>";
+if (isset($js_file))
+    if ($js_file != '')
+        echo "<script src='", base_url(), "resources/js/", $js_file, "' type='text/javascript'></script>";
 ?>
 </body>
 </html>

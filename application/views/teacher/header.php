@@ -33,12 +33,20 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
             </div>
 
             <div class="collapse navbar-collapse" id="navbar-journal">
-                <?php if (($navbar_menu == 'journal') || ($navbar_menu == 'settings') ) { ?>
+                <?php if (($navbar_menu == 'journal') || ($navbar_menu == 'settings') || ($navbar_menu == 'message') ) { ?>
                     <ul class="nav navbar-nav">
                         <li>
-                            <a href="<?php echo base_url('teacher');?>">Відкрити список груп</a>
+                            <a href="<?php echo base_url('teacher');?>">Cписок груп</a>
                         </li>
                     </ul>
+                <?php }; ?>
+
+                <?php if (($navbar_menu != 'message') ) { ?>
+                <ul class="nav navbar-nav">
+                    <li>
+                        <a href="<?php echo base_url('teacher/message');?>">Повідомлення</a>
+                    </li>
+                </ul>
                 <?php }; ?>
 
                 <ul class="nav navbar-nav navbar-right">
