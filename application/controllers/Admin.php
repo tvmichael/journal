@@ -50,7 +50,6 @@ class Admin extends CI_Controller
             return teacher_working_table($this->admin->teacherWorkingLoad());
         }
 
-
         $header = ['navbar_header'=>'Навантаження'];
         // загрузка списку вчителів
         $main['teacher'] = $this->admin->load_list_teacher();
@@ -78,36 +77,41 @@ class Admin extends CI_Controller
     // сторінка налаштування студентів
     public function student(){
         $header = ['navbar_header'=>'Студенти'];
-        $csrf = array(
-            'name' => $this->security->get_csrf_token_name(),
-            'hash' => $this->security->get_csrf_hash()
-        );
-        $main = ['csrf'=> $csrf ];
-        $main['result_load_excel'] = " <span class='label label-default'>завантаження немає</span>";
-        // якщо завантажується файл ексель
-        if ( isset($_POST['submit']) ) {
-            // завантажуємо бібліотеку PHPExcel для роботи з Excel файлами
-            //$this->load->library('PHPExcel/PHPExcel');
-            // завантажуєм додаткові функції для роботи з загруженими файлами
-            //$this->load->helper('load_excel_file');
-            //$this->admin->insert_new_students(loadStudentFile());
-            //d(loadStudentFile());
-            $main['result_load_excel'] = " <span class='label label-success'>завантажено: </span>";
-        }
+        $this->load->helper('admin');
         // виводимо список студентів відповідної групи
         if($this->input->get('action') == 'readGroupIdStudent'){
-            $this->load->helper('admin');
-            return student_select_table($this->admin->readGroupIdStudent());
+            return student_select_table($this->admin->readStudentAndGroup(intval($this->input->get('groupId'))) );
         }
-
-        // список студентів
-        $main['student'] = $this->admin->load_list_student();
-        //
+        // список усіх студентів
+        $main['student'] = $this->admin->readStudentAndGroup(0);
+        // список усіх груп
         $main['group'] = $this->admin->load_list_group();
-
 
         $this->load->view('admin/header', $header);
         $this->load->view('admin/students', $main);
+        $this->load->view('admin/footer');
+    }
+
+
+    // редагуємо студента
+    public function edit_student(){
+        echo $this->input->get('editStudentId');
+    }
+
+    // додаємо список нових студентів
+    public function add_new_student(){
+        //
+        if($this->input->get('action') == 'saveStudentGroup'){
+            $this->admin->insert_new_students($this->input->get('student'));
+            //d($this->input->get('student'));
+            return;
+        }
+        //
+        $header = ['navbar_header'=>'Студенти'];
+        $data['group'] = $this->admin->load_list_group();
+
+        $this->load->view('admin/header', $header);
+        $this->load->view('admin/add_new_student', $data);
         $this->load->view('admin/footer');
     }
 
@@ -126,6 +130,12 @@ class Admin extends CI_Controller
     public function setting(){
         echo 'setting';
     }
+
+
+
+
+
+
 
 
 

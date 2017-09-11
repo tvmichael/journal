@@ -9,17 +9,26 @@ class Teacher extends CI_Controller {
         if ( !isset($_SESSION['open']) ) redirect(base_url());
         // підключаємо модель для роботи з базою даних
         $this->load->model('Teacher_model', 'teacher_model');
+
+        //$this->load->library('kint/Kint');
     } // end __construct
 
 
-    // 1. головна сторніка викладачем - вибір журналу
+    // 1. головна сторніка викладача - вибір журналу
     public function index() {
         // налаштування верхньої панелі
         $header = ['navbar_text'=>'Список груп', 'navbar_menu'=>'group'];
         // зчитуємо список доступних груп
         $value = $this->teacher_model->read_list_group_teacher();
-        $main = ['list_gt'=> $value];
 
+        // переключаємо вигляд - вибір груп
+        if (intval($this->input->get('display_type')) != 0){
+            $display_type = intval($this->input->get('display_type'));
+            if($display_type < 0 || $display_type >2){$display_type = 1;}
+        }
+        else {$display_type = 1;}
+
+        $main = ['list_gt'=> $value, 'display_type'=> $display_type];
         // запамятовуємо список доступних груп і предметів для даного викладача
         $list_group = [];
         $list_subject = [];
@@ -27,11 +36,12 @@ class Teacher extends CI_Controller {
             $list_group[$i] = $value[$i]['id_group'];
             $list_subject[$i] = $value[$i]['id_subject'];
         };
+        // запамятовуємо список унікальних предметів і груп які веде викладач
         $_SESSION['list_group'] = array_unique($list_group);
         $_SESSION['list_subject'] = array_unique($list_subject);
 
-        //
-        $footer = ['js_file'=>'footer.js'];
+        $footer = ['js_file'=>'teacher-main.js'];
+
         // показуєм сторінки
         $this->load->view('teacher/header', $header);
         $this->load->view('teacher/main', $main);
@@ -42,9 +52,11 @@ class Teacher extends CI_Controller {
     // 2. сторніка - електронний журнал відповідної групи і предмету
     public function journal(){
         $header = ['navbar_text'=>'Електронний журнал', 'navbar_menu'=>'journal'];
+
         // завантажуємо журнал
         $journal = $this->teacher_model->load_journal();
         $footer = ['js_file'=>'teacher.js'];
+
 
         if ($journal['error'] == 0) {
             $this->load->view('teacher/header', $header);
@@ -63,7 +75,6 @@ class Teacher extends CI_Controller {
         $this->load->helper('form');
         $this->load->library('form_validation');
         $header = ['navbar_text'=>'Налаштування', 'navbar_menu'=>'settings'];
-        $footer = ['js_file'=>'footer.js'];
         $setting = ['message'=>''];
 
         // перевіряємо чи відправлені дані з форми
@@ -86,11 +97,32 @@ class Teacher extends CI_Controller {
         }
         $this->load->view('teacher/header', $header);
         $this->load->view('teacher/settings', $setting);
-        $this->load->view('teacher/footer', $footer);
+        $this->load->view('teacher/footer');
     } // end settings
 
 
-    // завантажуємо журнал (ajax - get)
+    // 4. сторінка повідомлення (зі сторони викладача - і в зворотньому напрямку)
+    public function message(){
+        // зберігаємо повідомлення викладача
+        if ($this->input->get('action') == 'sendMessage'){
+            echo $this->teacher_model->save_teacher_message();
+            return;
+        }
+        // попередні повідомлення
+        $message = ['message'=>$this->teacher_model->get_all_teacher_message()];
+
+        // налаштування верхньої панелі
+        $header = ['navbar_text'=>'Список груп', 'navbar_menu'=>'message'];
+        //
+        $footer = ['js_file'=>'teacher-message.js'];
+        // показуєм сторінки
+        $this->load->view('teacher/header', $header);
+        $this->load->view('teacher/message', $message);
+        $this->load->view('teacher/footer', $footer);
+    }
+
+
+    // операції з журналом (ajax - get)
     public function ajax_get_data(){
         // додаємо нову ДАТУ до журналу викладача
         if ($this->input->get('action') == 'addColumnToTable'){
