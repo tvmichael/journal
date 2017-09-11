@@ -13,7 +13,7 @@ class Login extends CI_Controller {
         $this->load->library('form_validation');
     }
 
-    // Login page
+    // Сторінка авторизації
     public function index()
     {
         if ( isset($_POST['submit']) ) {
