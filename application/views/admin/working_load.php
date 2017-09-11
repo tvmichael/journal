@@ -4,7 +4,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
 <main id="t-main"
       class="container-fluid"
       data-url="<?php echo base_url('admin/working_load');?>"
-      data-admin="teacher">
+      data-admin="working-load">
 
     <div class="row">
         <div class="col-md-12">
@@ -20,8 +20,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                                 <?php
                                     foreach ($teacher as $t){
                                         echo "<option value='", $t['id'], "''>";
-                                        if($t['count'] == 0 ){$str = '&nbsp;&nbsp;&nbsp;'; }
-                                            else {$str = $t['count'];}
+                                        if($t['count'] == 0 ){$str = '&nbsp;&nbsp;&nbsp;&nbsp;'; }
+                                            elseif ($t['count'] < 10) {$str = '&nbsp;&nbsp;'.$t['count'];}
+                                                else {$str = $t['count'];}
                                         echo $str, '&nbsp;';
                                         echo $t['surname'], ' ';
                                         echo $t['name'], ' ';
@@ -57,6 +58,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                                 <?php
                                 foreach ($group as $g){
                                     echo "<option value='", $g['id'], "''>";
+                                    if ( count(explode(' ', $g['subgroup']))>1 ) echo '&nbsp;&nbsp;&nbsp;&nbsp;';
                                     echo $g['course'], ' ';
                                     echo $g['groupe'], ' ';
                                     echo $g['subgroup'];

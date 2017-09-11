@@ -46,7 +46,21 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                             <li><a href="<?php echo base_url('admin/list_teacher');?>">Список викладачів</a></li>
                         </ul>
                     </li>
-                    <li><a href="<?php echo base_url('admin/student');?>">Студенти</a></li>
+
+                    <li>
+
+                        <a href="#" class="dropdown-toggle"
+                           data-toggle="dropdown" role="button"
+                           aria-haspopup="true" aria-expanded="false">
+                            Студенти
+                            <span class="caret"></span>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a href="<?php echo base_url('admin/student');?>">Групи студентів</a></li>
+                            <li><a href="<?php echo base_url('admin/add_new_student');?>">Додати студентів</a></li>
+                        </ul>
+                    </li>
+
                     <li><a href="<?php echo base_url('admin/group');?>">Групи</a></li>
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle"

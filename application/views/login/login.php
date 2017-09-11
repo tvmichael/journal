@@ -47,8 +47,8 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
 
         <?php echo form_close(); ?>
 
-        <div style="border-top: 1px solid darkgrey; margin-top: 30px;">
-            <a href="http://meduch.esy.es/timetable/"><h5>Розклад занять</h5></a>
+        <div class="timetable-link">
+            <a href="https://sites.google.com/site/medichne/"><h5>Розклад занять</h5></a>
         </div>
 
     </div>

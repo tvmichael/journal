@@ -207,12 +207,12 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                 <h3 class="modal-title text-danger">Увага!</h3>
                             </div>
                             <div class="modal-body">
-                                <h4>Ви не зможите змінити введену дату.</h4>
+                                <h4>Ви не зможете змінити введену дату.</h4>
                                 <h4 id="add-new-date-display" class="text-primary">01-01-2017</h4>
                             </div>
                             <div class="modal-footer">
                                 <button id="add-new-date-ok" type="button" class="btn btn-success" data-dismiss="modal">Продовжити, дата вірна</button>
-                                <button type="button" class="btn btn-danger" data-dismiss="modal">Змінти дату</button>
+                                <button type="button" class="btn btn-danger" data-dismiss="modal">Змінити дату</button>
                             </div>
                         </div>
                     </div>

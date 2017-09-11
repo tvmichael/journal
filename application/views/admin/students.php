@@ -8,78 +8,25 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
 
     <div class="row">
 
-        <!--  -->
-        <div class="col-md-4">
-            <div class="panel panel-default">
-                <div class="panel-heading">Список студентів</div>
-                <div class="panel-body">
-                    <button id="open-load-excel-file"type="button" class="btn btn-default"
-                            data-toggle="modal" data-target="#modal-load-excel-file">
-                        Завантажити файл (формат excel)
-                    </button>
-                    <!-- Modal -->
-                    <div class="modal fade" id="modal-load-excel-file" role="dialog">
-                        <div class="modal-dialog">
-                            <!-- Modal content-->
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                    <h4 class="modal-title">Завантажити список студентів (формат excel)</h4>
-                                </div>
-                                <div class="modal-body">
-                                    <!-- -->
-                                    <form action="<?php echo base_url('admin/student');?>" enctype="multipart/form-data" method="post">
-                                        <input type="hidden" name="MAX_FILE_SIZE" value="50000">
-                                        <input type="hidden" name="<?php echo $csrf['name'];?>" value="<?php echo $csrf['hash'];?>" />
-                                        <div class="s-open-excel-file">
-                                            <input type="file" name="excelfile" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" id="filestyle-0" tabindex="-1" >
-                                        </div>
-                                        <div class="s-open-excel-but">
-                                            <button class="btn btn-default" type="submit" name="submit" value='excel'>Завантажити файл</button>
-                                        </div>
-                                    </form>
-                                    <!-- -->
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-warning" data-dismiss="modal">Відміна</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- End Modal -->
-                </div>
-                <div class="panel-footer"><?php echo $result_load_excel; ?></div>
-            </div>
-        </div>
-
-        <div class="col-md-8">
-            <div class="panel panel-default">
-                <div class="panel-heading">Загальна статистика</div>
-                <div class="panel-body">
-                    <p>Загальна кількість студентів: <b><?php echo count($student);?></b></p>
-                </div>
-            </div>
-        </div>
-
         <!-- STUDENTS LIST -->
         <div class="col-md-12">
             <div class="panel panel-default">
-                <div class="panel-heading">Пререгляд груп студентів</div>
+                <div class="panel-heading">Групи студентів</div>
                 <div class="panel-body">
                     <div class="col-md-4">
                         <label for="sel-s-group-list">Список груп (підгруп):<?php echo count($group);?></label>
-                        <select size="20" multiple class="form-control t-sel-list-font"
+                        <select size="25" class="form-control t-sel-list-font"
                                 id="sel-s-group-list">
+                                <option value="0">Усі студенти</option>
                             <?php
-                            $str = '';
                             foreach ($group as $i){
-                                $str = $str."<option value='".$i['id']."'>".
-                                 $i['course'].' '.
-                                 $i['groupe'].' '.
-                                 $i['subgroup'].
-                                 "</option>";
+                                echo "<option value='".$i['id']."'>";
+                                if ( count(explode(' ', $i['subgroup']))>1 ) echo '&nbsp;&nbsp;&nbsp;&nbsp;';
+                                echo $i['course'].' ';
+                                echo $i['groupe'].' ';
+                                echo $i['subgroup'];
+                                echo "</option>";
                             }
-                            echo $str;
                             ?>
 
                         </select>
@@ -92,28 +39,21 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                         <table id="sel-s-student-list" class="table table-bordered table-condensed table-hover">
                             <thead>
                                 <tr>
+                                    <th>№</th>
                                     <th>Прізвиеще</th>
                                     <th>Ім'я</th>
                                     <th>по батькові</th>
                                     <th>Група</th>
+                                    <th></th>
+                                    <th class="text-center"><span class="glyphicon glyphicon-pencil"></span></th>
                                 </tr>
                             </thead>
                             <tbody>
-                            <?php
-                            foreach ($student as $i){
-                                echo "<tr value='", $i['id'], "'>";
-                                echo '<td>', $i['surname'], '</td>';
-                                echo '<td>', $i['name'], '</td>';
-                                echo '<td>', $i['patronymic'], '</td>';
-                                echo '<td>';
-                                echo "<select>$str</select>";
-                                echo '</td>';
-                                echo "</tr>";
-                            }
-                            ?>
+                                <?php student_select_table($student); ?>
                             </tbody>
                         </table>
                     </div>
+
                 </div>
             </div>
         </div>
