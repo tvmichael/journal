@@ -17,4 +17,7 @@ input{
     padding: 10px;
     text-align: center;
 }
-
+.timetable-link {
+    border-top: 1px solid darkgrey;
+    margin-top: 30px;
+}
