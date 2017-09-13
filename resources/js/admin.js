@@ -197,7 +197,7 @@ if( adminPage == 'add-new-student' ) {
                 + '<td>'+ studentList[i].surname + '</td>'
                 + '<td>'+ studentList[i].name + '</td>'
                 + '<td>'+ studentList[i].patronymic + '</td>'
-                + '<td>'+ "<input type='checkbox' style='transform: scale(1.2);'>" + '</td>'
+                + '<td>'+ "<label>Відмітити <input type='checkbox' style='transform: scale(1.2);'></label>" + '</td>'
                 + '<td>' + '</td>'
                 + '</tr>';
         }
@@ -212,21 +212,32 @@ if( adminPage == 'add-new-student' ) {
         // якщо не вибрано групу то виходимо
         if( $('#group-selected').val() == -1) return;
 
+        var sGroupName = $('#group-selected option:selected').text().trim(),
+
+        // виділяємо різними кольорами частини підгруп
+        sStyle = 'label-default';
+        if (sGroupName.indexOf('1/2') !== -1 ) sStyle = 'label-primary';
+        if (sGroupName.indexOf('1/3') !== -1 ) sStyle = 'label-success';
+        if (sGroupName.indexOf('1/4') !== -1 ) sStyle = 'label-info';
+        if (sGroupName.indexOf('Іноземна') !== -1 ) sStyle = 'label-warning';
+
+
         // перебір рядків таблиці і занесення інформації
-        for(var i=0; i<tr.length; i++){ // і - номер студента в таблиці і в "обєкті"
+        for(var i = 0; i<tr.length; i++){ // і - номер студента в таблиці і в "обєкті"
             var td = tr[i].getElementsByTagName('td');
             // якщо студент відмічений то додаємо групу
             if(td[4].getElementsByTagName('input')[0].checked){
                 var s = td[5].innerHTML;
                 var s = s
                     + "<div class='s-student-added-group'>"
-                    + "<span class='label label-default'>"
-                    + $('#group-selected option:selected').text().trim()
+                    + "<span class='label " + sStyle + "'>"
+                    + sGroupName
                     + " <button data-n-student='" + i + "' data-id-group='" + $('#group-selected').val() + "'"
                     + " type='button' class='btn btn-warning btn-xs'> X </button>"
                     + '</span>'
                     + '</div>';
                 td[5].innerHTML = s;
+                //заносимо новий 'ID' групи до якої належить студент
                 studentList[i].group.push($('#group-selected').val());
             };
         }
@@ -244,25 +255,70 @@ if( adminPage == 'add-new-student' ) {
         })
     });
 
-    //
+    // зберігаємо список студентів до БД (відправляємо запит з обєктом)
     $('#save-student-group').click(function () {
-        l(baseUrl);
         l(studentList);
         var data = {
             action:'saveStudentGroup',
             student: studentList
-        }
-
+        };
         $.get(baseUrl, data)
             .done(function (data) {
                 $('#student-div').html(data);
             });
     });
-
-
 } //
 
 
+// редагувати студента
+if( adminPage == 'student_edit' ) {
+
+    // додаємо нову групу до студента
+    $('#add-new-group').click(function () {
+        var idS = $(this).attr('data-id-student');
+        if ($('#group-selected').val() > 0 )
+        $.get(baseUrl, {'action':'editStudentAddGroup',
+            'id_student':$(this).attr('data-id-student'),
+            'id_group':$('#group-selected').val()
+        }).done(function (error) {
+                var js = JSON.parse(error);
+                l(error);
+                $('#respond').html(js[1]);
+
+                // якщо немає помилок  error = 0, то додаємо рядок таблиці
+                if (js[0] == '0') {
+                    $('table > tbody').append('<tr><td>' + ($('table >tbody tr').length + 1)
+                        + '</td><td>'
+                        + $('#group-selected option:selected').text().trim()
+                        + "</td><td><button data-delete-group='0' data-id-student='" + idS
+                        + "' data-id-group='" + $('#group-selected').val()
+                        + "' class='btn btn-default'>"
+                        + "<span class='glyphicon glyphicon-trash'></span></button></td>"
+                        + '</td></tr>');
+                    $('[data-delete-group]').click(removeStudetnGroup);
+                }
+                else { alert('Помилка збереження даних')}
+            });
+    });
+
+    // видаляємо належність студента до даної групи
+    function removeStudetnGroup () {
+        var self = $(this).parent().parent();
+        l(self);
+        $.get(baseUrl, {'action':'deleteStudentGroup',
+            'id_student':$(this).attr('data-id-student'),
+            'id_group':$(this).attr('data-id-group')
+        }).done(function (error) {
+            if (error == '0')
+                self.remove();
+        });
+    }
+    // видаляємо належність студента до даної групи
+    $('[data-delete-group]').click(removeStudetnGroup);
+    //$('[data-delete-group]').on('click', removeStudetnGroup);
+
+
+} // end - student_edit
 
 
 
