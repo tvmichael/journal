@@ -15,6 +15,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
     <link href="<?php echo base_url();?>resources/css/teacher.css" rel="stylesheet">
 </head>
 <body>
+
 <!-- HEADER ------------------------------------------------------------------------- -->
 <header>
     <nav class="navbar navbar-default navbar-top">
