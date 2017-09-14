@@ -99,8 +99,9 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                     }
                                 }
                                 /**/
-                                // ... або засобами php, мабуть так краще?
+                                // ... або виділяємо унікальні дати з масиву дат засобами php, мабуть так краще?
                                 $count_date = array_unique($count_date, SORT_REGULAR);
+                                // заново індексуємо значення масиву
                                 $count_date = array_values($count_date);
                                 // сортування масиву
                                 array_multisort($count_date, SORT_ASC);
