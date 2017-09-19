@@ -7,7 +7,7 @@ class Admin extends CI_Controller
     public function __construct()
     {
         parent::__construct();
-        if ( !isset($_SESSION['open']) ) redirect(base_url());
+        if ( $_SESSION['role'] != 'Admin' ) redirect(base_url());
         //модель для роботи з БД
         $this->load->model('Admin_model', 'admin');
         //
@@ -93,30 +93,72 @@ class Admin extends CI_Controller
     }
 
 
-    // редагуємо студента
-    public function edit_student(){
-        echo $this->input->get('editStudentId');
+    // редагуємо інформацію по студентові
+    public function student_edit(){
+        $header = ['navbar_header'=>'Студенти'];
+
+        // додаємо студента до нової групи (і заносимо дані по журналу якщо в цій групі студенти вже мають оцінки)
+        if($this->input->get('action') == 'editStudentAddGroup'){
+            $res = $this->admin->edit_student_add_group();
+            echo json_encode($res);
+            return;
+        }
+        // видаляємо належність студента до вказаної групи
+        if($this->input->get('action') == 'deleteStudentGroup'){
+            $res = $this->admin->edit_student_delete_group();
+            echo $res;
+            return;
+        }
+        // завантажуємо дані по студенту з БД
+        $main['student'] = $this->admin->load_student();
+        $main['group'] = $this->admin->load_list_group();
+
+        $this->load->view('admin/header', $header);
+        $this->load->view('admin/student_edit', $main);
+        $this->load->view('admin/footer');
     }
+
 
     // додаємо список нових студентів
     public function add_new_student(){
-        //
+        $header = ['navbar_header'=>'Студенти'];
+
+        // передаємо список студентів
         if($this->input->get('action') == 'saveStudentGroup'){
             $this->admin->insert_new_students($this->input->get('student'));
             //d($this->input->get('student'));
             return;
         }
-        //
-        $header = ['navbar_header'=>'Студенти'];
+
+        // передаємо 'excel' файл
+        if($this->input->post('submitExcel')){
+            $this->load->library('PHPExcel/PHPExcel');
+            $this->load->helper('load_excel_file');
+            $data['students'] = $this->admin->insert_new_students_excel(loadStudentFile());
+            //$data['students'] = loadStudentFile();
+
+            $this->load->view('admin/header', $header);
+            $this->load->view('admin/student_excel_save', $data);
+            $this->load->view('admin/footer');
+            return;
+        }
+
+        // Cross-site request forgery
+        $csrf = array(
+            'name' => $this->security->get_csrf_token_name(),
+            'hash' => $this->security->get_csrf_hash()
+        );
+        $data['csrf'] = $csrf;
+        // список груп
         $data['group'] = $this->admin->load_list_group();
 
         $this->load->view('admin/header', $header);
-        $this->load->view('admin/add_new_student', $data);
+        $this->load->view('admin/student_add_new', $data);
         $this->load->view('admin/footer');
     }
 
 
-    // загальні налаштування
+    //
     public function group(){
         $header = ['navbar_header'=>'Групи'];
 
@@ -134,129 +176,11 @@ class Admin extends CI_Controller
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    /** додаткові функції //////////////////////////////////////////// **/
-    //
-    public function sql(){
-        $this->teacher_data = $this->teacher->table_journal_join();
-        print_r($this->teacher_data);
-        print('OK--');
-    }
-
-    //
-    public function add_teacher(){
-        if(isset($_POST['submit'])) {
-            // завантажуємо бібліотеку PHPExcel для роботи з Excel файлами
-            $this->load->library('PHPExcel/PHPExcel');
-            // завантажуєм додаткові функції для роботи з загруженими файлами
-            $this->load->helper('load_excel_file');
-            $this->teacher->insert_new_teachers(loadTeacherFile());
-        }
-        else {
-
-            // Якщо включена опція (XSS Filtering) то дані з форми будуть завантажуватися тільки при наявності підтвердження змінної - 'csrf'
-            $teacher_data['csrf'] = array(
-                'name' => $this->security->get_csrf_token_name(),
-                'hash' => $this->security->get_csrf_hash()
-            );
-            $this->load->view('admin/loadfile',$teacher_data);
-        }
-
-    }
-
-    public function add_group(){
-        if(isset($_POST['submit'])) {
-            // завантажуємо бібліотеку PHPExcel для роботи з Excel файлами
-            $this->load->library('PHPExcel/PHPExcel');
-            // завантажуєм додаткові функції для роботи з загруженими файлами
-            $this->load->helper('load_excel_file');
-            $this->admin->insert_new_groups(loadGroupFile());
-            //d(loadGroupFile());
-        }
-        else {
-
-            // Якщо включена опція (XSS Filtering) то дані з форми будуть завантажуватися тільки при наявності підтвердження змінної - 'csrf'
-            $data['csrf'] = array(
-                'name' => $this->security->get_csrf_token_name(),
-                'hash' => $this->security->get_csrf_hash()
-            );
-            $data['actions'] = 'admin/add_group';
-            $this->load->view('admin/loadfile',$data);
-        }
-
-
-    }
-
-    //
-    public function add_student(){
-        if(isset($_POST['submit'])) {
-            // завантажуємо бібліотеку PHPExcel для роботи з Excel файлами
-            $this->load->library('PHPExcel/PHPExcel');
-            // завантажуєм додаткові функції для роботи з загруженими файлами
-            $this->load->helper('load_excel_file');
-            $this->admin->insert_new_students(loadStudentFile());
-            //d(loadStudentFile());
-        }
-        else {
-
-            // Якщо включена опція (XSS Filtering) то дані з форми будуть завантажуватися тільки при наявності підтвердження змінної - 'csrf'
-            $data['csrf'] = array(
-                'name' => $this->security->get_csrf_token_name(),
-                'hash' => $this->security->get_csrf_hash()
-            );
-            $data['actions'] = 'admin/add_student';
-            $this->load->view('admin/loadfile',$data);
-        }
-    }
-
-    //
-    public function add_subject(){
-        if(isset($_POST['submit'])) {
-            // завантажуємо бібліотеку PHPExcel для роботи з Excel файлами
-            $this->load->library('PHPExcel/PHPExcel');
-            // завантажуєм додаткові функції для роботи з загруженими файлами
-            $this->load->helper('load_excel_file');
-            $this->admin->insert_new_subjects(loadSubjectFile());
-            //d(loadSubjectFile());
-        }
-        else {
-
-            // Якщо включена опція (XSS Filtering) то дані з форми будуть завантажуватися тільки при наявності підтвердження змінної - 'csrf'
-            $data['csrf'] = array(
-                'name' => $this->security->get_csrf_token_name(),
-                'hash' => $this->security->get_csrf_hash()
-            );
-            $data['actions'] = 'admin/add_subject';
-            $this->load->view('admin/loadfile',$data);
-        }
-    }
-
-
-
+    /** БД --------------------------- **/
     // створює відповідні талиці бази даних
     public function create_database(){
         //$this->load->model('CreateDatabase_model', 'CreateBase');
         //$this->CreateBase->create_database_table();
     }
 
-
-
-}
+} // END Class

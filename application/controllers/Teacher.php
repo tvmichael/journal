@@ -6,30 +6,21 @@ class Teacher extends CI_Controller {
     // constructor
     public function __construct() {
         parent::__construct();
-        if ( !isset($_SESSION['open']) ) redirect(base_url());
+        if ( $_SESSION['role'] != 'Teacher' ) redirect(base_url());
         // підключаємо модель для роботи з базою даних
         $this->load->model('Teacher_model', 'teacher_model');
-
-        //$this->load->library('kint/Kint');
-    } // end __construct
+    }
 
 
     // 1. головна сторніка викладача - вибір журналу
     public function index() {
         // налаштування верхньої панелі
-        $header = ['navbar_text'=>'Список груп', 'navbar_menu'=>'group'];
+        $header = ['navbar_text'=>'Список груп', 'navbar_menu'=>''];
         // зчитуємо список доступних груп
         $value = $this->teacher_model->read_list_group_teacher();
+        $main = ['list_gt'=> $value];
 
-        // переключаємо вигляд - вибір груп
-        if (intval($this->input->get('display_type')) != 0){
-            $display_type = intval($this->input->get('display_type'));
-            if($display_type < 0 || $display_type >2){$display_type = 1;}
-        }
-        else {$display_type = 1;}
-
-        $main = ['list_gt'=> $value, 'display_type'=> $display_type];
-        // запамятовуємо список доступних груп і предметів для даного викладача
+        // список доступних груп і предметів даного викладача
         $list_group = [];
         $list_subject = [];
         for($i=0; $i< count($value); $i++){
@@ -52,11 +43,9 @@ class Teacher extends CI_Controller {
     // 2. сторніка - електронний журнал відповідної групи і предмету
     public function journal(){
         $header = ['navbar_text'=>'Електронний журнал', 'navbar_menu'=>'journal'];
-
         // завантажуємо журнал
         $journal = $this->teacher_model->load_journal();
-        $footer = ['js_file'=>'teacher.js'];
-
+        $footer = ['js_file'=>'teacher-journal.js'];
 
         if ($journal['error'] == 0) {
             $this->load->view('teacher/header', $header);
@@ -112,7 +101,7 @@ class Teacher extends CI_Controller {
         $message = ['message'=>$this->teacher_model->get_all_teacher_message()];
 
         // налаштування верхньої панелі
-        $header = ['navbar_text'=>'Список груп', 'navbar_menu'=>'message'];
+        $header = ['navbar_text'=>'Повідомлення', 'navbar_menu'=>'message'];
         //
         $footer = ['js_file'=>'teacher-message.js'];
         // показуєм сторінки
@@ -134,6 +123,10 @@ class Teacher extends CI_Controller {
             $res = $this->teacher_model->add_new_mark();
             //echo json_encode($res);
             echo 'Оновлено (', $res, ') запис.';
+        }
+        if ($this->input->get('action') == 'settingsView'){
+            $this->teacher_model->user_settings(intval($this->input->get('view')));
+            echo 'Збережено!';
         }
     }
 

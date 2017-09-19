@@ -14,7 +14,7 @@ class Login extends CI_Controller {
     }
 
     // Сторінка авторизації
-    public function index()
+    public function index()  // inaccessible()
     {
         if ( isset($_POST['submit']) ) {
             // перевіряємо форму на правильність введених даних
@@ -36,11 +36,16 @@ class Login extends CI_Controller {
         $this->load->view('login/login');
     }
 
+    // якщо необхідно закрити доступ на деякий час (пейменовуємо функції:  index <> inaccessible)
+    public function inaccessible() // index()
+    {
+        $this->load->view('login/inaccessible');
+    }
+
     // вихід
     public function logout(){
         $this->load->model('login_model');
         $this->login_model->logout();
     }
-
 
 } // end Login class.
