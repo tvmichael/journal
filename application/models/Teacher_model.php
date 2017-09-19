@@ -32,47 +32,49 @@ class Teacher_model extends CI_Model
             return $data;
         }
         else{
-            $data['error'] = 0;
-
-            // отримати список студентів відповідної групи і відсортувати їх за прізвищем
+            // 1. отримати список студентів відповідної групи і відсортувати їх за прізвищем
             // All fields: id_student, id_group, id, name, surname, patronymic
+            /*
             $this->db->select('id_student, id_group, name, surname, patronymic');
             $this->db->from('list_group_students');
             $this->db->where('list_group_students.id_group', $data['id_group']);
             $this->db->join('students', 'list_group_students.id_student = students.id');
             $this->db->order_by('surname');
             $query = $this->db->get();
+            */
+            $query = $this->db->query("SELECT id_student, id_group, name, surname FROM list_group_students JOIN students ON list_group_students.id_student = students.id WHERE list_group_students.id_group =". $data['id_group']." ORDER BY surname COLLATE utf8_unicode_ci");
             $data['students'] = $query->result_array(); //список студентів
 
-            // отримати журнал викладача, вибираємо при умові = викладач-група-предмет, знахдимо усі дати і сортуємо по даті
+            // 2. отримати журнал викладача, вибираємо при умові = викладач-група-предмет, знахдимо усі дати і сортуємо по даті
             $array = array('id_teacher =' => $data['id_teacher'],
                 'id_group =' => $data['id_group'],
                 'id_subject =' => $data['id_subject'] );
-            $this->db->order_by('date');
             $this->db->select('*');
+            $this->db->order_by('date');
             $query = $this->db->get_where('journals', $array);
             $data['journal'] = $query->result_array();  // журнал з оцінками
 
-            // назва (курсу групи підгрупи), для відображення в заголовку зверху над таблицею
+            // 3. назва (курсу групи підгрупи), для відображення в заголовку зверху над таблицею
             $this->db->select('course, groupe, subgroup');
             $this->db->from('groups');
             $query = $this->db->where('id', $data['id_group']);
             $query = $this->db->get();
             $data['groupe'] = $query->row_array(); // повертає один запис
 
-            // назва предмету для відображення в заголовку зверху над таблицею
+            // 4. назва предмету для відображення в заголовку зверху над таблицею
             $this->db->select('shortname, fullname');
             $this->db->from('subjects');
             $query = $this->db->where('id', $data['id_subject']);
             $query = $this->db->get();
             $data['subject'] = $query->row_array(); // повертає один запис
 
-            //список типів занять
+            // 5. список типів занять
             $this->db->select('*');
             $this->db->from('lesson_types');
             $query = $this->db->get();
             $data['lesson_type'] = $query->result_array();
 
+            $data['error'] = 0;
             // повертаємо масив
             return $data;
         }
@@ -93,11 +95,20 @@ class Teacher_model extends CI_Model
 
         // список студентів відповідної групи і відсортувати їх за прізвищем
         // All fields: id_student, id_group, id, name, surname, patronymic
+        /*
         $this->db->select('id_student');
         $this->db->from('list_group_students');
         $this->db->where('list_group_students.id_group', $data['id_group']);
         $this->db->join('students', 'list_group_students.id_student = students.id');
         $this->db->order_by('surname');
+        $query = $this->db->get();
+        $students = $query->result_array();
+        */
+        // SELECT DISTINCT id_student FROM list_group_students WHERE id_group=...;
+        //$this->db->distinct('id_student');
+        $this->db->select('id_student');
+        $this->db->from('list_group_students');
+        $this->db->where('list_group_students.id_group', $data['id_group']);
         $query = $this->db->get();
         $students = $query->result_array();
 
@@ -150,6 +161,14 @@ class Teacher_model extends CI_Model
 
     // оновлюємо інформацію по користувачу
     public function updateUserInfo(){
+        // оновлюємо масив сесії для відображення актуальних даних
+        function rewrite_session($s, $n, $p, $e){
+            $_SESSION['surname'] = $s;
+            $_SESSION['name'] = $n;
+            $_SESSION['patronymic'] = $p;
+            $_SESSION['email'] = $e;
+        }
+        $data = [];
         $data['surname'] = $this->input->post('surname');
         $data['name'] = $this->input->post('name');
         $data['patronymic'] = $this->input->post('patronymic');
@@ -158,37 +177,29 @@ class Teacher_model extends CI_Model
         $password1 = sha1($this->input->post('password1'));
         $password2 = sha1($this->input->post('password2'));
 
-        // якщо пароль не введено то змінюємо тільки пасивні поля
-        if ($this->input->post('password') == '' ){
-            $this->db->where('id', $_SESSION['id']);
-            $this->db->update('users', $data);
-
-            // оновлюємо масив сесії для відображення актуальних даних
-            $_SESSION['surname'] = $this->input->post('surname');
-            $_SESSION['name'] = $this->input->post('name');
-            $_SESSION['patronymic'] = $this->input->post('patronymic');
-            $_SESSION['email'] = $this->input->post('email');
-            $s = 'Інформація оновлена N='.$_SESSION['id'];
-            return $s;
-        }
-        else{
-            $query = $this->db->get_where('users', array('id' => $_SESSION['id']));
-            $row = $query->row_array();
-            if( ( $row['password'] == $password) and
-                ( $password1 == $password2) and
-                ( $_SESSION['id'] == $this->input->post('userId')))
-            {
-                $data['password'] = sha1($this->input->post('password1'));
+        if($_SESSION['id'] == $this->input->post('id')) {
+            // якщо пароль не введено то змінюємо тільки пасивні поля
+            if ($this->input->post('password') == '') {
                 $this->db->where('id', $_SESSION['id']);
                 $this->db->update('users', $data);
 
-                // оновлюємо масив сесії для відображення актуальних даних
-                $_SESSION['surname'] = $this->input->post('surname');
-                $_SESSION['name'] = $this->input->post('name');
-                $_SESSION['patronymic'] = $this->input->post('patronymic');
-                $_SESSION['email'] = $this->input->post('email');
-                $s = 'Пароль змінено!';
+                rewrite_session($data['surname'], $data['name'], $data['patronymic'], $data['email']);
+                $s = 'Інформація оновлена.';
                 return $s;
+            } else {
+                $query = $this->db->get_where('users', array('id' => $_SESSION['id']));
+                $row = $query->row_array();
+                if (($row['password'] == $password) and
+                    ($password1 == $password2) and
+                    ($_SESSION['id'] == $this->input->post('userId'))) {
+                    $data['password'] = sha1($this->input->post('password1'));
+                    $this->db->where('id', $_SESSION['id']);
+                    $this->db->update('users', $data);
+
+                    rewrite_session($data['surname'], $data['name'], $data['patronymic'], $data['email']);
+                    $s = 'Інформація оновлена. Пароль змінено!';
+                    return $s;
+                }
             }
         }
         $s = 'Помилка. Інформація не збережена.';
@@ -202,7 +213,7 @@ class Teacher_model extends CI_Model
         $mas['date'] = $this->input->get('date');
         $mas['message'] = $this->input->get('message');
         $mas['direction'] = 1; // 1 - від користувача
-        $this->db->insert('message', $mas);
+        $this->db->insert('messages', $mas);
         $r = $this->db->affected_rows();
         return $r;
     }
@@ -212,22 +223,18 @@ class Teacher_model extends CI_Model
         $this->db->select('*');
         $this->db->where('id_user', $_SESSION['id']);
         $this->db->order_by('date', 'DESC');
-        $query = $this->db->get('message');
+        $query = $this->db->get('messages');
         return $query->result_array();
     }
 
-
-    // .......
-    public function write_readr_display_type($display_type, $rw){
-        if($rw == 'write'){
-            //
-        }
-        if($rw == 'read'){
-            $this->db->select('display_type');
-            $this->db->where('id_user', $_SESSION['id']);
-            $query = $this->db->get('settings');
-            return $query->row_array();
-        }
+    // зберігаємо налаштування користувача
+    public function user_settings($settings){
+        // замінити
+        $settings = "{'view':'".$settings."'}";
+        $_SESSION['settings'] = $settings;
+        $this->db->where('id', $_SESSION['id']);
+        $this->db->update('users', ['settings'=>$settings]);
     }
+
 
 } // end Teacher_model

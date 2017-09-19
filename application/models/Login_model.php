@@ -12,12 +12,9 @@ class Login_model extends CI_Model
         // перевіряємо записи повенуті з БД, якщо = 1 то здійснюємо вхід
         if( $query->num_rows() == 1 ){
             foreach ($query->row() as $key => $value)
-            { // створюємо сесію з відповідними полями (id, login, name, surnsme, email, remember_token, role) - oкрiм 'password'
+            { // створюємо сесію з відповідними полями (id, login, name, surnsme, email, settings, role) - oкрiм 'password'
                 if($key !== 'password') $_SESSION[$key] = $value;
             }
-
-            //користувач увійшо на сайт
-            $_SESSION['open'] = true;
 
             // зберігаємо дату відвідування для користувача
             date_default_timezone_set('Europe/Kiev');
@@ -30,16 +27,14 @@ class Login_model extends CI_Model
             // повертаємо true якщо користувач є
             return TRUE;
         }
-        else{
-            // якщо користувача немає то повертаємо false
-            return FALSE;
-        }
+        // якщо користувача немає то повертаємо false
+        else return FALSE;
     }
 
     // вихід з особистого кабінету
     public function logout(){
         // якщо користувач виходить, то очищаємо сесію
-        unset($_SESSION['open']);
+        unset($_SESSION['role']);
         session_unset();
         redirect('/');
     }

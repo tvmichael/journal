@@ -39,7 +39,7 @@
       id                tinyint
       lesson_type       char(25)
 
-// message ---------------------------
+// messages ---------------------------
       id_user           int
       date              date
       message           char()
@@ -55,7 +55,7 @@
       surname           char(25)
       patronymic        char(25)
       email             char(100)
-      remember_token    char(100)
+      settings          char(255)    // * змінити, щоб зберігати налаштування користувача в обєкті
       role              char(10)
 
 // logs ------------------------------
