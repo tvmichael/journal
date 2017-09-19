@@ -11,12 +11,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
         <!-- STUDENTS LIST -->
         <div class="col-md-12">
             <div class="panel panel-default">
-                <div class="panel-heading">Групи студентів</div>
+                <div class="panel-heading">Список студентів по групах</div>
                 <div class="panel-body">
                     <div class="col-md-4">
                         <label for="sel-s-group-list">Список груп (підгруп):<?php echo count($group);?></label>
                         <select size="25" class="form-control t-sel-list-font"
                                 id="sel-s-group-list">
+                                <option value="-1" disabled>Студенти без груп</option>
                                 <option value="0">Усі студенти</option>
                             <?php
                             foreach ($group as $i){
@@ -49,7 +50,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                                 </tr>
                             </thead>
                             <tbody>
-                                <?php student_select_table($student); ?>
+                                <?php // student_select_table($student); ?>
                             </tbody>
                         </table>
                     </div>

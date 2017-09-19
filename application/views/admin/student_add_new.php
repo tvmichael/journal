@@ -15,6 +15,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
 
                     <div id="textarea-container">
                         <p><b>Скопіюйте список студентів в текстове поле</b> (Прізвище, Імя по бітькові)</p>
+                        <p class="text-danger">Не більше 5-ти студентів</p>
                         <p>
                             Наприклад так:<br>
                             <span class="text-info">&nbsp;&nbsp;Іванов Іван Іванович</span><br>
@@ -23,6 +24,17 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                         <textarea id="s-textarea" class="s-textarea"></textarea>
                         <div class="text-right">
                             <button id="textarea-button" type="button" class="btn btn-success">Додати студентів</button>
+                        </div>
+                        <div>
+                            <hr>
+                            <form action="<?php echo base_url('admin/add_new_student')?>" enctype="multipart/form-data" method="post">
+                                <input type="hidden" name="<?=$csrf['name'];?>" value="<?=$csrf['hash'];?>" />
+                                <input type="hidden" name="MAX_FILE_SIZE" value="500000" />
+                                <label for="fileExcel">Виберіть <code>excel</code> файл для завантаження</label>
+                                <input type="file" name="excelfile" value="excelfile" id="excelfile">
+                                <br>
+                                <input type="submit" name="submitExcel" class="btn btn-success" value="Завантажити">
+                            </form>
                         </div>
                     </div>
 

@@ -11,8 +11,9 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                 <label for="login" class="m-settings-label">Логін</label>
                 <div class="input-group" style="width: 100%">
                     <?php
-                    echo form_input('login', $_SESSION['login'], "id='login' class='form-control' name='login'  placeholder='Логін' disabled required title='Ви не можете змінити логін. Зверніться до адміністратора.'");
+                    echo form_input('login', $_SESSION['login'], "id='login' class='form-control' name='login' placeholder='Логін' disabled required title='На даний момент Ви не можете змінити логін. Зверніться до адміністратора.'");
                     echo form_error('login', '<div class="alert alert-danger alert-top">', '</div>');
+                    echo form_hidden('id', $_SESSION['id']);
                     ?>
                 </div>
 
@@ -92,7 +93,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
             ?>
 
             <div class="text-center">
-                <h4><?php echo $message;?></h4>
+                <h4><?php print_r($message); ?></h4>
             </div>
         </div>
     </div>

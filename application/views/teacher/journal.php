@@ -22,20 +22,23 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                         <table id="table-list" class="table table-bordered">
                             <thead>
                             <tr>
+                                <th>№<br><br><br></th>
                                 <th>
-                                    Прізвише Ім'я <br> по-батькові <br>
+                                    Прізвише Ім'я<br><br>
                                     <span class="m-table-stud-num">№</span>
                                 </th>
                             </tr>
                             </thead>
                             <tbody>
                             <?php
+                            $time_start = microtime(true);
+                            $i=1;
                             foreach ($students as $s){
-                                echo "<tr><td data-id-student='", $s['id_student'], "'>";
+                                echo "<tr><td class='text-muted'>$i</td><td data-id-student='", $s['id_student'], "'>";
                                 echo $s['surname'], ' ';
                                 echo $s['name'], ' ';
-                                echo $s['patronymic'];
                                 echo '</td></tr>';
+                                $i++;
                             }
                             ?>
                             </tbody>
@@ -51,7 +54,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                 <?php
                                 // BASE --
                                 // id, lesson_type
-                                // id_student, id_group, name, surname, patronymic
+                                // id_student, id_group, name, surname
                                 // id_teacher, id_subject, id_group, id_student, id_lesson_type, lesson_number, mark, remark, date
                                 // VARIABLES --
                                 // $journal, $students,  $groupe, $lesson_type
@@ -124,7 +127,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                 ?>
 
                                 <td class="text-right">
-                                    <button id="add-new-date" type="button" class="btn btn-default">
+                                    <button id="add-new-date" type="button" class="btn btn-default btn-sm">
                                         <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
                                     </button>
                                 </td>
@@ -133,22 +136,16 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
 
                             <tbody>
                             <?php
-
                             // виводимо журнал до таблиці
                             foreach ($students as $s){
                                 echo "<tr>";
                                 foreach ($count_date  as $d){
-                                    foreach ($journal as $j){
+                                    foreach ($journal as $key => $j){
                                         if( $d['date'] == $j['date'] and
                                             $d['lesson_number'] == $j['lesson_number'] and
                                             $d['lesson_type'] == $j['id_lesson_type'] and
                                             $s['id_student'] == $j['id_student'] ){
                                             echo "<td ";
-
-                                            //якщо нб, то підсвічуємо
-                                            if ($j['mark'] == 'н') echo "class='m-table-nb'";
-
-
                                             echo "data-id-teacher='", $j['id_teacher'], "' ";
                                             echo "data-id-subject='", $j['id_subject'], "' ";
                                             echo "data-id-group='", $j['id_group'], "' ";
@@ -157,14 +154,22 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                             echo "data-lesson-number='", $j['lesson_number'], "' ";
                                             echo "data-mark='", $j['mark'], "' ";
                                             echo "data-date='", $j['date'], "' ";
+
+                                            // якщо була виправлена "н"
+                                            if (strpos($j['remark'], 'н')) echo "data-remark='1' ";
+                                                else echo "data-remark='0' ";
+
                                             echo ">",$j['mark'], "</td>";
+
+                                            // якщо знайшли відповідний запис то стираємо його і виходимо з циклу
+                                            unset($journal[$key]);
+                                            break;
                                         }
                                     }
                                 }
-                                echo "<td class='text-right'>.</td>";
+                                echo "<td class='text-muted text-right'>.</td>";
                                 echo "</tr>";
                             }
-
                             ?>
                             </tbody>
                         </table>
@@ -209,6 +214,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                             </div>
                             <div class="modal-body">
                                 <h4>Ви не зможете змінити введену дату.</h4>
+                                <h4 id="add-new-lesson-display" class="text-primary">Заняття</h4>
                                 <h4 id="add-new-date-display" class="text-primary">01-01-2017</h4>
                             </div>
                             <div class="modal-footer">
@@ -217,6 +223,15 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                             </div>
                         </div>
                     </div>
+                </div>
+
+
+                <div>
+                    <p style="position: fixed; bottom: -10px; left: 0px; z-index: 9999; background-color: #81d782; padding: 3px; font-size: 10px"><?php
+                        $time_end = microtime(true) - $time_start;
+                        echo $time_end, ' ms ';
+                        ?>
+                    </p>
                 </div>
 
             </div>

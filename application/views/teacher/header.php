@@ -37,20 +37,15 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                 <?php if (($navbar_menu == 'journal') || ($navbar_menu == 'settings') || ($navbar_menu == 'message') ) { ?>
                     <ul class="nav navbar-nav">
                         <li>
-                            <a href="<?php echo base_url('teacher');?>">Cписок груп</a>
+                            <a href="<?php echo base_url('teacher');?>"><b>Cписок груп</b></a>
                         </li>
                     </ul>
                 <?php }; ?>
 
-                <?php if (($navbar_menu != 'message') ) { ?>
-                <ul class="nav navbar-nav">
-                    <li>
-                        <a href="<?php echo base_url('teacher/message');?>">Повідомлення</a>
-                    </li>
-                </ul>
-                <?php }; ?>
-
                 <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="<?php echo base_url('teacher/message');?>"><span class="glyphicon glyphicon-envelope"></span></a>
+                    </li>
                     <li><a href="<?php echo base_url('teacher/settings')?>">
                             <span class="glyphicon glyphicon-user"></span>
                             <?php echo $_SESSION['name'], ' ', $_SESSION['surname'] ?>

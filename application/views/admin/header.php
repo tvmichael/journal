@@ -56,7 +56,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                             <span class="caret"></span>
                         </a>
                         <ul class="dropdown-menu">
-                            <li><a href="<?php echo base_url('admin/student');?>">Групи студентів</a></li>
+                            <li><a href="<?php echo base_url('admin/student');?>">Список студентів по групах</a></li>
                             <li><a href="<?php echo base_url('admin/add_new_student');?>">Додати студентів</a></li>
                         </ul>
                     </li>
