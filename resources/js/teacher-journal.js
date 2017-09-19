@@ -1,5 +1,6 @@
 ;(function () {
-    function l(s){ console.log(s);} l('START-TEACHER-JOURNAL');
+    function l(s){ console.log(s);}
+    l('START-TEACHER-JOURNAL');
 
     var journal = {
         action:'',
@@ -92,11 +93,12 @@
             var s;
             s = $(this).text();
             s = s.split(' ');
-            $(this).text( s[0] + ' '+ s[1][0] +'.'+ s[2][0]+'.' );
+            try { $(this).text( s[0] + ' '+ s[1][0] +'.'); }
+            catch(err) { $(this).text(s[0]); }
         });
-        sW = 180;
-        $('#table-student-list').width(150);
-        $('#table-student-mark').css('left', 150);
+        sW = 230;
+        $('#table-student-list').width(200);
+        $('#table-student-mark').css('left', 200);
         $('#table-student-mark').width($(window).width()-sW);
     };
 
@@ -109,6 +111,7 @@
                 averadge = [],
                 sum = 0,
                 n = 0;
+
             $('td', tr).each(function () {
                 averadge.push($(this).text());
                 lastTd = $(this);
@@ -124,7 +127,7 @@
                 sum = Math.round((sum/n) * 10) / 10;
             else
                 sum ='.';
-            lastTd.text(sum);
+            lastTd.html('<strong>' + sum + '</strong>');
         });
     };
 
@@ -133,7 +136,7 @@
 
     // загрузка документа
     $(document).ready(function() {
-        //змінюємо позицію 'footer', роблю так бо незнаю як краще
+        //змінюємо позицію 'footer' (роблю так бо незнаю як краще ...)
         $('#main-journal').height($('#table-student-list').height()+60);
         //змінюємо ширину таблиці при загрузці
         tableMarkWidth();
@@ -159,6 +162,18 @@
         };
         // середня оцінка для кожного студента
         averadgeStudentMark();
+
+        // виділяємо стилями різні типи оцінок, якщо "1, 2" або "н"
+        $('#table-mark tbody td').each(function () {
+            if (this.getAttribute('data-id-teacher')) {
+                if ($(this).text() == 'н') this.className = 'm-table-nb';
+                if (parseInt($(this).text()) < 3) this.className = 'm-table-mark2';
+                if (this.getAttribute('data-remark') == '1') this.className = 'm-table-nb-n';
+            }
+        });
+
+
+
     });
 
 
@@ -208,7 +223,7 @@
         for(i = 1; i < n_rows; i++){
             if( n_cells <= 1 )
                 // якщо стовбчиків ще немає то беремо дані з таблиці "список студентів"
-                idS = table_student.rows[i].cells[0].getAttribute('data-id-student');
+                idS = table_student.rows[i].cells[1].getAttribute('data-id-student');
             else
                 idS = markTable.rows[i].cells[n_cells-2].getAttribute('data-id-student');
 
@@ -233,6 +248,7 @@
     $('#add-new-date-ok').click(function () {
         var i;
         var tSelect = document.getElementById("add-new-lesson-input");
+
 
         $('#box-add-new-date').hide(100);
         var newDateInTable = $('#add-new-date-input').val(),
@@ -263,6 +279,12 @@
         var d = new Date($('#add-new-date-input').val()),
         month =['01','02','03','04','05','06','07','08','09','10','11','12'];
 
+        // якщо дата неправильна то зупиняємо введення
+        if ( isNaN(d.getTime()) ) $(this).attr('data-toggle', '');
+            else $(this).attr('data-toggle', 'modal');
+
+        var tSelect = document.getElementById("add-new-lesson-input");
+        $('#add-new-lesson-display').html(tSelect.options[ tSelect.selectedIndex ].innerHTML);
         $('#add-new-date-display').html(d.getDate() +'-'+ month[d.getMonth()] +'-'+ d.getFullYear());
     });
 
@@ -272,8 +294,8 @@
 
     // редагування клітинки
     function toEditCurrentCell() {
-        var r = tableCellPosition.currentRow,
-            c = tableCellPosition.currentCell;
+        var r = tableCellPosition.currentRow,  // поточний рядок
+            c = tableCellPosition.currentCell; // поточна клітинка
 
         // включаємо режим редагування клітинки
         tableCellPosition.editCell = true;
@@ -339,8 +361,9 @@
             tableCellPosition.mark = str;
         }
 
-        // видалити 'інпут'
+        // видалити методи встановлені на елемент 'інпут'
         $('#' + tableCellPosition.input.id).unbind('focusout', exitEditCurrentCell);
+        // видалити - input
         tableCellPosition.td.removeChild(tableCellPosition.input);
         tableCellPosition.td.style.padding = '';
         tableCellPosition.td.style.position = '';
@@ -352,6 +375,17 @@
         journal.student = tableCellPosition.td.getAttribute('data-id-student');
         journal.type = tableCellPosition.td.getAttribute('data-id-lesson-type');
         journal.action = 'addNewMark';
+
+        // змінюємо стиль відображення оцінки якщо "1, 2" або "н"
+        if ( journal.mark == 'н') tableCellPosition.td.classList.add('m-table-nb');
+            else tableCellPosition.td.classList.remove('m-table-nb');
+        // якщо "н" виправлено на позитивну оцінку
+        if (tableCellPosition.td.getAttribute('data-remark') == '1') tableCellPosition.td.classList.add('m-table-nb-n');
+            else tableCellPosition.td.classList.remove('m-table-nb-n');
+        if (parseInt(journal.mark) < 3) tableCellPosition.td.classList.add('m-table-mark2');
+            else tableCellPosition.td.classList.remove('m-table-mark2');
+
+        //заносимо оцінку до таблиці
         tableCellPosition.td.innerHTML = journal.mark;
 
         //якщо оцінка змінена то збарігаємо
@@ -374,7 +408,7 @@
     // змінюємо поточну позицію курсора на таблиці
     function selectActiveCell(direction, step) {
         if (!tableCellPosition.editCell) {
-            markTable.rows[tableCellPosition.currentRow].cells[tableCellPosition.currentCell].className = '';
+            markTable.rows[tableCellPosition.currentRow].cells[tableCellPosition.currentCell].classList.remove('m-table-active-cell');
             switch (direction) {
                 case 'ud':
                     if ((tableCellPosition.currentRow + step < tableCellPosition.nRow) &&
@@ -393,7 +427,7 @@
                     tableCellPosition.currentCell = step.c;
                     break;
             }
-            markTable.rows[tableCellPosition.currentRow].cells[tableCellPosition.currentCell].className = 'm-table-active-cell';
+            markTable.rows[tableCellPosition.currentRow].cells[tableCellPosition.currentCell].classList.add('m-table-active-cell');
         }
     };
 

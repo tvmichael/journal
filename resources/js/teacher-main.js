@@ -49,6 +49,7 @@ function blockView() {
         if (sb.search('1/4') > 0) return '1-4';
         return '1';
     }
+
     var container = document.getElementById('list-gt');
     var block = '';
     for (var i=0; i < listGT.length; i++){
@@ -82,6 +83,7 @@ $('.glyphicon-th-large').parent().click(function () {
     blockView();
     saveToServer();
 });
+
 // у вигляді таблиці
 $('.glyphicon-th-list').parent().click(function () {
     settings.view = 2;
@@ -97,9 +99,9 @@ function saveToServer() {
         });
 }
 
-
 // сортуємо масив за вказаним полем
 function sotrArray(fild, direction) {
+
     function compare(a,b) {
         if (direction == '0') {
             if (a[fild] < b[fild])
@@ -119,7 +121,7 @@ function sotrArray(fild, direction) {
     listGT.sort(compare);
 }
 
-//
+// сортуємо по вказаному полю
 $('button[data-sort]').click(function () {
     sotrArray($(this).attr('data-sort'), $(this).attr('data-direction'));
     if ($(this).attr('data-direction') == '0' ) $(this).attr('data-direction', '1');
