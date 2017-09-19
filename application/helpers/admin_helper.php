@@ -87,7 +87,7 @@ if ( ! function_exists('student_select_table'))
             echo '<td>', $mas['course'],' ', $mas['groupe'],' ', $str, '</td>';
             echo "<td class='text-center'>", "<input type='checkbox' value='", $mas['id_student'], "'>", '</td>';
             echo "<td class='text-center'>";
-                echo "<a href='", base_url('admin/edit_student'),'?editStudentId=', $mas['id_student'], "'>";
+                echo "<a href='", base_url('admin/student_edit'),'?editStudentId=', $mas['id_student'], "'>";
                 echo "<button class='btn btn-default btn-xs' type='button'>";
                 echo "<span class='glyphicon glyphicon-edit' aria-hidden='true'></span>";
                 echo "</button></a>";

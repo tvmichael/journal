@@ -97,7 +97,7 @@ if ( ! function_exists('loadStudentFile'))
         $load_data = array();
         //set download directory
         $uploaddir = getcwd().'\resources\download\\';
-        /*
+
         // очищаємо деректорію де знаходяться файли загрузки
         $files = glob($uploaddir.'*'); // get all file names
         foreach($files as $file){ // iterate files
@@ -133,6 +133,7 @@ if ( ! function_exists('loadStudentFile'))
                 $data[$row]['d'] = $worksheet->getCell('D'.$row)->getValue();
                 $data[$row]['e'] = $worksheet->getCell('E'.$row)->getValue();
 
+                $data[$row]['insert'] = 0;
             } // end for ---
         }
         return $data;
