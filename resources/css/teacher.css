@@ -87,7 +87,8 @@ body {
 
 /* mark header */
 .m-table-headline{
-    padding: 0px 10px;
+    padding: 1px 10px;
+    border: 1px solid #f1f1f1;
 }
 .m-table-headline-g{
     padding-left: 10px;
@@ -129,7 +130,14 @@ body {
     background-color: #fff9d4;
 }
 .m-table-nb{
-    color: #8d02b8;
+    color: #1439ff;
+    font-weight: bold;
+}
+.m-table-nb-n{
+    color: #1439ff;
+}
+.m-table-mark2{
+    color: red;
     font-weight: bold;
 }
 
@@ -158,8 +166,8 @@ body {
 .m-box-add-new-date{
     display: none;
     position: absolute;
-    top: 25px;
-    right: 20px;
+    top: 35px;
+    right: 15px;
     width: 250px;
     height: 200px;
     background-color: white;
