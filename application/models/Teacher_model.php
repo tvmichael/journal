@@ -149,9 +149,10 @@ class Teacher_model extends CI_Model
 
             //якщо оцінка стерта
             if($mark == '' and $row['remark'] != '')
-                $remark = 'X|'.$data['date'].' '.$row['remark'];
+                $remark = 'X|'.date('Y-m-d').' '.$row['remark'];
             else
-                $remark = $mark.'|'.$data['date'].' '.$row['remark'];
+                $remark = $mark.'|'.date('Y-m-d').' '.$row['remark'];
+
             $this->db->where($data);
             $this->db->update('journals', Array('mark'=>$mark, 'remark'=>$remark));
         }
