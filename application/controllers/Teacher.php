@@ -9,6 +9,8 @@ class Teacher extends CI_Controller {
         if ( $_SESSION['role'] != 'Teacher' ) redirect(base_url());
         // підключаємо модель для роботи з базою даних
         $this->load->model('Teacher_model', 'teacher_model');
+        // часова зона
+        date_default_timezone_set('Europe/Kiev');
     }
 
 
