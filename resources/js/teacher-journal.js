@@ -274,7 +274,7 @@
         sendDataToServer('addNewColumnToTable');
     });
 
-    // показати дату що додається до журналу
+    // показати дату (що додається до журналу)
     $('#add-new-date-attendion').click(function () {
         var d = new Date($('#add-new-date-input').val()),
         month =['01','02','03','04','05','06','07','08','09','10','11','12'];
@@ -376,14 +376,14 @@
         journal.type = tableCellPosition.td.getAttribute('data-id-lesson-type');
         journal.action = 'addNewMark';
 
-        // змінюємо стиль відображення оцінки якщо "1, 2" або "н"
-        if ( journal.mark == 'н') tableCellPosition.td.classList.add('m-table-nb');
-            else tableCellPosition.td.classList.remove('m-table-nb');
-        // якщо "н" виправлено на позитивну оцінку
-        if (tableCellPosition.td.getAttribute('data-remark') == '1') tableCellPosition.td.classList.add('m-table-nb-n');
-            else tableCellPosition.td.classList.remove('m-table-nb-n');
-        if (parseInt(journal.mark) < 3) tableCellPosition.td.classList.add('m-table-mark2');
-            else tableCellPosition.td.classList.remove('m-table-mark2');
+            // змінюємо стиль відображення оцінки якщо "1, 2" або "н"
+            if ( journal.mark == 'н') tableCellPosition.td.classList.add('m-table-nb');
+                else tableCellPosition.td.classList.remove('m-table-nb');
+            // якщо "н" виправлено на позитивну оцінку
+            if (tableCellPosition.td.getAttribute('data-remark') == '1') tableCellPosition.td.classList.add('m-table-nb-n');
+                else tableCellPosition.td.classList.remove('m-table-nb-n');
+            if (parseInt(journal.mark) < 3) tableCellPosition.td.classList.add('m-table-mark2');
+                else tableCellPosition.td.classList.remove('m-table-mark2');
 
         //заносимо оцінку до таблиці
         tableCellPosition.td.innerHTML = journal.mark;
