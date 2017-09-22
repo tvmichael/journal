@@ -6,15 +6,20 @@ class Inspector_model extends CI_Model
 
     // Загальна статистика (Головнасторінка)
     public function base_statistics(){
-        // вчителів
+        $data = [];
+        // Кількість викладачів
+        $this->db->select('id, name, surname, patronymic');
+        $this->db->from('users');
+        $this->db->where('role', 'Teacher');
+        //$data['count_teacher'] = $this->db->;
 
-        $q = "SELECT *, ( SELECT COUNT(list_group_teachers.id_teacher) FROM list_group_teachers WHERE list_group_teachers.id_teacher = users.id ) AS count FROM users WHERE users.role = 'Teacher' ORDER BY users.surname;";
-        $query = $this->db->query($q);
-        /*
-        $this->db->order_by('surname', 'ASC');
-        $query = $this->db->get_where('users', array('role'=>'Teacher'));
-        /**/
-        return  $query->result_array();
+        // Кількість студентів
+        $this->db->from('students');
+        $data['count_students'] = $this->db->count_all_results();
+
+
+
+        return  $data;
     }
 
 
