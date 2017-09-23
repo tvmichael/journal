@@ -167,7 +167,7 @@
         $('#table-mark tbody td').each(function () {
             if (this.getAttribute('data-id-teacher')) {
                 if ($(this).text() == 'н') this.className = 'm-table-nb';
-                if (parseInt($(this).text()) < 3) this.className = 'm-table-mark2';
+                if ( (parseInt($(this).text()) < 3) || (this.getAttribute('data-remark') == '2') ) this.className = 'm-table-mark2';
                 if (this.getAttribute('data-remark') == '1') this.className = 'm-table-nb-n';
             }
         });
@@ -382,8 +382,10 @@
             // якщо "н" виправлено на позитивну оцінку
             if (tableCellPosition.td.getAttribute('data-remark') == '1') tableCellPosition.td.classList.add('m-table-nb-n');
                 else tableCellPosition.td.classList.remove('m-table-nb-n');
-            if (parseInt(journal.mark) < 3) tableCellPosition.td.classList.add('m-table-mark2');
+            if ((parseInt(journal.mark) < 3) || (tableCellPosition.td.getAttribute('data-remark') == '2')) tableCellPosition.td.classList.add('m-table-mark2');
                 else tableCellPosition.td.classList.remove('m-table-mark2');
+
+                l(tableCellPosition.td.getAttribute('data-remark'));
 
         //заносимо оцінку до таблиці
         tableCellPosition.td.innerHTML = journal.mark;

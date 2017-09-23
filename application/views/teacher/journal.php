@@ -31,7 +31,6 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                             </thead>
                             <tbody>
                             <?php
-                            $time_start = microtime(true);
                             $i=1;
                             foreach ($students as $s){
                                 echo "<tr><td class='text-muted'>$i</td><td data-id-student='", $s['id_student'], "'>";
@@ -155,9 +154,11 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                             echo "data-mark='", $j['mark'], "' ";
                                             echo "data-date='", $j['date'], "' ";
 
-                                            // якщо була виправлена "н"
+                                            // якщо була виправлена "н" або "2"
                                             if (strpos($j['remark'], 'н')) echo "data-remark='1' ";
-                                                else echo "data-remark='0' ";
+                                            elseif ( strpos($j['remark'], '2|') )
+                                                { if ($j['mark'] != '12') echo "data-remark='2' "; }
+                                            else echo "data-remark='0' ";
 
                                             echo ">",$j['mark'], "</td>";
 
@@ -225,14 +226,6 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                     </div>
                 </div>
 
-
-                <div>
-                    <p style="position: fixed; bottom: -10px; left: 0px; z-index: 9999; background-color: #81d782; padding: 3px; font-size: 10px"><?php
-                        $time_end = microtime(true) - $time_start;
-                        echo $time_end, ' ms ';
-                        ?>
-                    </p>
-                </div>
 
             </div>
         </div>

@@ -12,7 +12,10 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
     <!-- Bootstrap core CSS -->
     <link href="<?php echo base_url();?>resources/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <!-- Teacher -->
-    <link href="<?php echo base_url();?>resources/css/teacher.css" rel="stylesheet">
+    <link href="<?php echo base_url();?>resources/css/inspector.css" rel="stylesheet">
+
+    <!--Load the AJAX API-->
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 </head>
 <body>
 
@@ -36,29 +39,18 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
             <div class="collapse navbar-collapse" id="navbar-journal">
 
                 <ul class="nav navbar-nav">
-                    <li><a href="<?php echo base_url('inspector');?>">Головна</a></li>
+                    <li><a href="<?php echo base_url('inspector');?>">Викладачі</a></li>
+                    <li><a href="<?php echo base_url('inspector');?>">Студунти</a></li>
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle"
                            data-toggle="dropdown" role="button"
                            aria-haspopup="true" aria-expanded="false">
-                            Викладачі
+                            Статистика
                             <span class="caret"></span>
                         </a>
                         <ul class="dropdown-menu">
                             <li><a href="<?php echo base_url('inspector/teacher');?>">Навантаження викладачів</a></li>
                             <li><a href="<?php echo base_url('inspector/teacher');?>">Список викладачів</a></li>
-                        </ul>
-                    </li>
-                    <li class="dropdown">
-                        <a href="#" class="dropdown-toggle"
-                           data-toggle="dropdown" role="button"
-                           aria-haspopup="true" aria-expanded="false">
-                            Студенти
-                            <span class="caret"></span>
-                        </a>
-                        <ul class="dropdown-menu">
-                            <li><a href="<?php echo base_url('inspector/students');?>">Навантаження викладачів</a></li>
-                            <li><a href="<?php echo base_url('inspector/students');?>">Список викладачів</a></li>
                         </ul>
                     </li>
                 </ul>

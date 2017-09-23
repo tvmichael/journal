@@ -18,7 +18,7 @@ class Inspector extends CI_Controller
     // головна сторніка
     public function index() {
         $header = ['navbar_brand'=>'Статистика'];
-        $main = $this->inspector->base_statistics();
+        $main = $this->inspector->base_teacher_statistics();
         $footer = ['js_file'=>'inspector-main.js'];
 
         $this->load->view('inspector/header', $header);
