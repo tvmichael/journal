@@ -54,7 +54,7 @@
                 if ( task == 'addNewColumnToTable') addNewColumnToTable();
 
                 $('#table-headline-message').html(data);
-                $("#table-headline-message").show(0).delay(5000).hide(0);
+                $("#table-headline-message").show(0).delay(2000).hide(0);
             })
             .fail(function() {
                 $('#table-headline-message').html("<span style='color: red;'>ПОМИЛКА!</span>");
@@ -385,7 +385,7 @@
             if ((parseInt(journal.mark) < 3) || (tableCellPosition.td.getAttribute('data-remark') == '2')) tableCellPosition.td.classList.add('m-table-mark2');
                 else tableCellPosition.td.classList.remove('m-table-mark2');
 
-                l(tableCellPosition.td.getAttribute('data-remark'));
+                //l(tableCellPosition.td.getAttribute('data-remark'));
 
         //заносимо оцінку до таблиці
         tableCellPosition.td.innerHTML = journal.mark;
