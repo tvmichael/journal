@@ -17,7 +17,9 @@ body {
 }
 
 
-/* LIST TEACHER */
+/* MAIN --------------------------------------------------------- */
+
+/* LIST TEACHER ----- */
 .m-count-group{
     background-color: lightgray;
     padding-left: 1px;
@@ -30,6 +32,30 @@ body {
     background-color: #e4cd9a;
     padding-left: 1px;
 }
+.m-list-teacher-a{
+    color: black;
+}
+
+/* TEACHER TABLE --- */
+.m-container-table{
+    overflow-x: auto;
+}
+.m-table-date{
+    color: gray;
+    border-top: 2px solid lightgray;
+}
+.m-average{
+    background-color: rgba(241, 241, 201, 0.2);
+}
+.m-miss{
+    background-color: rgba(63, 251, 117, 0.1);
+}
+
+/* Tooltip text */
+.m-tooltip-remark{
+
+}
+
 
 
 /* FOOTER ------------------------------------------------------- */
