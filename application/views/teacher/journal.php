@@ -205,6 +205,26 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                     </div>
                 </div>
 
+                <!-- CHANGE DATE -->
+                <div class="modal fade" id="change-date" role="dialog">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button id="change-date-cancel-attention" type="button" class="close" data-dismiss="modal">&times;</button>
+                                <h3 class="modal-title text-danger">Увага!</h3>
+                            </div>
+                            <div class="modal-body">
+                                <h4>Ви хочите змінити наявну дату.</h4>
+                                <h4 id="change-date-display" class="text-primary"></h4>
+                            </div>
+                            <div class="modal-footer">
+                                <button id="change-date-ok" type="button" class="btn btn-success" data-dismiss="modal">Продовжити, дата вірна</button>
+                                <button type="button" class="btn btn-danger" data-dismiss="modal">Змінити дату</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
                 <!-- (ATTENTION MESSAGE) -->
                 <div class="modal fade" id="attendion-new-date" role="dialog">
                     <div class="modal-dialog">
