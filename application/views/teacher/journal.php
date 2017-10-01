@@ -218,8 +218,8 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                 <h4 id="change-date-display" class="text-primary"></h4>
                             </div>
                             <div class="modal-footer">
-                                <button id="change-date-ok" type="button" class="btn btn-success" data-dismiss="modal">Продовжити, дата вірна</button>
-                                <button type="button" class="btn btn-danger" data-dismiss="modal">Змінити дату</button>
+                                <button id="change-date-ok" type="button" class="btn btn-success" data-dismiss="modal">Змінити дату</button>
+                                <button type="button" class="btn btn-danger" data-dismiss="modal">Вийти</button>
                             </div>
                         </div>
                     </div>
