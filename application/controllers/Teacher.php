@@ -6,7 +6,8 @@ class Teacher extends CI_Controller {
     // constructor
     public function __construct() {
         parent::__construct();
-        if ( $_SESSION['role'] != 'Teacher' ) redirect(base_url());
+        if ( ($_SESSION['role'] != 'Teacher')
+            OR ($_SESSION['HTTP_USER_AGENT'] != md5($_SERVER['HTTP_USER_AGENT'])) ) redirect(base_url());
         // підключаємо модель для роботи з базою даних
         $this->load->model('Teacher_model', 'teacher_model');
         // часова зона
