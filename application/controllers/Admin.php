@@ -7,7 +7,9 @@ class Admin extends CI_Controller
     public function __construct()
     {
         parent::__construct();
-        if ( $_SESSION['role'] != 'Admin' ) redirect(base_url());
+        if ( ($_SESSION['role'] != 'Admin')
+            OR ($_SESSION['HTTP_USER_AGENT'] != md5($_SERVER['HTTP_USER_AGENT'])) ) redirect(base_url());
+
         //модель для роботи з БД
         $this->load->model('Admin_model', 'admin');
         //
@@ -73,6 +75,30 @@ class Admin extends CI_Controller
         $this->load->view('admin/footer');
     }
 
+    // додати нового викладача
+    public function add_new_teacher(){
+        $header = ['navbar_header'=>'Додати викладача'];
+        $this->load->helper('form');
+        $this->load->library('form_validation');
+        $main = ['message'=>''];
+
+        // перевіряємо чи відправлені дані з форми
+        if ( isset($_POST['submit']) ) {
+            // перевіряємо форму на правильність введених даних
+            $this->form_validation->set_rules('login', '(Логін)', 'min_length[3]|max_length[16]');
+            $this->form_validation->set_rules('surname', '(Прізвище)', 'required|min_length[3]|max_length[16]');
+            $this->form_validation->set_rules('password1', '(Пароль-1)', 'min_length[3]|max_length[16]');
+            $this->form_validation->set_rules('password2', '(Пароль-2)', 'min_length[3]|max_length[16]|matches[password1]');
+            if ($this->form_validation->run() == TRUE) {
+                // якщо данні введено правильно то зберігаємо користувача в БД
+                $error = $this->admin->add_new_teacher();
+                $main = ['message'=> $error];
+            }
+        }
+        $this->load->view('admin/header', $header);
+        $this->load->view('admin/add_new_teacher', $main);
+        $this->load->view('admin/footer');
+    }
 
     // сторінка налаштування студентів
     public function student(){
