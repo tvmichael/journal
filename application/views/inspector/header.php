@@ -13,9 +13,6 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
     <link href="<?php echo base_url();?>resources/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <!-- Teacher -->
     <link href="<?php echo base_url();?>resources/css/inspector.css" rel="stylesheet">
-
-    <!--Load the AJAX API-->
-    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 </head>
 <body>
 
@@ -49,20 +46,14 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                             <span class="caret"></span>
                         </a>
                         <ul class="dropdown-menu">
-                            <li><a href="<?php echo base_url('inspector/teacher');?>">Навантаження викладачів</a></li>
-                            <li><a href="<?php echo base_url('inspector/teacher');?>">Список викладачів</a></li>
+                            <li><a href="<?php echo base_url('inspector');?>">...</a></li>
                         </ul>
                     </li>
                 </ul>
 
 
-
-
                 <ul class="nav navbar-nav navbar-right">
-                    <li>
-                        <a href="<?php echo base_url('teacher/message');?>"><span class="glyphicon glyphicon-envelope"></span></a>
-                    </li>
-                    <li><a href="<?php echo base_url('teacher/settings')?>">
+                    <li><a href="<?php echo base_url('inspector/settings')?>">
                             <span class="glyphicon glyphicon-user"></span>
                             <?php echo $_SESSION['name'], ' ', $_SESSION['surname'] ?>
                         </a>
