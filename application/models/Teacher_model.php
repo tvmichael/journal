@@ -11,6 +11,8 @@ class Teacher_model extends CI_Model
         $this->db->join('subjects', 'list_group_teachers.id_subject = subjects.id');
         $this->db->join('groups', 'list_group_teachers.id_group = groups.id');
         $this->db->where('list_group_teachers.id_teacher',$_SESSION['id'] );
+        $this->db->order_by('course');
+        $this->db->order_by('groupe');
         $query = $this->db->get();
         return $query->result_array();
     } // end read_list_gs

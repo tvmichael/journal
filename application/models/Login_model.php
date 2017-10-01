@@ -24,6 +24,9 @@ class Login_model extends CI_Model
             );
             $this->db->insert('logs', $log);
 
+            // зберігаємо поля HTTP-заголовка user-agent (виключи можливість використання сесії для входу з іншого браузера)
+            $_SESSION['HTTP_USER_AGENT'] = md5($_SERVER['HTTP_USER_AGENT']);
+
             // повертаємо true якщо користувач є
             return TRUE;
         }

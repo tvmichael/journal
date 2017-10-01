@@ -56,6 +56,24 @@ class Admin_model extends CI_Model
     }
 
 
+    public function add_new_teacher(){
+        $error = '';
+        $data = [];
+        $data['login'] = $this->input->post('login');
+        $query = $this->db->get_where('users', $data);
+        if($query->num_rows() == 0){
+            $data['surname'] = $this->input->post('surname');
+            $data['password'] = sha1($this->input->post('password1'));
+            $data['role'] = 'Teacher';
+            $data['settings'] = "{'view':'1'}";
+            $this->db->insert('users', $data);
+            $error = 'Викладача додано! ['.$data['surname'].']';
+        }
+        else $error = 'Такий логін ['.$data['login'].'] вже існує. Введіть новий';
+
+        return $error;
+    }
+
 
     /** дял роботи з предметами ---------------------------------------------------------------- */
     // список усіх предметів
