@@ -17,9 +17,9 @@ body {
 }
 
 
-/* MAIN --------------------------------------------------------- */
+/* MAIN ================== */
 
-/* LIST TEACHER ----- */
+/* LIST TEACHER ---------- */
 .m-count-group{
     background-color: lightgray;
     padding-left: 1px;
@@ -36,7 +36,13 @@ body {
     color: black;
 }
 
-/* TEACHER TABLE --- */
+/* TEACHER LIST GROUP ----- */
+.m-count-date-n{
+    background-color: #ffdf98;
+    padding-left: 1px;
+}
+
+/* TEACHER JOURNAL -------- */
 .m-container-table{
     overflow-x: auto;
 }
