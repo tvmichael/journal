@@ -44,6 +44,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                         <ul class="dropdown-menu">
                             <li><a href="<?php echo base_url('admin/working_load');?>">Навантаження викладачів</a></li>
                             <li><a href="<?php echo base_url('admin/list_teacher');?>">Список викладачів</a></li>
+                            <li><a href="<?php echo base_url('admin/add_new_teacher');?>">Додати нового викладача</a></li>
                         </ul>
                     </li>
 
