@@ -35,7 +35,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                         array_multisort($journal_date, SORT_ASC);
 
                         $thead = "<tr><th width='3%'>№</th>".
-                            "<th>Прізвище Ім'я</th>".
+                            "<th class='m-table-name-surname'>Прізвище Ім'я</th>".
                             "<th class='text-center m-average'>ср</th>".
                             "<th class='text-center m-miss'>н</th>";
                         foreach ($journal_date as $d){
@@ -53,7 +53,8 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                         foreach ($students as $s){
                             echo "<tr class='text-center'>".
                                  '<td>'.$i.'</td>'.
-                                 "<td class='text-left'>".$s['surname'].' '.$s['name'].'</td>'.
+                                //  data-student-id='".$s['id_student']."'
+                                 "<td class='text-left'><a href='".base_url('inspector/student?action=openStudentJournal&id=').''.$s['id_student']."'>".$s['surname'].' '.$s['name'].'</a></td>'.
                                  "<td class='m-average'></td>".
                                  "<td class='m-miss'></td>";
                             // для кожного студента заносипо відповідну дату
