@@ -37,7 +37,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
 
                 <ul class="nav navbar-nav">
                     <li><a href="<?php echo base_url('inspector');?>">Викладачі</a></li>
-                    <li><a href="<?php echo base_url('inspector');?>">Студунти</a></li>
+                    <li><a href="<?php echo base_url('inspector/student');?>">Студунти</a></li>
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle"
                            data-toggle="dropdown" role="button"
