@@ -16,19 +16,19 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                         </div>
                         <table class="table table-bordered table-hover">
                             <thead>
-                            <tr class="text-primary">
-                                <td>№</td>
-                                <td>Прізвище Імя по батькові</td>
-                                <td title="Лекції, практичні, лабораторні">Предметів</td>
-                                <td>Груп (підгруп)</td>
-                                <td>Відвідування електронного журналу</td>
+                            <tr>
+                                <th>№</th>
+                                <th>Прізвище Імя по батькові</th>
+                                <th title="Лекції, практичні, лабораторні">Предметів</th>
+                                <th>Груп (підгруп)</th>
+                                <th>Відвідування електронного журналу</th>
                             </tr>
                             </thead>
                             <tbody>
                             <?php
                             $i = 1;
                             foreach ($list_teacher as $lt){
-                                echo "<tr>";
+                                echo "<tr data-id='".$lt['id']."'>";
                                 echo "<td>".$i."</td>";
                                 echo "<td><a class='m-list-teacher-a' href='".base_url('inspector/teacher?action=openTeacher&id=').$lt['id']."'><div>".$lt['surname'].' '.$lt['name'].' '.$lt['patronymic']."</div></a></td>";
 
