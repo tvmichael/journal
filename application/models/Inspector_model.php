@@ -94,42 +94,31 @@ class Inspector_model extends CI_Model
         $query = $this->db->get_where('journals', $array);
         $data['journal'] = $query->result_array();  // журнал з оцінками
 
-        /*
-        // 3. назва (курсу групи підгрупи), для відображення в заголовку зверху над таблицею
-        $this->db->select('course, groupe, subgroup');
-        $this->db->from('groups');
-        $query = $this->db->where('id', $data['id_group']);
-        $query = $this->db->get();
-        $data['groupe'] = $query->row_array(); // повертає один запис
-
-        // 4. назва предмету для відображення в заголовку зверху над таблицею
-        $this->db->select('shortname, fullname');
-        $this->db->from('subjects');
-        $query = $this->db->where('id', $data['id_subject']);
-        $query = $this->db->get();
-        $data['subject'] = $query->row_array(); // повертає один запис
-
-        // 5. список типів занять
-        $this->db->select('*');
-        $this->db->from('lesson_types');
-        $query = $this->db->get();
-        $data['lesson_type'] = $query->result_array();
-        /**/
-
         // повертаємо масив
         return $data;
     }
 
 
     // Загальна статистика (Студенти)
-    public function base_students_statistics(){
+    public function student_statistics(){
         $data = [];
-        // Кількість студентів
-        $this->db->from('students');
-        $data['count_students'] = $this->db->count_all_results();
-
+        // Список студентів
+        $query = $this->db->query("
+            SELECT id_student, id_group, surname, name, patronymic, course, groupe,
+              (
+                SELECT AVG(mark)
+                FROM journals
+                WHERE journals.mark > 0 AND journals.id_student = students.id
+              ) AS avg_b
+            FROM students
+            JOIN list_group_students ON students.id = list_group_students.id_student
+            JOIN groups ON list_group_students.id_group = groups.id
+            GROUP BY students.id;
+        ");
+        $data['students'] = $query->result_array();
         return  $data;
     }
+
 
 
 
