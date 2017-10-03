@@ -36,13 +36,18 @@ body {
     color: black;
 }
 
+
 /* TEACHER LIST GROUP ----- */
 .m-count-date-n{
     background-color: #ffdf98;
     padding-left: 1px;
 }
 
+
 /* TEACHER JOURNAL -------- */
+.m-table-name-surname{
+    width: 20%;
+}
 .m-container-table{
     overflow-x: auto;
 }
@@ -61,6 +66,13 @@ body {
 .m-tooltip-remark{
 
 }
+
+
+/* STUDENT --------------- */
+.m-average-student-bal{
+    background-color: #e4e4bc;
+}
+
 
 
 
