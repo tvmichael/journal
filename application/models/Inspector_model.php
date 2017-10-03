@@ -103,6 +103,13 @@ class Inspector_model extends CI_Model
     public function student_statistics(){
         $data = [];
         // Список студентів
+
+
+                            // ??
+                            // перевірити правильність роботи  journals.mark > 0
+                            // ??
+
+
         $query = $this->db->query("
             SELECT id_student, id_group, surname, name, patronymic, course, groupe,
               (
