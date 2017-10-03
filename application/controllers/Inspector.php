@@ -34,7 +34,7 @@ class Inspector extends CI_Controller
     // Для викладача
     public function teacher(){
         $header = ['navbar_brand'=>'Статистика'];
-        $footer = ['js_file'=>'inspector-teacher.js'];
+        $footer = ['js_file'=>'inspector-main.js'];
 
         if ($this->input->get('action') == 'openTeacher') {
             $main = $this->inspector->teacher_statistics();
@@ -53,5 +53,24 @@ class Inspector extends CI_Controller
         else $this->index();
     }
 
+    //
+    public function student(){
+        $header = ['navbar_brand'=>'Статистика'];
+        $footer = ['js_file'=>'inspector-main.js'];
+        if ($this->input->get('action') == 'openStudentJournal') {
+            $main = $this->inspector->student_statistics_journal();
+
+            $this->load->view('inspector/header', $header);
+            $this->load->view('inspector/student', $main);
+            $this->load->view('inspector/footer', $footer);
+        }
+        else{
+            $main = $this->inspector->student_statistics();
+
+            $this->load->view('inspector/header', $header);
+            $this->load->view('inspector/student', $main);
+            $this->load->view('inspector/footer', $footer);
+        }
+    }
 
 } // END CLASS
