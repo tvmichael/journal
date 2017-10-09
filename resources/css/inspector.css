@@ -19,7 +19,7 @@ body {
 
 /* MAIN ================== */
 
-/* LIST TEACHER ---------- */
+/* MAIN LIST TEACHER ---------- */
 .m-count-group{
     background-color: lightgray;
     padding-left: 1px;
@@ -33,6 +33,13 @@ body {
     padding-left: 1px;
 }
 .m-list-teacher-a{
+    color: black;
+}
+.m-sort-table{
+    color: #6a7269;
+    cursor: pointer;
+}
+.m-sort-table:hover{
     color: black;
 }
 
