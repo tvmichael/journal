@@ -19,9 +19,15 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                             <tr>
                                 <th>№</th>
                                 <th>Прізвище Імя по батькові</th>
-                                <th title="Лекції, практичні, лабораторні">Предметів</th>
-                                <th>Груп (підгруп)</th>
-                                <th>Відвідування електронного журналу</th>
+                                <th title="Лекції, практичні, лабораторні">
+                                    <span class="m-sort-table">Предметів</span>
+                                </th>
+                                <th>
+                                    <span class="m-sort-table">Груп (підгруп)</span>
+                                </th>
+                                <th>
+                                    <span class="m-sort-table">Відвідування електронного журналу</span>
+                                </th>
                             </tr>
                             </thead>
                             <tbody>
@@ -32,13 +38,13 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                 echo "<td>".$i."</td>";
                                 echo "<td><a class='m-list-teacher-a' href='".base_url('inspector/teacher?action=openTeacher&id=').$lt['id']."'><div>".$lt['surname'].' '.$lt['name'].' '.$lt['patronymic']."</div></a></td>";
 
-                                if($lt['count_subject'] == 0) echo "<td></td>";
+                                if($lt['count_subject'] == 0) echo "<td><div></div></td>";
                                     else echo "<td><div class='m-count-subject' style='width:".(5*$lt['count_subject'])."%;'>".$lt['count_subject']."</div></td>";
 
-                                if($lt['count_group'] == 0) echo "<td></td>";
+                                if($lt['count_group'] == 0) echo "<td><div></div></td>";
                                     else echo "<td><div class='m-count-group' style='width:".(2*+$lt['count_group'])."%;'>".$lt['count_group']."</div></td>";
 
-                                if($lt['count_visit'] == 0) echo "<td></td>";
+                                if($lt['count_visit'] == 0) echo "<td><div></div></td>";
                                 elseif ($lt['count_visit'] < 50)
                                     echo "<td><div class='m-count-visits' style='width: ".(2*$lt['count_visit'])."%;'>".$lt['count_visit']."</div></td>";
                                 elseif ($lt['count_visit'] >= 50)
