@@ -59,9 +59,10 @@ class Inspector extends CI_Controller
         $footer = ['js_file'=>'inspector-main.js'];
         if ($this->input->get('action') == 'openStudentJournal') {
             $main = $this->inspector->student_statistics_journal();
+            $main['student_name'] = $this->input->get('studentName');
 
             $this->load->view('inspector/header', $header);
-            $this->load->view('inspector/student', $main);
+            $this->load->view('inspector/student_journal', $main);
             $this->load->view('inspector/footer', $footer);
         }
         else{
