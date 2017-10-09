@@ -37,7 +37,21 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
 
                 <ul class="nav navbar-nav">
                     <li><a href="<?php echo base_url('inspector');?>">Викладачі</a></li>
-                    <li><a href="<?php echo base_url('inspector/student');?>">Студунти</a></li>
+
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle"
+                           data-toggle="dropdown" role="button"
+                           aria-haspopup="true" aria-expanded="false">
+                            Студунти
+                            <span class="caret"></span>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a href="<?php echo base_url('inspector/student');?>">Список студентів</a></li>
+                            <li><a href="<?php echo base_url('inspector/student?action=openStudentGroup');?>">Список груп</a></li>
+                        </ul>
+                    </li>
+
+
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle"
                            data-toggle="dropdown" role="button"
@@ -46,7 +60,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                             <span class="caret"></span>
                         </a>
                         <ul class="dropdown-menu">
-                            <li><a href="<?php echo base_url('inspector');?>">...</a></li>
+                            <li><a href="<?php echo base_url('inspector');?>"> ... </a></li>
                         </ul>
                     </li>
                 </ul>
