@@ -103,13 +103,9 @@ class Inspector_model extends CI_Model
     public function student_statistics(){
         $data = [];
         // Список студентів
-
-
                             // ??
                             // перевірити правильність роботи  journals.mark > 0
                             // ??
-
-
         $query = $this->db->query("
             SELECT id_student, id_group, surname, name, patronymic, course, groupe,
               (
@@ -126,8 +122,35 @@ class Inspector_model extends CI_Model
         return  $data;
     }
 
+    // журнал студента - оцінки по предметах
+    public function student_statistics_journal(){
+        $data = [];
+        $data['time'] = microtime(true);
+        $id = intval($this->input->get('id'));
 
+        //
+        $query = $this->db->query("SELECT DISTINCT(id_subject) FROM journals WHERE id_student=$id;");
+        $data['subjects'] = $query->result_array();
 
+        //
+        $data['journal'] = array();
+        $i = 0;
+        foreach ($data['subjects'] as $s) {
+            $id_s = $s['id_subject'];
+            $query = $this->db->query("
+                SELECT journals.date, journals.mark, users.surname, users.name, subjects.fullname 
+                FROM journals
+                  JOIN subjects ON subjects.id = journals.id_subject
+                  JOIN users ON users.id = journals.id_teacher 
+                WHERE id_student = $id AND id_subject = $id_s 
+                ORDER BY journals.date;
+            ");
+            $data['journal'][$i] = $query->result_array();
+            $i++;
+        }
+
+        return $data;
+    }
 
 
 } // END CLASS
