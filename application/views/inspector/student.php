@@ -33,7 +33,18 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                             foreach ($students as $s){
                                 echo "<tr data-search='".$s['surname'].' '.$s['name'].' '.$s['patronymic'].' '.$s['course'].' '.$s['groupe'].' '.round($s['avg_b'],1)."'>";
                                 echo "<td>$i</td>";
-                                echo "<td><a href='".base_url('inspector/student?action=openStudentJournal&id=').$s['id_student']."'>".$s['surname'].' '.$s['name'].' '.$s['patronymic']."</a></td>";
+                                echo "<td><a href='".
+                                    base_url('inspector/student?action=openStudentJournal&id=').
+                                    $s['id_student']."&studentName=".
+                                    $s['surname'].' '.
+                                    $s['name'].' '.
+                                    $s['patronymic'].
+                                    "'>".
+                                    $s['surname'].' '.
+                                    $s['name'].' '.
+                                    $s['patronymic'].
+                                    "</a></td>";
+
                                 echo "<td>".$s['course']."</td>";
                                 echo "<td>".$s['groupe']."</td>";
                                 echo "<td><div class='m-average-student-bal' style='width:".round(100*$s['avg_b']/12)."%;'>".round($s['avg_b'],1)."</div></td>";
