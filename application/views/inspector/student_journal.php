@@ -13,7 +13,11 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                         <?php echo $student_name; ?>
                     </div>
                     <div class="panel-body">
-                        <?php foreach ($journal as $j){
+                        <?php
+                            $subject_count = 0;
+                            foreach ($journal as $j){
+
+
                             echo "<h4><span class='label label-primary'>".
                                 $j[0]['fullname'].
                                 "</span> <span class='label label-default'>".
@@ -25,8 +29,8 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                             $k = 0;
                             foreach ($j as $val){
                                 $d = explode('-', $val['date']);
-                                $th = $th.'<th>'.$d[2].'<br><span style="color: gray; border-top: 1px solid gray;">'.$d[1].'</span></th>';
-                                $td = $td.'<td>'.$val['mark'].'</td>';
+                                $th = $th."<th class='text-center'>".$d[2].'<br><span style="color: gray; border-top: 1px solid gray;">'.$d[1].'</span></th>';
+                                $td = $td."<td class='text-center'>".$val['mark'].'</td>';
                                 if (intval($val['mark']) > 0 ){
                                     $sb = $sb +  intval($val['mark']);
                                     $k++;
@@ -36,12 +40,12 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                 else $sb = '';
 
                             $th = '<th style="width: 5%;">Дата</th><th style="width: 5%;">с.б.</th>'.$th;
-                            $td = '<td>Оцінка</td><td>'.$sb.'</td>'.$td;
+                            $td = "<td>Оцінка</td><td class='danger'>".$sb.'</td>'.$td;
                         ?>
                         <div style='overflow-x:auto'>
                         <table class="table table-bordered">
                             <thead>
-                                <tr>
+                                <tr class="success">
                                     <?php echo $th; ?>
                                 </tr>
                             </thead>
@@ -56,6 +60,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                         <?php }; ?>
 
                         <?php
+
                         //d($subjects);
                         //d($journal);
                         $time_end = microtime(true) - $time;
