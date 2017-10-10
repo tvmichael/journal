@@ -11,7 +11,7 @@ class Student extends CI_Controller
             OR ($_SESSION['HTTP_USER_AGENT'] != md5($_SERVER['HTTP_USER_AGENT'])) ) redirect(base_url());
 
         //модель для роботи з БД
-        $this->load->model('Admin_model', 'admin');
+        $this->load->model('Student_model', 'student');
         //
         $this->load->library('kint/Kint');
     }
@@ -20,10 +20,12 @@ class Student extends CI_Controller
     // головна сторніка редагування журналу викладачем
     public function index()    {
         $header = ['navbar_text'=>'Журнал'];
+        $main['journal'] = $this->student->load_student_journal();
+        $footer['js_file'] = 'student.js';
 
         $this->load->view('student/header', $header);
-        $this->load->view('student/main');
-        $this->load->view('student/footer');
+        $this->load->view('student/main', $main);
+        $this->load->view('student/footer', $footer);
     }
 
 
