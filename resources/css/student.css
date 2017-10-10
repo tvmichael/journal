@@ -19,6 +19,21 @@ body {
 
 /* MAIN ------------------------------------------------------- */
 
+.m-data-column{
+    width: 5%;
+}
+.m-th-bg{
+    background-color: #e6eee5;
+}
+.m-month{
+    border-top: 1px solid #747474;
+    color: gray;
+}
+
+
+
+
+
 
 
 /* Message ----------------------------------------------------- */
