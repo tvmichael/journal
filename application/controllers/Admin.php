@@ -66,7 +66,7 @@ class Admin extends CI_Controller
     }
 
 
-    // редагування списку викладачів
+    // редагування списки викладачів
     public function list_teacher(){
         $header = ['navbar_header'=>'Список викладачів'];
 
@@ -181,6 +181,24 @@ class Admin extends CI_Controller
         $this->load->view('admin/header', $header);
         $this->load->view('admin/student_add_new', $data);
         $this->load->view('admin/footer');
+    }
+
+    // дотаткові налаштування по студенту
+    public function student_setting(){
+        $header = ['navbar_header'=>'Студенти'];
+        $data = '';
+
+        // згенерувати облікові записи студентів
+        if($this->input->get('action') == 'listStudentRegistration'){
+            echo json_encode($this->admin->list_student_registration(), JSON_UNESCAPED_UNICODE);
+            //d($this->admin->list_student_registration());
+            return;
+        }
+        else {
+            $this->load->view('admin/header', $header);
+            $this->load->view('admin/student_setting', $data);
+            $this->load->view('admin/footer');
+        }
     }
 
 
