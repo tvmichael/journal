@@ -178,19 +178,14 @@ class Admin_model extends CI_Model
             #  >> 97 номер групи маємо на вході
             SELECT DISTINCT id_teacher FROM journals WHERE id_group = 97;
             # --> список вчителів
-
             SELECT DISTINCT id_subject FROM journals WHERE id_group = 97 AND id_teacher = 68;
             # --> список предметів для -> конкретного вчителя
-
             SELECT DISTINCT id_lesson_type FROM journals WHERE id_group = 97 AND id_teacher = 68 AND id_subject=51;
             # --> список типів уроків для -> конкретного вчителя по -> конкретному предмету
-
             SELECT DISTINCT lesson_number FROM journals WHERE id_group = 97 AND id_teacher = 68 AND id_subject=51 AND id_lesson_type=1;
             #
-
             SELECT DISTINCT date FROM journals WHERE id_group = 97 AND id_teacher = 68 AND id_subject=51 AND id_lesson_type=1 AND lesson_number=1;
             #
-
             SELECT * FROM journals WHERE id_group = 97 AND id_teacher = 68 AND id_subject=51 AND id_lesson_type=1 AND lesson_number=1 AND date='2017-09-11' LIMIT 1;
             # ==> заносимо інформацію для цього студента в новій групі
             */
@@ -249,7 +244,7 @@ class Admin_model extends CI_Model
                     }
                 }
             }
-            // також жожаємо студунта до списку груп
+            // також додаємо студунта до списку груп
             $this->db->insert('list_group_students', ['id_student'=>$id_student, 'id_group'=>$id_group]);
             $res[0] = '0';
         } else $res[0] =  '1';
@@ -317,6 +312,19 @@ class Admin_model extends CI_Model
     }
 
 
+    // отримати список облікових записів студентів
+    public function list_student_registration(){
+        $sql ="
+            SELECT students.id, students.name, students.surname, students.patronymic, groups.course, groups.groupe, groups.id as group_id
+            FROM students
+              JOIN list_group_students ON list_group_students.id_student=students.id
+              JOIN groups ON groups.id = list_group_students.id_group
+            WHERE groups.subgroup = 'Група'
+            ORDER BY groups.course, groups.groupe;
+            ";
+        $query = $this->db->query($sql);
+        return $query->result_array();
+    }
 
     /** дял роботи з групами ------------------------------------------------------------------- */
     // список усіх груп
