@@ -107,7 +107,6 @@ body {
     padding: 0px 5px 0px 5px;
 }
 
-
 .m-table-h-month{
     color: grey;
     border-top: 1px solid grey;
@@ -121,13 +120,19 @@ body {
     background-color: white;
 }
 .m-table-type-2{
-    background-color: #f6ffe0;
+    background-color: #dfe8c9;
 }
 .m-table-type-3{
     background-color: #e5fcd9;
 }
 .m-table-type-4{
     background-color: #fff9d4;
+}
+.m-table-type-5{
+    background-color: #fff9d4;
+}
+.m-table-type-6{
+    background-color: #ffd6e4;
 }
 .m-table-nb{
     color: #1439ff;
