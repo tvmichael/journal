@@ -5,10 +5,10 @@ class Student_model  extends CI_Model
 {
 
     // журнал студента
-    public function load_student_journal(){
-        $id = $_SESSION['id'];
+    public function load_student_journal($id){
+        //$id = $_SESSION['id'];
         //
-        $id = 141;
+        //$id = 141;
 
         $q = "
         SELECT id_teacher, id_subject, id_group, id_lesson_type, lesson_number, mark, remark, date, fullname, name,surname, lesson_type 
