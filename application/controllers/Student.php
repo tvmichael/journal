@@ -20,7 +20,8 @@ class Student extends CI_Controller
     // головна сторніка редагування журналу викладачем
     public function index()    {
         $header = ['navbar_text'=>'Журнал'];
-        $main['journal'] = $this->student->load_student_journal();
+        $main['settings'] = json_decode($_SESSION['settings']);
+        $main['journal'] = $this->student->load_student_journal(intval($main['settings']->id_student));
         $footer['js_file'] = 'student.js';
 
         $this->load->view('student/header', $header);
@@ -28,9 +29,16 @@ class Student extends CI_Controller
         $this->load->view('student/footer', $footer);
     }
 
+    // налаштування
+    public function settings()    {
+        $header = ['navbar_text'=>'Налаштування'];
+        $main = '';
+        $footer['js_file'] = 'student.js';
 
-
-
+        $this->load->view('student/header', $header);
+        $this->load->view('student/settings', $main);
+        $this->load->view('student/footer', $footer);
+    }
 
 
 
