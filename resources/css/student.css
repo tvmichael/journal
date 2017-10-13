@@ -29,7 +29,9 @@ body {
     border-top: 1px solid #747474;
     color: gray;
 }
-
+.m-journal-table{
+    overflow-x: auto;
+}
 
 
 
