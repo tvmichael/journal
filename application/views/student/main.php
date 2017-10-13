@@ -6,7 +6,14 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
     <div class="container-fluid">
         <div class="row">
             <div class="col-sm-12">
-                <div id="student-data"></div>
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <?php echo $settings->course.' '.$settings->groupe; ?>
+                    </div>
+                    <div class="panel-body">
+                        <div id="student-data"></div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

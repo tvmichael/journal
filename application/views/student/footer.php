@@ -7,7 +7,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
     <div class="container-fluid">
         <div class="row">
             <div class="col-md-12">
-                <p class="f-info">TMV.2017</p>
+                <p class="f-info">Copyright: Torchuk M.V. 2016-2017</p>
             </div>
         </div>
     </div>
