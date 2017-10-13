@@ -25,9 +25,9 @@ subject = uniqueArray(journal, 'id_subject');
 for (i = 0; i < subject.length; i++){
     th = '';
     td = '';
-    nb = 0;
-    sBal = 0;
-    k = 0;
+    nb = 0;     // кількість 'н'
+    sBal = 0;   // середній бал по предмету
+    k = 0;      // кількість оцінок
     for (j=0; j < journal.length; j++){
         if(subject[i] == journal[j]['id_subject']){
 
@@ -60,17 +60,17 @@ for (i = 0; i < subject.length; i++){
     th ="<th class='m-data-column'>Дата</th>"
         +"<th class='m-data-column'>с.б.</th>"
         +"<th class='m-data-column'>н</th>" + th;
-    td ="<td>Оцінка</td><td>"+ sBal +"</td><td>"+ nb +"</td>" + td;
+    td ="<td>Оцінка</td><td><b>"+ sBal +"</b></td><td><b>"+ nb +"</b></td>" + td;
 
     table = table
-        + "<br><h4>"
-        + "<span class='label label-default'>" + fullname + "</span> "
-        + "<span class='label label-primary'>" + surname + ' '+ name + "</span>"
+        + "<h4>"
+        + "<span class='label label-primary'>" + fullname + "</span> "
+        + "<span class='label label-default'>" + surname + ' '+ name + "</span>"
         + "</h4>"
-        +"<div><table class='table table-bordered'>"
+        +"<div class='m-journal-table'><table class='table table-bordered'>"
         +"<thead><tr class='m-th-bg'>" + th + '</tr></thead>'
         +'<tbody><tr>' + td + '</tr></tbody>'
-        +'</table></div>';
+        +'</table></div><br>';
     l('----------------------------------------------');
 } //
 studentData.innerHTML = table;
