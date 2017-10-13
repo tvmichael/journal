@@ -326,6 +326,24 @@ class Admin_model extends CI_Model
         return $query->result_array();
     }
 
+    // створюємо в БД лігіни і паролі для студентів
+    public function write_list_student_registration($masive){
+        foreach ($masive as $mas) {
+            $data = array();
+            $data['login'] = $mas['login'];
+            $data['password'] = sha1($mas['password']);
+            $data['name'] = $mas['name'];
+            $data['surname'] = $mas['surname'];
+            $data['patronymic'] = $mas['patronymic'];
+            $data['email'] = '';
+            $data['settings'] = $mas['settings'];
+            $data['role'] = 'Student';
+            //
+            $this->db->insert('users', $data);
+        }
+        return true;
+    }
+
     /** дял роботи з групами ------------------------------------------------------------------- */
     // список усіх груп
     public function load_list_group(){
