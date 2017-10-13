@@ -187,18 +187,51 @@ class Admin extends CI_Controller
     public function student_setting(){
         $header = ['navbar_header'=>'Студенти'];
         $data = '';
-
         // згенерувати облікові записи студентів
         if($this->input->get('action') == 'listStudentRegistration'){
-            echo json_encode($this->admin->list_student_registration(), JSON_UNESCAPED_UNICODE);
-            //d($this->admin->list_student_registration());
+            $mas = $this->admin->list_student_registration();
+            $nm = array();
+            $i = 0;
+            // генеруємо випадковий пароль
+            function random_str($length) {
+                $alphabet = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890';
+                $pass = array();
+                $alphaLength = strlen($alphabet) - 1;
+                for ($i = 0; $i < $length; $i++) {
+                    $n = rand(0, $alphaLength);
+                    $pass[] = $alphabet[$n];
+                }
+                return implode($pass);
+            };
+
+            foreach ($mas as $m){
+                $nm[$i] = array();
+                $nm[$i]['login'] = 'student'.$m['id'];
+                $nm[$i]['password'] = random_str(5);
+                $nm[$i]['name'] = $m['name'];
+                $nm[$i]['surname'] = $m['surname'];
+                $nm[$i]['patronymic'] = $m['patronymic'];
+                $nm[$i]['groupe'] = $m['groupe'];
+                $nm[$i]['course'] = $m['course'];
+                $nm[$i]['settings'] = json_encode([
+                    'course'=>$m['course'],
+                    'groupe'=>$m['groupe'],
+                    'id_group'=>$m['group_id'],
+                    'id_student'=>$m['id']
+                ],JSON_UNESCAPED_UNICODE);
+                $i++;
+            }
+            //
+            if ($this->admin->write_list_student_registration($nm)){
+                echo json_encode($nm);
+            }
+            else echo 'error';
             return;
         }
-        else {
-            $this->load->view('admin/header', $header);
-            $this->load->view('admin/student_setting', $data);
-            $this->load->view('admin/footer');
-        }
+        //
+        $this->load->view('admin/header', $header);
+        $this->load->view('admin/student_setting', $data);
+        $this->load->view('admin/footer');
     }
 
 
