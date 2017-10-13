@@ -321,6 +321,128 @@ if( adminPage == 'student_edit' ) {
 } // end - student_edit
 
 
+// налаштування ... студентів
+if( adminPage == 'student-setting' ) {
+    /*
+    var registrationData = Array();
+    $('#read-list-student-registration').click(function () {
+        $.get(baseUrl, {'action':'listStudentRegistration'}).done(function (d) {
+            //l(JSON.parse(d));
+            var listStudent = JSON.parse(d),
+                uniqueGroup = Array(),
+                uniqueCourse = Array(),
+                i, g, k, n,
+                str = '';
+
+            l(listStudent);
+            $('#write-list-student-registration').attr('data-hash', listStudent.hash);
+            listStudent = listStudent.students;
+
+            for (i = 0; i < listStudent.length; i++){
+                uniqueGroup.push(listStudent[i].groupe);
+                uniqueCourse.push(listStudent[i].course);
+            }
+
+            uniqueGroup = Array.from(new Set(uniqueGroup));
+            uniqueCourse =Array.from(new Set(uniqueCourse));
+            //l(uniqueCourse);
+            //l(uniqueGroup);
+
+            n = 0;
+            for(k=0; k<uniqueCourse.length; k++){
+                str = str + '<h3>' + uniqueCourse[k]+ "</h3>";
+                for(g=0; g<uniqueGroup.length; g++){
+                    str = str +'<b>' + uniqueGroup[g] + '</b><br>';
+                    for (i = 0; i < listStudent.length; i++){
+                        if(uniqueCourse[k] == listStudent[i].course && uniqueGroup[g] == listStudent[i].groupe ){
+                            n = n + 1;
+                            var pass = Math.random().toString(36).slice(-6);
+                            str = str
+                                + n + '. '
+                                + '[ ' + 'student'
+                                + listStudent[i]['id'] + ' - ' + pass + ' ] &nbsp;&nbsp;'
+                                + ' ' + listStudent[i]['name'] + ' ' + listStudent[i]['surname']
+                                + '<br>';
+                            registrationData.push({
+                                login:'student'+listStudent[i]['id'],
+                                password:pass,
+                                surname:listStudent[i]['surname'],
+                                name:listStudent[i]['name'],
+                                patronymic:listStudent[i]['patronymic'],
+                                settings: {
+                                    course:listStudent[i]['course'],
+                                    groupe:listStudent[i]['groupe'],
+                                    group_id:listStudent[i]['group_id']
+                                }
+                            });
+                        }
+                    }
+                }
+            }
+
+            //l(registrationData);
+            $('#data-list-student-registration').html(str);
+        });
+    });
+    $('#write-list-student-registration').click(function () {
+        var self = this;
+        var objectData ={
+            action: 'writeListStudentRegistration',
+            writeData: registrationData.slice(0, 110)
+        };
+        var nameCsrf = $(self).attr('data-name');
+        objectData[nameCsrf] = $(self).attr('data-hash');
+
+        l(objectData);
+        $.post(baseUrl, objectData).done(function (d) {
+            l(d);
+            var jd = JSON.parse(d);
+            $(self).attr('data-hash', jd.hash);
+            $('#data-list-student-registration').html(d);
+        });
+    });
+    */
+    $('#list-student-registration').click(function () {
+        $.get(baseUrl, {'action':'listStudentRegistration'}).done(function (d) {
+            var listStudent = JSON.parse(d),
+                uniqueGroup = Array(),
+                uniqueCourse = Array(),
+                i, g, k, n,
+                str = '';
+
+            for (i = 0; i < listStudent.length; i++){
+                uniqueGroup.push(listStudent[i].groupe);
+                uniqueCourse.push(listStudent[i].course);
+            }
+            uniqueGroup = Array.from(new Set(uniqueGroup));
+            uniqueCourse =Array.from(new Set(uniqueCourse));
+            //l(uniqueCourse);
+            //l(uniqueGroup);
+            n = 0;
+            for(k=0; k<uniqueCourse.length; k++){
+                str = str + '<h2>' + uniqueCourse[k]+ "</h2>";
+                for(g=0; g<uniqueGroup.length; g++){
+                    str = str +'<h4>' + uniqueGroup[g] + '</h4>';
+                    for (i = 0; i < listStudent.length; i++){
+                        if(uniqueCourse[k] == listStudent[i].course && uniqueGroup[g] == listStudent[i].groupe ){
+                            n = n + 1;
+                            str = str
+                                + n + '. '
+                                + listStudent[i]['login']
+                                + ' ' + listStudent[i]['password']
+                                + ' <b>' + listStudent[i]['name'] + ' ' + listStudent[i]['surname']
+                                + '</b><br>';
+                        }
+                    }
+                }
+            }
+            $('#data-list-student-registration').html(str);
+
+        });
+    });
+
+} // end - student-setting
+
 
 
 })(); // * END * //
