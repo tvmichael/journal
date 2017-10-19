@@ -328,6 +328,7 @@ class Admin_model extends CI_Model
 
     // створюємо в БД лігіни і паролі для студентів
     public function write_list_student_registration($masive){
+        /*
         foreach ($masive as $mas) {
             $data = array();
             $data['login'] = $mas['login'];
@@ -341,6 +342,7 @@ class Admin_model extends CI_Model
             //
             $this->db->insert('users', $data);
         }
+        /**/
         return true;
     }
 
