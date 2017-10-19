@@ -187,7 +187,8 @@ class Admin extends CI_Controller
     public function student_setting(){
         $header = ['navbar_header'=>'Студенти'];
         $data = '';
-        // згенерувати облікові записи студентів
+        /*
+        // згенерувати облікові записи студентів - (паролі і логіни)
         if($this->input->get('action') == 'listStudentRegistration'){
             $mas = $this->admin->list_student_registration();
             $nm = array();
@@ -223,12 +224,13 @@ class Admin extends CI_Controller
             }
             //
             if ($this->admin->write_list_student_registration($nm)){
-                echo json_encode($nm);
+                 echo json_encode($nm);
             }
+
             else echo 'error';
             return;
         }
-        //
+        /**/
         $this->load->view('admin/header', $header);
         $this->load->view('admin/student_setting', $data);
         $this->load->view('admin/footer');
