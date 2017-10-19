@@ -402,6 +402,8 @@ if( adminPage == 'student-setting' ) {
         });
     });
     */
+
+    // реєстраційні дані студентів
     $('#list-student-registration').click(function () {
         $.get(baseUrl, {'action':'listStudentRegistration'}).done(function (d) {
             var listStudent = JSON.parse(d),
@@ -430,14 +432,13 @@ if( adminPage == 'student-setting' ) {
                                 + n + '. '
                                 + listStudent[i]['login']
                                 + ' ' + listStudent[i]['password']
-                                + ' <b>' + listStudent[i]['name'] + ' ' + listStudent[i]['surname']
+                                + ' <b> . ' + listStudent[i]['name'] + ' _ ' + listStudent[i]['surname']
                                 + '</b><br>';
                         }
                     }
                 }
             }
             $('#data-list-student-registration').html(str);
-
         });
     });
 
