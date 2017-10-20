@@ -123,6 +123,21 @@ class Teacher_model extends CI_Model
         return $query->num_rows();
     }
 
+    // змінюємо існуючу дату на нову
+    public function user_change_date(){
+        $this->db->where('id_teacher', intval($this->input->get('teacher')));
+        $this->db->where('id_subject', intval($this->input->get('subject')));
+        $this->db->where('id_group', intval($this->input->get('group')));
+        $this->db->where('id_lesson_type', intval($this->input->get('type')));
+        $this->db->where('date', date("Y-m-d", strtotime($this->input->get('date'))));
+        $this->db->where('lesson_number', intval($this->input->get('number')));
+        $date = [];
+        $date['date'] = date("Y-m-d", strtotime($this->input->get('dateNew')));
+        $date['lesson_number'] = intval($this->input->get('numberNew'));
+        $this->db->update('journals', $date);
+        return $this->db->affected_rows();
+    }
+
     // додаємо оцінку для конкретного студента
     public function add_new_mark(){
         $data = [];
