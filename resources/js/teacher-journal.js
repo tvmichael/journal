@@ -2,7 +2,7 @@
     function l(s){ console.log(s);}
     l('START-TEACHER-JOURNAL');
 
-    var journal = {
+    var journal = { // обєкт - оцінка в журналі
         action:'',
         teacher:'',
         group:'',
@@ -17,6 +17,8 @@
     var markTable = document.getElementById('table-mark');  // таблиця оцінок студентів
 
     var listJournalLesson = Array(); // список номерів пар і їхніх дат в таблиці
+
+    var changeDate; // при заміні - нова дата
 
     var tableCellPosition = { // позиція активної клітинки в таблиці
         currentRow: 1,
@@ -52,7 +54,7 @@
             .done(function (data) {
                 // додати новий стовпець
                 if ( task == 'addNewColumnToTable') addNewColumnToTable();
-
+                // показуємо повідомлення що надійшло з серевера
                 $('#table-headline-message').html(data);
                 $("#table-headline-message").show(0).delay(2000).hide(0);
             })
@@ -144,8 +146,10 @@
         journal['teacher'] =$('#table-mark').attr('data-id-teacher');
         journal['group'] =$('#table-mark').attr('data-id-group');
         journal['subject'] =$('#table-mark').attr('data-id-subject');
+
         // список дат на момент загрузки
         createListJournalDate();
+
         // визначаємо тип браузера
         var isMobile = {
             Android: function() {return navigator.userAgent.match(/Android/i);},
@@ -171,8 +175,6 @@
                 if (this.getAttribute('data-remark') == '1') this.className = 'm-table-nb-n';
             }
         });
-
-
 
     });
 
@@ -289,6 +291,77 @@
     });
 
 
+
+    // змінити дату -----------------------------------------------
+    $('#table-mark thead th').dblclick(function () {
+        $('#change-date-setup').val('');
+        changeDate = {
+            'oldDate': $(this).attr('data-date'),
+            'newDate': '',
+            'lessonType': $(this).attr('data-lesson-type'),
+            'lessonNumber': $(this).attr('data-lesson-number'),
+            'lessonNumberNew': 1,
+            'th': this
+        };
+        var d = changeDate.oldDate.split('-');
+        $('#change-date-display').html(d[2]+'-'+d[1]+'-'+d[0]);
+        $('#change-date').modal('show');
+    });
+    $('#change-date-ok').click(function () {
+        // нове значення дати
+        changeDate.newDate = $('#change-date-setup').val();
+        if (changeDate.newDate == '')
+            $('#change-date-error').html('Введіть дату.');
+        else if (changeDate.oldDate != changeDate.newDate) {
+            var n = 0;
+            for (var i=0; i < listJournalLesson.length; i++){
+                if (changeDate.newDate == listJournalLesson[i][0]
+                    && changeDate.lessonType == listJournalLesson[i][1]) { n++; }
+            }
+            if (n > 0 ) changeDate.lessonNumberNew = n + 1;
+                else changeDate.lessonNumberNew = 1;
+
+            //відправляємо запит на сервер
+            var obj = {
+                'action': 'changeDate',
+                'teacher': journal.teacher,
+                'group': journal.group,
+                'subject': journal.subject,
+                'date': changeDate.oldDate,
+                'dateNew': changeDate.newDate,
+                'type': changeDate.lessonType,
+                'number': changeDate.lessonNumber,
+                'numberNew': changeDate.lessonNumberNew
+            };
+            $.get($('#main-journal').attr('data-url'), obj)
+                .done(function (data) {
+                    // міняємо дані в заголовку
+                    $(changeDate.th).attr('data-date', changeDate.newDate);
+                    $(changeDate.th).attr('data-lesson-number', changeDate.lessonNumberNew);
+                    var d = changeDate.newDate.split('-');
+                    $('.m-table-h-day', changeDate.th).html(d[2]);
+                    $('.m-table-h-month', changeDate.th).html(d[1]);
+                    // міняємо дані по таблиці
+                    var table = document.getElementById('table-mark'),
+                        tbody = table.getElementsByTagName('tbody')[0],
+                        tr = tbody.getElementsByTagName('tr');
+                    for (var i =0; i < tr.length; i++ ){
+                        tr[i].getElementsByTagName('td')[changeDate.th.cellIndex].setAttribute('data-date', changeDate.newDate);
+                        tr[i].getElementsByTagName('td')[changeDate.th.cellIndex].setAttribute('data-lesson-number', changeDate.lessonNumberNew);
+                    }
+                    //
+                    $('#change-date').modal('hide');
+                    // показуємо повідомлення що надійшло з серевера
+                    $('#table-headline-message').html(data);
+                    $("#table-headline-message").show(0).delay(3000).hide(0);
+                })
+                .fail(function() {
+                    $('#table-headline-message').html("<span style='color: red;'>ПОМИЛКА!</span>");
+                    $("#table-headline-message").show(0).delay(5000).hide(0);
+                });
+        }
+        // l(obj);
+    });
 
 /** Занесення оцінок =========================================================================== */
 
