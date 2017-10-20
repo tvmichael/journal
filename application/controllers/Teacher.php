@@ -15,7 +15,7 @@ class Teacher extends CI_Controller {
     }
 
 
-    // 1. головна сторніка викладача - вибір журналу
+    // 1. головна сторніка викладача - вибір журналу (список груп)
     public function index() {
         // налаштування верхньої панелі
         $header = ['navbar_text'=>'Список груп', 'navbar_menu'=>''];
@@ -127,9 +127,15 @@ class Teacher extends CI_Controller {
             //echo json_encode($res);
             echo 'Оновлено (', $res, ') запис.';
         }
+        // зберегти налаштування
         if ($this->input->get('action') == 'settingsView'){
             $this->teacher_model->user_settings(intval($this->input->get('view')));
             echo 'Збережено!';
+        }
+        // змінити дату
+        if ($this->input->get('action') == 'changeDate'){
+            $n = $this->teacher_model->user_change_date();
+            echo "Дата змінена! [$n]";
         }
     }
 
