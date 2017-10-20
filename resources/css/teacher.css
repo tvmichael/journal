@@ -106,6 +106,13 @@ body {
     margin-left: 20px;
     padding: 0px 5px 0px 5px;
 }
+.disable-select {
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    cursor: pointer;
+}
 
 .m-table-h-month{
     color: grey;
