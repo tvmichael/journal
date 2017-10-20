@@ -48,7 +48,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                         <table id="table-mark"
                                class="table table-hover table-bordered"
                             <?php echo "data-id-teacher='$id_teacher' data-id-group='$id_group' data-id-subject='$id_subject'";?> >
-                            <thead>
+                            <thead class="disable-select">
                                 <tr>
                                 <?php
                                 // BASE --
@@ -211,14 +211,21 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                         <div class="modal-content">
                             <div class="modal-header">
                                 <button id="change-date-cancel-attention" type="button" class="close" data-dismiss="modal">&times;</button>
-                                <h3 class="modal-title text-danger">Увага!</h3>
+                                <h3 class="modal-title text-danger">Змінити дату</h3>
                             </div>
                             <div class="modal-body">
-                                <h4>Ви хочите змінити наявну дату.</h4>
-                                <h4 id="change-date-display" class="text-primary"></h4>
+                                <h4>
+                                    Поточна дата:
+                                    <span id="change-date-display" class="text-primary"></span>
+                                </h4>
+                                <h4>
+                                    Нова дата:
+                                    <input id="change-date-setup" type="date">
+                                    <span id="change-date-error" class="text-danger"></span>
+                                </h4>
                             </div>
                             <div class="modal-footer">
-                                <button id="change-date-ok" type="button" class="btn btn-success" data-dismiss="modal">Змінити дату</button>
+                                <button id="change-date-ok" type="button" class="btn btn-success">Змінити дату</button>
                                 <button type="button" class="btn btn-danger" data-dismiss="modal">Вийти</button>
                             </div>
                         </div>
