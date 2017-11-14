@@ -110,6 +110,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
 
 
                                 // стовбці заголовка таблиці з датами
+                                $n = 1; // номер заняття
                                 for ($i = 0; $i < count($count_date); $i++){
                                     echo "<th class='text-center m-table-type-", $count_date[$i]['lesson_type'], "'";
                                     echo "data-lesson-type='", $count_date[$i]['lesson_type'],
@@ -120,7 +121,15 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                     $s = explode('-', $count_date[$i]['date']);
                                     echo "<span class='m-table-h-day'>", $s[2], "</span><br>";
                                     echo "<span class='m-table-h-month'>", $s[1], "</span><br>";
-                                    echo "<span class='m-table-stud-count'>", $i+1, "</span>";
+
+                                    if( $count_date[$i]['lesson_type'] == '6' )
+                                        echo "<span class='m-table-stud-count'>", 'Т', "</span>";
+                                    else
+                                    {
+                                        echo "<span class='m-table-stud-count'>", $n, "</span>";
+                                        $n++;
+                                    };
+
                                     echo "</th>";
                                 }
                                 ?>
