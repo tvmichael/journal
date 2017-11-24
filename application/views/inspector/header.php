@@ -11,7 +11,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
     <link rel="shortcut icon" href="<?php echo base_url();?>resources/images/statistics.jpg" type="image/x-icon">
     <!-- Bootstrap core CSS -->
     <link href="<?php echo base_url();?>resources/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Teacher -->
+    <!-- Teacher journal -->
     <link href="<?php echo base_url();?>resources/css/inspector.css" rel="stylesheet">
 </head>
 <body>
@@ -42,7 +42,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                         <a href="#" class="dropdown-toggle"
                            data-toggle="dropdown" role="button"
                            aria-haspopup="true" aria-expanded="false">
-                            Студунти
+                            Студенти
                             <span class="caret"></span>
                         </a>
                         <ul class="dropdown-menu">
