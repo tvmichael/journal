@@ -14,6 +14,12 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                             <label for="usr">Пошук:</label>
                             <input class="form-control" type="text" id="input-search-teacher" placeholder="Прізвище Імя по батькові ...">
                         </div>
+                        <?php
+                            $max = 1;
+                            foreach ($list_teacher as $i){
+                                if($i['count_visit'] > $max) $max = $i['count_visit'];
+                            }
+                        ?>
                         <table class="table table-bordered table-hover">
                             <thead>
                             <tr>
@@ -44,11 +50,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                 if($lt['count_group'] == 0) echo "<td><div></div></td>";
                                     else echo "<td><div class='m-count-group' style='width:".(2*+$lt['count_group'])."%;'>".$lt['count_group']."</div></td>";
 
-                                if($lt['count_visit'] == 0) echo "<td><div></div></td>";
-                                elseif ($lt['count_visit'] < 50)
-                                    echo "<td><div class='m-count-visits' style='width: ".(2*$lt['count_visit'])."%;'>".$lt['count_visit']."</div></td>";
-                                elseif ($lt['count_visit'] >= 50)
-                                    echo "<td><div class='m-count-visits' style=' width: ".$lt['count_visit']."%;'>".$lt['count_visit']."</div></td>";
+                                echo "<td><div class='m-count-visits' style='width: ".round(($lt['count_visit'])*100/$max, 0, PHP_ROUND_HALF_DOWN)."%;'>".$lt['count_visit']."</div></td>";
 
                                 echo "</tr>";
                                 $i++;
