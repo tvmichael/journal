@@ -90,7 +90,7 @@ if(namePage == 'inspector-main') {
 
 // якщо сторінка викладача - з переліком предметів і груп
 if(namePage == 'inspector-teacher') {
-    // Пошук викладача за прізвищем
+    // Пошук
     $('#input-search').keyup(function () {
         var filter, table, tbody, tr, td, i;
         filter = $(this).val();
@@ -112,10 +112,34 @@ if(namePage == 'inspector-teacher') {
 // якщо сторінка журналу для конкретного викладача
 if(namePage == 'inspector-teacher-journal') {
 
+    // показати усі оцінки
     $('table tbody tr').each(function () {
+        var td = this.getElementsByTagName('td'),
+            n = td.length,
+            i,
+            nb = 0, // пропусків (н)
+            k = 0,  //
+            sb = 0, // середній бал
+            litsmark;
 
+        for (i = 4; i < n; i++ ){
+            if (td[i].innerText == 'н') nb++;
+            else {
+                if (td[i].innerText != ''){
+                    sb = sb + parseInt(td[i].innerText);
+                    k++;
+                }
+            }
+            litsmark = td[i].getAttribute('data-remark');
+            litsmark = litsmark.replace(' ', '<br>');
+            td[i].innerHTML = td[i].innerText + '<br><span class="m-remark">'+ litsmark +'</span>';
+        }
+
+        if (k != 0 )
+            td[2].innerHTML = (sb/k).toFixed(1);
+        if (nb != 0)
+            td[3].innerHTML = nb;
     });
-
     l('inspector-teacher-journal');
 }
 
