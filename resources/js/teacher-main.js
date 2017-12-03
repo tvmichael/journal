@@ -32,7 +32,7 @@ function tableView() {
             + "<td>"
             + "<a href='" + dataUrl
             +"?teacher=" + listGT[i]['id_teacher'] + "&group=" + listGT[i]['id_group'] + "&subject=" + listGT[i]['id_subject']
-            +"'>" + "Відкрити сторніку журнала" + "</a>"
+            +"'>" + "Відкрити сторінку журнала" + "</a>"
             +"</td>"
             + "</tr>";
     }
