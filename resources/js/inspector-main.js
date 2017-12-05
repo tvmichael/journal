@@ -116,11 +116,13 @@ if(namePage == 'inspector-teacher-journal') {
     $('table tbody tr').each(function () {
         var td = this.getElementsByTagName('td'),
             n = td.length,
-            i,
+            i, j,
             nb = 0, // пропусків (н)
             k = 0,  //
             sb = 0, // середній бал
-            litsmark;
+            litsmark,
+            markArr,
+            lArr;
 
         for (i = 4; i < n; i++ ){
             if (td[i].innerText == 'н') nb++;
@@ -131,8 +133,17 @@ if(namePage == 'inspector-teacher-journal') {
                 }
             }
             litsmark = td[i].getAttribute('data-remark');
-            litsmark = litsmark.replace(' ', '<br>');
-            td[i].innerHTML = td[i].innerText + '<br><span class="m-remark">'+ litsmark +'</span>';
+
+            markArr = '';
+            lArr = litsmark.split(" ");
+            for(j = 0; j < lArr.length; j++){
+                lArr[j] = lArr[j].split("|");
+                markArr = markArr + lArr[j][0]+'<br>';
+            }
+            l(markArr);
+
+            //litsmark = litsmark.replace(/ /g, '<br>');
+            td[i].innerHTML = td[i].innerText + '<br><span class="m-remark">'+ markArr +'</span>';
         }
 
         if (k != 0 )
