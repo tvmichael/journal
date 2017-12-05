@@ -116,7 +116,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                     echo "data-lesson-type='", $count_date[$i]['lesson_type'],
                                          "' data-date='", $count_date[$i]['date'],
                                          "' data-lesson-number='", $count_date[$i]['lesson_number'],
-                                         // типи занять в масиві змішені на 1, тому що масив впочинається з 0
+                                         // типи занять в масиві змішені на 1, тому що масив починається з 0
                                          "' title='",$lesson_type[$count_date[$i]['lesson_type']-1]['lesson_type'], "'>";
                                     $s = explode('-', $count_date[$i]['date']);
                                     echo "<span class='m-table-h-day'>", $s[2], "</span><br>";
@@ -124,6 +124,8 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
 
                                     if( $count_date[$i]['lesson_type'] == '6' )
                                         echo "<span class='m-table-stud-count'>", 'Т', "</span>";
+                                    elseif ($count_date[$i]['lesson_type'] == '8' )
+                                        echo "<span class='m-table-stud-count'>", 'П', "</span>";
                                     else
                                     {
                                         echo "<span class='m-table-stud-count'>", $n, "</span>";
