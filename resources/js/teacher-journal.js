@@ -249,7 +249,7 @@
     // додавання нової дати до таблиці журналу
     $('#add-new-date-ok').click(function () {
         var i;
-        var tSelect = document.getElementById("add-new-lesson-input");
+        //var tSelect = document.getElementById("add-new-lesson-input");
 
 
         $('#box-add-new-date').hide(100);
