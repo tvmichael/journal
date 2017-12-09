@@ -136,15 +136,24 @@ if(namePage == 'inspector-teacher-journal') {
 
             markArr = '';
             lArr = litsmark.split(" ");
-            for(j = 0; j < lArr.length; j++){
+            for(j = 1; j < lArr.length; j++){
                 lArr[j] = lArr[j].split("|");
                 markArr = markArr + lArr[j][0]+'<br>';
             }
-            l(markArr);
+            // l(markArr);
 
-            //litsmark = litsmark.replace(/ /g, '<br>');
-            td[i].innerHTML = td[i].innerText + '<br><span class="m-remark">'+ markArr +'</span>';
+            litsmark = litsmark.replace(/ /g, '<br>');
+            litsmark = litsmark.replace(/\|/g, ' → ');
+            var titleStr = "<div class='m-remark-tooltip'>"+litsmark+"</div>";
+            td[i].innerHTML = '<div data-toggle="tooltip" data-placement="left" title="' + titleStr + '">' +
+                td[i].innerText +
+                '<div class="m-remark">' + markArr + '</div></div>';
+
         }
+
+        $(function () {
+            $('[data-toggle="tooltip"]').tooltip({'html':true});
+        });
 
         if (k != 0 )
             td[2].innerHTML = (sb/k).toFixed(1);
