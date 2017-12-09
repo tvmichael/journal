@@ -74,13 +74,13 @@ body {
 
 }
 .m-remark{
-    color: #747474;
-    font-size:xx-small;
+    color: red;
+    font-size: x-small;
 }
-.m-remark:hover{
-    color: black;
-    font-weight: bold;
+.m-remark-tooltip{
+    font-size: 16px;
 }
+
 
 
 /* STUDENT --------------- */
