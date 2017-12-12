@@ -184,3 +184,93 @@ if(namePage == 'inspector-main-students') {
         }
     });
 }
+
+
+// якщо сторінка груп студентів
+if(namePage == 'inspector-main-groups') {
+    // Пошук групи за назвою
+    $('#input-search-group').keyup(function () {
+        var filter, table, tbody, tr, td, i;
+        filter = $(this).val();
+        table = document.getElementsByTagName('table')[0];
+        tbody = table.getElementsByTagName('tbody')[0];
+        tr = tbody.getElementsByTagName("tr");
+        for (i = 0; i < tr.length; i++) {
+            td = tr[i].getAttribute('data-search');
+            if (td.toLowerCase().indexOf(filter.toLowerCase()) > -1) {
+                tr[i].style.display = "";
+            } else {
+                tr[i].style.display = "none";
+            }
+        }
+    });
+}
+
+
+// якщо сторінка певної групи
+if(namePage == 'inspector-current-group') {
+    l('Current group loaded!');
+    var i, j, n, k, count;
+    var averageBall = Array();
+
+    n = studentsList.length;
+    k = journalsList.length;
+    for (i = 0; i < n; i++){
+        averageBall[i] = 1;
+        count = 1;
+
+        for(j = 0; j < k; j++){
+
+            //l(studentsList[i]['surname'] +': '+ j + ' == ' + journalsList[j]['mark']);
+
+            if (studentsList[i]['id'] == journalsList[j]['id_student']){
+                if ( Number(journalsList[j]['mark']) ){
+                    averageBall[i] = averageBall[i] + Number(journalsList[j]['mark']);
+                    count ++;
+                }
+            }
+        }
+        averageBall[i] = averageBall[i]/count;
+        averageBall[i] = averageBall[i].toFixed(1);
+        l(studentsList[i]['surname'] + ': ' + averageBall[i]);
+    }
+
+    // GOOGLE
+
+    google.charts.load("current", {packages:['corechart']});
+    google.charts.setOnLoadCallback(drawChart);
+
+    function drawChart() {
+
+        var sb = Array();
+
+        sb[0]  = ["Студент", "Середній бал", { role: "style" } ];
+        for (i = 1; i < n; i++ ){
+            sb[i] = [studentsList[i-1]['surname'] + ' ' + studentsList[i-1]['name'] , Number(averageBall[i]), "#C3CBC2"];
+        }
+
+        var data = google.visualization.arrayToDataTable(sb);
+
+        var view = new google.visualization.DataView(data);
+        view.setColumns([0, 1,
+            { calc: "stringify",
+                sourceColumn: 1,
+                type: "string",
+                role: "annotation" },
+            2]);
+
+        var options = {
+            title: "Успішність студентів",
+            width: window.innerWidth - 120,
+            height: window.innerHeight - 100,
+            bar: {groupWidth: "95%"},
+            legend: { position: "none" },
+        };
+
+
+
+        var chart = new google.visualization.ColumnChart(document.getElementById("group-content"));
+        chart.draw(view, options);
+    }
+
+}
