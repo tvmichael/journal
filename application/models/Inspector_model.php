@@ -152,5 +152,31 @@ class Inspector_model extends CI_Model
         return $data;
     }
 
+    // список усіх груп
+    public function get_list_all_group(){
+        //$query = $this->db->get('groups');
+        $query = $this->db->query("SELECT * FROM groups");
+        return $query->result_array();
+    }
+
+    // статистика по певній групі
+    public function get_group_statistic($id){
+        $data = array();
+
+        $this->db->select('id, name, surname');
+        $this->db->from('students');
+        $this->db->join('list_group_students', 'list_group_students.id_student = students.id');
+        $this->db->where('list_group_students.id_group', $id);
+        $query = $this->db->get();
+        $data['students'] = $query->result_array();
+
+        $this->db->select('*');
+        $this->db->from('journals');
+        $this->db->where('id_group', $id);
+        $query = $this->db->get();
+        $data['journals'] = $query->result_array();
+
+        return $data;
+    }
 
 } // END CLASS
