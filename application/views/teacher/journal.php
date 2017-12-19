@@ -126,6 +126,8 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                         echo "<span class='m-table-stud-count'>", 'Т', "</span>";
                                     elseif ($count_date[$i]['lesson_type'] == '8' )
                                         echo "<span class='m-table-stud-count'>", 'П', "</span>";
+                                    elseif ($count_date[$i]['lesson_type'] == '9' )
+                                        echo "<span class='m-table-stud-count'>", 'С', "</span>";
                                     else
                                     {
                                         echo "<span class='m-table-stud-count'>", $n, "</span>";
