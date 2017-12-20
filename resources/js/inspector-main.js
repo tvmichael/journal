@@ -225,8 +225,10 @@ if(namePage == 'inspector-current-group') {
 
             if (studentsList[i]['id'] == journalsList[j]['id_student']){
                 if ( Number(journalsList[j]['mark']) ){
-                    averageBall[i] = averageBall[i] + Number(journalsList[j]['mark']);
-                    count ++;
+                    if (Number(journalsList[j]['mark'])) {
+                        averageBall[i] = averageBall[i] + Number(journalsList[j]['mark']);
+                        count++;
+                    }
                 }
             }
         }
@@ -245,8 +247,9 @@ if(namePage == 'inspector-current-group') {
         var sb = Array();
 
         sb[0]  = ["Студент", "Середній бал", { role: "style" } ];
-        for (i = 1; i < n; i++ ){
-            sb[i] = [studentsList[i-1]['surname'] + ' ' + studentsList[i-1]['name'] , Number(averageBall[i]), "#C3CBC2"];
+        n = studentsList.length;
+        for (i = 0; i < n; i++ ){
+            sb[i+1] = [studentsList[i]['surname'] + ' ' + studentsList[i]['name'] , Number(averageBall[i]), "#C3CBC2"];
         }
 
         var data = google.visualization.arrayToDataTable(sb);
