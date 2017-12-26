@@ -238,12 +238,10 @@ if(namePage == 'inspector-current-group') {
     }
 
     // GOOGLE
-
     google.charts.load("current", {packages:['corechart']});
     google.charts.setOnLoadCallback(drawChart);
 
     function drawChart() {
-
         var sb = Array();
 
         sb[0]  = ["Студент", "Середній бал", { role: "style" } ];
@@ -270,10 +268,47 @@ if(namePage == 'inspector-current-group') {
             legend: { position: "none" },
         };
 
+        var chart = new google.visualization.ColumnChart(document.getElementById("group-content"));
+        chart.draw(view, options);
+    }
 
+
+
+    // .........................................
+    // .... зробти для групи по предметах
+
+    function drawChartSubject() {
+        var sb = Array();
+
+        sb[0]  = ["Студент", "Середній бал", { role: "style" } ];
+        n = studentsList.length;
+        for (i = 0; i < n; i++ ){
+            sb[i+1] = [studentsList[i]['surname'] + ' ' + studentsList[i]['name'] , Number(averageBall[i]), "#C3CBC2"];
+        }
+
+        var data = google.visualization.arrayToDataTable(sb);
+
+        var view = new google.visualization.DataView(data);
+        view.setColumns([0, 1,
+            { calc: "stringify",
+                sourceColumn: 1,
+                type: "string",
+                role: "annotation" },
+            2]);
+
+        var options = {
+            title: "Успішність студентів",
+            width: window.innerWidth - 120,
+            height: window.innerHeight - 100,
+            bar: {groupWidth: "95%"},
+            legend: { position: "none" },
+        };
 
         var chart = new google.visualization.ColumnChart(document.getElementById("group-content"));
         chart.draw(view, options);
     }
+
+
+    // .........
 
 }
