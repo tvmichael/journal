@@ -276,6 +276,7 @@ if(namePage == 'inspector-current-group') {
 
     // .........................................
     // .... зробти для групи по предметах
+    google.charts.setOnLoadCallback(drawChartSubject);
 
     function drawChartSubject() {
         var sb = Array();
