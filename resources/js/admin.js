@@ -317,6 +317,21 @@ if( adminPage == 'student_edit' ) {
     $('[data-delete-group]').click(removeStudetnGroup);
     //$('[data-delete-group]').on('click', removeStudetnGroup);
 
+    // зберігаємо зміни внесені до (прізвища, імя, побітькові) студента
+    $('#save-student').click(function () {
+        l('save-student');
+    });
+
+    // видаляємо студента з бізи даних
+    $('#delete-student').click(function (e) {
+        $.get(baseUrl, {'action':'deleteStudent',
+            'id_student':$(this).attr('data-id-student')
+        }).done(function (error) {
+            if (error == '0'){
+                window.history.back();
+            }
+        });
+    });
 
 } // end - student_edit
 
