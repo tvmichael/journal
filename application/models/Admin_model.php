@@ -7,6 +7,14 @@ class Admin_model extends CI_Model
     /** для роботи з викладачами --------------------------------------------------------------- */
     // список усіх викладачів
     public function load_list_teacher(){
+        $this->db->order_by('surname', 'ASC');
+        $query = $this->db->get_where('users', array('role'=>'Teacher'));
+        return  $query->result_array();
+    }
+
+
+    // список усіх викладачів з кількістю груп в яких вони ведуть
+    public function load_list_teacher_count(){
         $q = "SELECT *, ( SELECT COUNT(list_group_teachers.id_teacher) FROM list_group_teachers WHERE list_group_teachers.id_teacher = users.id ) AS count FROM users WHERE users.role = 'Teacher' ORDER BY users.surname;";
         $query = $this->db->query($q);
         /*
@@ -15,6 +23,7 @@ class Admin_model extends CI_Model
         /**/
         return  $query->result_array();
     }
+
 
     // показуємо робочу нагрузку викладача
     public function teacherWorkingLoad(){
@@ -190,6 +199,8 @@ class Admin_model extends CI_Model
             # ==> заносимо інформацію для цього студента в новій групі
             */
 
+                                /* УЖАС ДЛЯ БАЗИ ДАНИХ (треба переробити) */
+
             // - група
             $sql ="SELECT DISTINCT id_teacher FROM journals WHERE id_group=$id_group";
             $query = $this->db->query($sql);
@@ -256,6 +267,7 @@ class Admin_model extends CI_Model
         return $res;
     }
 
+
     // видаляємо записи належності студента до групи
     public function edit_student_delete_group(){
         $id_student = intval($this->input->get('id_student'));
@@ -274,6 +286,37 @@ class Admin_model extends CI_Model
         // ...
         return '0';
     }
+
+
+    // видаляємо студента з бази даних
+    public function edit_student_delete(){
+        $id_student = intval($this->input->get('id_student'));
+
+        // видаляємо записи студента з list_group_students
+        $this->db->where('id_student', $id_student);
+        $this->db->delete('list_group_students');
+
+        //видаляємо усі дані студента з ЖУРНАЛУ
+        $this->db->where('id_student', $id_student);
+        $this->db->delete('journals');
+
+        //видаляємо студента з БД students
+        $this->db->where('id', $id_student);
+        $this->db->delete('students');
+
+        // видалит з логів ...
+        $this->db->where('id_user', $id_student);
+        $this->db->delete('logs');
+
+        // видалит з USER ...
+        //$this->db->where('id', $id_student);
+        //$this->db->delete('user');
+        /**/
+
+        // якщо нема помилок то повертаємо '0'
+        return '0';
+    }
+
 
     // додаємо нових студентів до бази з ексель файла
     public function insert_new_students_excel($data){
