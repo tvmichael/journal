@@ -1,8 +1,20 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');?>
 
-<footer>
-
+<footer class="container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+            <br><hr>
+            <p class="text-center">
+            <span>2017-2018</span>
+            &nbsp;&nbsp;
+            <span>
+                <span class="glyphicon glyphicon-registration-mark"></span>
+                Торчук М.В.
+            </span>
+            </p>
+        </div>
+    </div>
 </footer>
 
 <!-- JQUERY -->
