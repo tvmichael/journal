@@ -1,5 +1,10 @@
 <?php
-defined('BASEPATH') OR exit('No direct script access allowed');?>
+defined('BASEPATH') OR exit('No direct script access allowed');
+/********************
+ $student
+ $group
+********************/
+?>
 
 <main id="t-main"
       class="container-fluid"
@@ -24,7 +29,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                             <input type="text" class="form-control" id="student-patronymic" value="<?php echo $student[0]['patronymic'];?>">
                         </div>
                         <div class="col-md-12 text-right" style="margin: 10px 0px;">
-                            <button class="btn btn-success">Зберегти внесені зміни</button>
+                            <button id="save-student" data-id-student="<?php echo $student[0]['id_student'];?>" class="btn btn-success">
+                                <span class="glyphicon glyphicon-save"></span>
+                                Зберегти внесені зміни
+                            </button>
+                            <button id="delete-student" data-id-student="<?php echo $student[0]['id_student'];?>" type="button" class="btn btn-danger">
+                                <span class="glyphicon glyphicon-trash"></span>
+                                Видалити студента з "Бази Даних"
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -81,12 +93,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                     </div>
                     <div class="col-md-6">
                         <div class="col-md-6">
-                        <button id="add-new-group" data-id-student="<?php echo $s['id_student'];?>" class="btn btn-success">
-                            <span class="glyphicon glyphicon-open"></span>
-                            <br>Додати підгрупу
-                        </button>
+                            <button id="add-new-group" data-id-student="<?php echo $student[0]['id_student'];?>" class="btn btn-success">
+                                <span class="glyphicon glyphicon-open"></span>
+                                <br>Додати підгрупу
+                            </button>
                         </div>
                         <div class="col-md-6">
+                            <small>Інформація зберігається автоматично</small>
                             <h4 id="respond"></h4>
                         </div>
                     </div>
@@ -94,7 +107,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                 </div>
             </div>
         </div>
-
 
     </div>
 </main>

@@ -15,7 +15,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                 <div class="panel-body">
                     <div class="col-md-4">
                         <label for="sel-s-group-list">Список груп (підгруп):<?php echo count($group);?></label>
-                        <select size="25" class="form-control t-sel-list-font"
+                        <select size="30" class="form-control t-sel-list-font"
                                 id="sel-s-group-list">
                                 <option value="-1" disabled>Студенти без груп</option>
                                 <option value="0">Усі студенти</option>
