@@ -320,6 +320,20 @@ if( adminPage == 'student_edit' ) {
     // зберігаємо зміни внесені до (прізвища, імя, побітькові) студента
     $('#save-student').click(function () {
         l('save-student');
+        var surname = $('#student-surname').val();
+        var name = $('#student-name').val();
+        var patronymic = $('#student-patronymic').val();
+        var obj = {
+            'action':'saveStudent',
+            'id_student' : $(this).attr('data-id-student'),
+            'surname':surname,
+            'name':name,
+            'patronymic':patronymic
+        };
+        l(obj);
+        $.get(baseUrl, obj).done(function (data) {
+            $('#respond').html('<span class="label label-primary">' + data + '</span>');
+        });
     });
 
     // видаляємо студента з бізи даних
