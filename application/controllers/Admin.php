@@ -28,15 +28,16 @@ class Admin extends CI_Controller
 
 
     // сторінка налаштування навантаження викладачів
-    public function working_load(){
+    public function working_load()
+    {
         // таблиця нагрузки викладача
-        if ($this->input->get('action') == 'teacherWorkingLoad' ){
+        if ($this->input->get('action') == 'teacherWorkingLoad') {
             $this->load->helper('admin');
             // повертаємо таблицю
             return teacher_working_table($this->admin->teacherWorkingLoad());
         }
         // додати нову нагрузку
-        if ($this->input->get('action') == 'teacherWorkingWrite' ){
+        if ($this->input->get('action') == 'teacherWorkingWrite') {
             $this->load->helper('admin');
             // зберігаємо дані
             $this->admin->teacherWorkingWrite();
@@ -44,7 +45,7 @@ class Admin extends CI_Controller
             return teacher_working_table($this->admin->teacherWorkingLoad());
         }
         // видалити нагрузку
-        if ($this->input->get('action') == 'removeTeacherLoad' ){
+        if ($this->input->get('action') == 'removeTeacherLoad') {
             $this->load->helper('admin');
             // зберігаємо дані
             $this->admin->removeTeacherLoad();
@@ -52,9 +53,9 @@ class Admin extends CI_Controller
             return teacher_working_table($this->admin->teacherWorkingLoad());
         }
 
-        $header = ['navbar_header'=>'Навантаження'];
+        $header = ['navbar_header' => 'Навантаження'];
         // загрузка списку вчителів
-        $main['teacher'] = $this->admin->load_list_teacher();
+        $main['teacher'] = $this->admin->load_list_teacher_count();
         //загрузка списку груп
         $main['group'] = $this->admin->load_list_group();
         // загрузка списку предметів
@@ -66,14 +67,17 @@ class Admin extends CI_Controller
     }
 
 
-    // редагування списки викладачів
+    // редагування списку викладачів
     public function list_teacher(){
         $header = ['navbar_header'=>'Список викладачів'];
+        $teacher['list'] = $this->admin->load_list_teacher();
+
 
         $this->load->view('admin/header', $header);
-        $this->load->view('admin/list_teacher');
+        $this->load->view('admin/list_teacher', $teacher);
         $this->load->view('admin/footer');
     }
+
 
     // додати нового викладача
     public function add_new_teacher(){
@@ -135,6 +139,18 @@ class Admin extends CI_Controller
             echo $res;
             return;
         }
+        // видаляємо студента
+        if($this->input->get('action') == 'deleteStudent'){
+            $res = $this->admin->edit_student_delete();
+            echo $res;
+            return;
+        }
+        // зберігаємо зміни (прізвища, імя) для студента
+        if($this->input->get('action') == 'saveStudent'){
+            echo $this->admin->edit_student_save();
+            return;
+        }
+
         // завантажуємо дані по студенту з БД
         $main['student'] = $this->admin->load_student();
         $main['group'] = $this->admin->load_list_group();
