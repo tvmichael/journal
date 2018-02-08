@@ -318,6 +318,22 @@ class Admin_model extends CI_Model
     }
 
 
+    // зберігаємо зміни (прізвища, імя) для студента
+    public function edit_student_save(){
+        $id = intval($this->input->get('id_student'));
+        $data = array(
+            'surname' => $this->input->get('surname'),
+            'name' => $this->input->get('name'),
+            'patronymic' => $this->input->get('patronymic')
+        );
+        $this->db->where('id', $id);
+        if (!$this->db->update('students', $data))
+            $error = 'Error: '.$this->db->error();
+        else $error = 'Зміни збережено';
+
+        return  $error;
+    }
+
     // додаємо нових студентів до бази з ексель файла
     public function insert_new_students_excel($data){
         foreach ($data as &$value) {
