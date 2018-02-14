@@ -254,5 +254,9 @@ class Teacher_model extends CI_Model
         $this->db->update('users', ['settings'=>$settings]);
     }
 
+    // видалити дату з журналу
+    public function user_delete_date(){
+
+    }
 
 } // end Teacher_model
