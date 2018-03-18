@@ -119,7 +119,8 @@ class Teacher extends CI_Controller {
         // додаємо нову ДАТУ до журналу викладача
         if ($this->input->get('action') == 'addColumnToTable'){
             $res = $this->teacher_model->saveNewTableColumn();
-            echo ' Додано: (', $res, ') записи(ів).';
+            if ($res > 0 ) echo json_encode(array('text' => ' Додано: ('.$res.') записи(ів).', 'error' => 0));
+                else echo json_encode(array('text' => ' Помилка: (нова дата)', 'error' => 101));
         }
         // додаємо нову ОЦІНКУ до журнала викладача
         if ($this->input->get('action') == 'addNewMark'){

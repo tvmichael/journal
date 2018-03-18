@@ -52,10 +52,11 @@
         //відправляємо запит на серевер
         $.get($('#main-journal').attr('data-url'), journal)
             .done(function (data) {
+                myObj = JSON.parse(data);
                 // додати новий стовпець
-                if ( task == 'addNewColumnToTable') addNewColumnToTable();
+                if( task == 'addNewColumnToTable' && myObj.error == 0 ) addNewColumnToTable();
                 // показуємо повідомлення що надійшло з серевера
-                $('#table-headline-message').html(data);
+                $('#table-headline-message').html(myObj.text);
                 $("#table-headline-message").show(0).delay(2000).hide(0);
             })
             .fail(function() {
@@ -344,6 +345,7 @@
                         'number': changeDate.lessonNumber,
                         'numberNew': changeDate.lessonNumberNew
                     };
+
                     $.get($('#main-journal').attr('data-url'), obj)
                         .done(function (data) {
                             // міняємо дані в заголовку
@@ -483,7 +485,6 @@
 
         //якщо оцінка змінена то збарігаємо
         if(saveDb) {
-            l(journal);
             // зберігаємо інформацію в базі даних
             sendDataToServer('addNewMark');
             // перераховуємо середні оцінки

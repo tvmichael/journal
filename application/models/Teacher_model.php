@@ -88,12 +88,17 @@ class Teacher_model extends CI_Model
         $data['id_teacher'] = intval($this->input->get('teacher'));
         $data['id_subject'] = intval($this->input->get('subject'));
         $data['id_group'] = intval($this->input->get('group'));
-        $data['id_student'] = -1;
         $data['id_lesson_type'] = intval($this->input->get('type'));
         $data['lesson_number'] = intval($this->input->get('number'));
+        $data['date'] = date("Y-m-d", strtotime($this->input->get('date')));
+
+        $query = $this->db->get_where('journals', $data);
+        if ($query->num_rows() > 0 )
+            return -1;
+
+        $data['id_student'] = -1;
         $data['mark'] = '';
         $data['remark'] = '';
-        $data['date'] = date("Y-m-d", strtotime($this->input->get('date')));
 
         // список студентів відповідної групи і відсортувати їх за прізвищем
         // All fields: id_student, id_group, id, name, surname, patronymic
@@ -106,6 +111,7 @@ class Teacher_model extends CI_Model
         $query = $this->db->get();
         $students = $query->result_array();
         */
+
         // SELECT DISTINCT id_student FROM list_group_students WHERE id_group=...;
         //$this->db->distinct('id_student');
         $this->db->select('id_student');
@@ -120,6 +126,7 @@ class Teacher_model extends CI_Model
             $this->db->insert('journals', $data);
         }
         // повертає кількість створених записів
+        /**/
         return $query->num_rows();
     }
 
