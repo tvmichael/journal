@@ -37,6 +37,7 @@ class Login extends CI_Controller {
     }
 
     // якщо необхідно закрити доступ на деякий час (пейменовуємо функції:  index <> inaccessible)
+    // також міняємо посилання у формі в файлі ../views/login/index.php
     public function inaccessible() // index()
     {
         $this->load->view('login/inaccessible');

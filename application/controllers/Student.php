@@ -40,6 +40,17 @@ class Student extends CI_Controller
         $this->load->view('student/footer', $footer);
     }
 
+    // налаштування
+    public function rating_info()    {
+        $header = ['navbar_text'=>'Рейтинг'];
+        $id = json_decode($_SESSION['settings']);
+        $main = $this->student->get_group_statistic($id->id_student);
+        $footer['js_file'] = 'student.js';
+
+        $this->load->view('student/header', $header);
+        $this->load->view('student/rating_info', $main);
+        $this->load->view('student/footer', $footer);
+    }
 
 
 }
