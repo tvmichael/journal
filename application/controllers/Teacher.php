@@ -119,14 +119,16 @@ class Teacher extends CI_Controller {
         // додаємо нову ДАТУ до журналу викладача
         if ($this->input->get('action') == 'addColumnToTable'){
             $res = $this->teacher_model->saveNewTableColumn();
-            if ($res > 0 ) echo json_encode(array('text' => ' Додано: ('.$res.') записи(ів).', 'error' => 0));
-                else echo json_encode(array('text' => ' Помилка: (нова дата)', 'error' => 101));
+            if ($res['error'] == 0 )
+                echo json_encode(array('text' => ' Додано: ('.$res['count'].') записи(ів).', 'error' => 0, 'count' => $res['count']));
+            else
+                echo json_encode( array('text' => ' Помилка: (нова дата)', 'error' => 101, 'count' => $res['count']) );
         }
         // додаємо нову ОЦІНКУ до журнала викладача
         if ($this->input->get('action') == 'addNewMark'){
             $res = $this->teacher_model->add_new_mark();
-            //echo json_encode($res);
-            echo 'Оновлено (', $res, ') запис.';
+            echo json_encode( array('text' => ' Оновлено:'.$res.' запис', 'error' => 0, 'count' => $res) );
+            //echo 'Оновлено (', $res, ') запис.';
         }
         // зберегти налаштування
         if ($this->input->get('action') == 'settingsView'){

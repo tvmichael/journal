@@ -93,8 +93,8 @@ class Teacher_model extends CI_Model
         $data['date'] = date("Y-m-d", strtotime($this->input->get('date')));
 
         $query = $this->db->get_where('journals', $data);
-        if ($query->num_rows() > 0 )
-            return -1;
+        if ( $query->num_rows() > 0 )
+            return array( 'error' => -1, 'count' => $query->num_rows() );
 
         $data['id_student'] = -1;
         $data['mark'] = '';
@@ -127,7 +127,7 @@ class Teacher_model extends CI_Model
         }
         // повертає кількість створених записів
         /**/
-        return $query->num_rows();
+        return array( 'error' => 0, 'count' => $query->num_rows() );
     }
 
     // змінюємо існуючу дату на нову

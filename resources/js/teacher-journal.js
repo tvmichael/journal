@@ -2,18 +2,6 @@
     function l(s){ console.log(s);}
     l('START-TEACHER-JOURNAL');
 
-    var journal = { // обєкт - оцінка в журналі
-        action:'',
-        teacher:'',
-        group:'',
-        subject:'',
-        student:'',
-        type:'',
-        number:'',
-        date:'',
-        mark:''
-    };
-
     var markTable = document.getElementById('table-mark');  // таблиця оцінок студентів
 
     var listJournalLesson = Array(); // список номерів пар і їхніх дат в таблиці
@@ -31,6 +19,20 @@
         td: '',
         input: ''
     };
+
+    var journal = { // обєкт - оцінка в журналі
+        action: '',
+        teacher: '',
+        group: '',
+        subject: '',
+        student: '',
+        type: '',
+        number: '',
+        date: '',
+        mark: '',
+        count: tableCellPosition.nRow - 1 // кількість студентів
+    };
+
 
     var sW = 330; // зменьшуємо ширину таблиці Mark, щоб не виходила за праву межу екрана
 
@@ -54,10 +56,11 @@
             .done(function (data) {
                 myObj = JSON.parse(data);
                 // додати новий стовпець
-                if( task == 'addNewColumnToTable' && myObj.error == 0 ) addNewColumnToTable();
+                if( task == 'addNewColumnToTable' && (myObj.error == 0  || myObj.count == journal.count) )
+                    addNewColumnToTable();
                 // показуємо повідомлення що надійшло з серевера
                 $('#table-headline-message').html(myObj.text);
-                $("#table-headline-message").show(0).delay(2000).hide(0);
+                $("#table-headline-message").show(0).delay(3000).hide(0);
             })
             .fail(function() {
                 $('#table-headline-message').html("<span style='color: red;'>ПОМИЛКА!</span>");
