@@ -2,7 +2,7 @@
 defined('BASEPATH') OR exit('No direct script access allowed'); ?>
 
 <!-- MAIN --------------------------------------------------------------------------- -->
-<main id="main-student">
+<main data-name="main-student">
     <div class="container-fluid">
         <div class="row">
             <div class="col-sm-12">

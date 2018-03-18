@@ -36,7 +36,9 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
             <div class="collapse navbar-collapse" id="navbar-journal">
                 <ul class="nav navbar-nav">
                     <li>
-                        <a href="<?php echo base_url('student');?>"></a>
+                        <?php if ($navbar_text !== 'Рейтинг'):?>
+                        <a href="<?php echo base_url('student/rating_info');?>">Рейтинг</a>
+                        <?php endif; ?>
                     </li>
                 </ul>
 
