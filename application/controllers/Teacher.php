@@ -140,6 +140,12 @@ class Teacher extends CI_Controller {
             $n = $this->teacher_model->user_change_date();
             echo "Дата змінена! [$n]";
         }
+
+        // додати навантаження
+        if ($this->input->get('action') == 'workingLoad'){
+            //$n = $this->teacher_model->user_change_date();
+            //echo "Дата змінена! [$n]";
+        }
     }
 
     
