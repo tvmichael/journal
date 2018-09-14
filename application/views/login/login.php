@@ -21,7 +21,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
     <div class="center">
         <h2>Авторизація</h2>
 
-        <?php echo form_open('login', "name='form-login'"); ?>
+        <?php echo form_open('login/inaccessible', "name='form-login'"); ?>
 
         <div class="form-group">
         <?php
@@ -50,6 +50,19 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
         <div class="timetable-link">
             <a href="https://sites.google.com/site/medichne/"><h5>Розклад занять</h5></a>
         </div>
+
+        <!--
+        <?php
+        // old
+        // be845e98d086486272955c517959f9e922d0a563
+        //new
+        // 8222c902ae0723e8bb352bb17ed76809e4688165
+        // echo sha1('Katia');
+
+        // 789481345e5af4cfa4e07455defdb2f53a3ea6d2
+        // b4514f8853ae06008dbf408584970518c52d98fc
+        ?>
+        -->
 
     </div>
 </div>
