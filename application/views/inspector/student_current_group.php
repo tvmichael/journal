@@ -17,7 +17,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                         <b><?php echo $group_name; ?></b>
                     </div>
                     <div class="panel-body">
-
+                        
                         <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 
                         <div id="group-content"></div>
@@ -28,8 +28,8 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                         </script>
                     </div>
                 </div>
-
             </div>
+
         </div>
     </div>
     </div>
