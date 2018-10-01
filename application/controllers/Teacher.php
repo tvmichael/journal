@@ -113,6 +113,59 @@ class Teacher extends CI_Controller {
         $this->load->view('teacher/footer', $footer);
     }
 
+    // 5. додати групу до навантаження викладача
+    public function working_load(){
+        // отримуємо дані для конкретного викладача
+        if ($this->input->get('action') == 'teacherWorkingLoad') {
+            $this->load->helper('admin');
+            // повертаємо таблицю
+            $ob = ['error'=>0, 'text' => teacher_working_table($this->teacher_model->teacherWorkingLoad())];
+            echo json_encode($ob, JSON_UNESCAPED_UNICODE);
+            return;
+        }
+        // додати групу
+        if ($this->input->get('action') == 'teacherWorkingWrite') {
+            $this->load->helper('admin');
+
+            $error = $this->teacher_model->teacherWorkingWrite();
+            // повертаємо таблицю
+            $text = '';
+            if ($error == 0) $text = teacher_working_table($this->teacher_model->teacherWorkingLoad());
+            else $text = 'Група вже додана!';
+            $ob = ['error'=>$error, 'text' => $text];
+            echo json_encode($ob, JSON_UNESCAPED_UNICODE);
+            return;
+        }
+        // видалити нагрузку
+        if ($this->input->get('action') == 'removeTeacherLoad') {
+            $this->load->helper('admin');
+
+            // видаляємо дані
+            $error = $this->teacher_model->removeTeacherLoad();
+            // повертаємо таблицю
+            $text = '';
+            if ($error == 0) $text = teacher_working_table($this->teacher_model->teacherWorkingLoad());
+            else $text = 'Помилка видалення. Ви не можите видалити дану групу, для цієї групи вже створено записи в журналі.';
+            $ob = ['error'=>$error, 'text' => $text];
+            echo json_encode($ob, JSON_UNESCAPED_UNICODE);
+            return;
+        }
+
+        // список усіг груп
+        $main['group'] = $this->teacher_model->load_list_group();
+        // загрузка списку предметів
+        $main['subject'] = $this->teacher_model->load_list_subject();
+
+        // налаштування верхньої панелі
+        $header = ['navbar_text'=>'Налаштування списка груп', 'navbar_menu'=>'add_group'];
+        //
+        $footer = ['js_file'=>'teacher-main.js'];
+        // показуєм сторінки
+        $this->load->view('teacher/header', $header);
+        $this->load->view('teacher/working_load', $main);
+        $this->load->view('teacher/footer', $footer);
+    }
+
 
     // операції з журналом (ajax - get)
     public function ajax_get_data(){

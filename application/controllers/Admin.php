@@ -34,23 +34,33 @@ class Admin extends CI_Controller
         if ($this->input->get('action') == 'teacherWorkingLoad') {
             $this->load->helper('admin');
             // повертаємо таблицю
-            return teacher_working_table($this->admin->teacherWorkingLoad());
+            $ob = ['error' => 0, 'text' => teacher_working_table($this->admin->teacherWorkingLoad())];
+            echo json_encode($ob, JSON_UNESCAPED_UNICODE);
+            return;
         }
         // додати нову нагрузку
         if ($this->input->get('action') == 'teacherWorkingWrite') {
             $this->load->helper('admin');
             // зберігаємо дані
-            $this->admin->teacherWorkingWrite();
+            $error = $this->admin->teacherWorkingWrite();
             // повертаємо таблицю
-            return teacher_working_table($this->admin->teacherWorkingLoad());
+            $text = '';
+            if ($error == 0) $text = teacher_working_table($this->admin->teacherWorkingLoad());
+            $ob = ['error' => $error, 'text' => $text];
+            echo json_encode($ob, JSON_UNESCAPED_UNICODE);
+            return;
         }
         // видалити нагрузку
         if ($this->input->get('action') == 'removeTeacherLoad') {
             $this->load->helper('admin');
-            // зберігаємо дані
-            $this->admin->removeTeacherLoad();
+            // видаляємо дані
+            $error = $this->admin->removeTeacherLoad();
             // повертаємо таблицю
-            return teacher_working_table($this->admin->teacherWorkingLoad());
+            $text = '';
+            if ($error == 0) $text = teacher_working_table($this->admin->teacherWorkingLoad());
+            $ob = ['error'=>$error, 'text' => $text];
+            echo json_encode($ob, JSON_UNESCAPED_UNICODE);
+            return;
         }
 
         $header = ['navbar_header' => 'Навантаження'];
@@ -199,11 +209,11 @@ class Admin extends CI_Controller
         $this->load->view('admin/footer');
     }
 
-    // дотаткові налаштування по студенту
+    // дотаткові налаштування по студенту - генерація паролей
     public function student_setting(){
         $header = ['navbar_header'=>'Студенти'];
         $data = '';
-        /*
+
         // згенерувати облікові записи студентів - (паролі і логіни)
         if($this->input->get('action') == 'listStudentRegistration'){
             $mas = $this->admin->list_student_registration();
@@ -242,8 +252,8 @@ class Admin extends CI_Controller
             if ($this->admin->write_list_student_registration($nm)){
                  echo json_encode($nm);
             }
-
             else echo 'error';
+
             return;
         }
         /**/
