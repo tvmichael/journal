@@ -9,8 +9,9 @@ application/logs/*
 !application/logs/.htaccess
 
 application/libraries/kint/*
-
 application/libraries/PHPExcel/*
+
+application/config/database.php
 
 # IDE Files
 #-------------------------

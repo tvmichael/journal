@@ -22,6 +22,9 @@ body {
     height: 150%;
 }
 
+.navbar-collapse .navbar-nav li {
+    border-left: 1px solid lightgray;
+}
 
 /* page list group teacher */
 .m-display-type{
@@ -177,6 +180,12 @@ body {
     width: 300px;
     overflow-x: auto;
 }
+
+/* ADD WORKING LOAD */
+.t-save-chioce {
+    display: none;
+}
+
 
 /* NEW DATE --- */
 .m-box-add-new-date{

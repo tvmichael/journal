@@ -18,9 +18,14 @@ if( adminPage == 'working-load' ) {
     function sendToServer() {
         $.get(baseUrl, teacher)
             .done(function (data) {
-                $('#teacher-working-load').html(data);
-                // встановлюємо "кліки" в таблиці на кнопки для видалення
-                removeTeacherLoad();
+                data = JSON.parse(data);
+                if (data.error == 0) {
+                    $('#teacher-working-load').html(data.text);
+                    // встановлюємо "кліки" в таблиці на кнопки для видалення
+                    removeTeacherLoad();
+                } else {
+                    alert('ERRROR');
+                }
             });
     }
 
