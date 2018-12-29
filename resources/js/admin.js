@@ -357,7 +357,7 @@ if( adminPage == 'student_edit' ) {
 
 // налаштування ... студентів
 if( adminPage == 'student-setting' ) {
-    /*
+
     var registrationData = Array();
     $('#read-list-student-registration').click(function () {
         $.get(baseUrl, {'action':'listStudentRegistration'}).done(function (d) {
@@ -435,7 +435,7 @@ if( adminPage == 'student-setting' ) {
             $('#data-list-student-registration').html(d);
         });
     });
-    */
+
 
     // реєстраційні дані студентів
     $('#list-student-registration').click(function () {
