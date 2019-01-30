@@ -50,9 +50,9 @@ class Admin_model extends CI_Model
 
         if ($query->num_rows() == 0){
             $this->db->insert('list_group_teachers', $data);
-            return TRUE;
+            return 0;
         }
-        return FALSE;
+        return 10;
     }
 
     // видалити нагрузку викладача
@@ -62,6 +62,7 @@ class Admin_model extends CI_Model
         $data['id_subject'] = intval($this->input->get('subjectId'));
 
         $this->db->delete('list_group_teachers', $data);
+        return 0;
     }
 
 
@@ -378,7 +379,7 @@ class Admin_model extends CI_Model
             FROM students
               JOIN list_group_students ON list_group_students.id_student=students.id
               JOIN groups ON groups.id = list_group_students.id_group
-            WHERE groups.subgroup = 'Група'
+            WHERE groups.subgroup = 'Група' AND groups.course = '1 Курс'
             ORDER BY groups.course, groups.groupe;
             ";
         $query = $this->db->query($sql);
@@ -387,7 +388,9 @@ class Admin_model extends CI_Model
 
     // створюємо в БД лігіни і паролі для студентів
     public function write_list_student_registration($masive){
+        // очищаємо таблицю, стираючи попередні дані про студентів
         /*
+        // записуємо нові дані по студентах
         foreach ($masive as $mas) {
             $data = array();
             $data['login'] = $mas['login'];

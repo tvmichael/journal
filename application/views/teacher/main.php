@@ -2,10 +2,12 @@
 defined('BASEPATH') OR exit('No direct script access allowed'); ?>
 
 <!-- MAIN --------------------------------------------------------------------------- -->
-<main id="main-journal"
+<main id="teacher-main"
       class="m-main-content"
       data-ajax="<?php echo base_url('/teacher/ajax_get_data')?>"
-      data-url="<?php echo base_url('/teacher/journal')?>">
+      data-url="<?php echo base_url('/teacher/journal')?>"
+      data-teacher="main" >
+
     <div class="container-fluid">
         <div class="row">
 

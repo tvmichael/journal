@@ -21,7 +21,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
     <div class="center">
         <h2>Авторизація</h2>
 
-        <?php echo form_open('login', "name='form-login'"); ?>
+        <?php echo form_open('login/inaccessible', "name='form-login'"); ?>
 
         <div class="form-group">
         <?php
@@ -50,6 +50,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
         <div class="timetable-link">
             <a href="https://sites.google.com/site/medichne/"><h5>Розклад занять</h5></a>
         </div>
+
 
     </div>
 </div>

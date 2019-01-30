@@ -3,6 +3,71 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Teacher_model extends CI_Model
 {
+    // список усіх груп
+    public function load_list_group(){
+        $this->db->order_by('course');
+        $this->db->order_by('groupe');
+        $this->db->order_by('subgroup', 'DESC');
+        $query = $this->db->get('groups');
+        return  $query->result_array();
+    }
+
+    // список усіх предметів
+    public function load_list_subject(){
+        $this->db->order_by('fullname', 'ASC');
+        $query = $this->db->get('subjects');
+        return  $query->result_array();
+    }
+
+    // показуємо робочу нагрузку викладача
+    public function teacherWorkingLoad(){
+        $this->db->select('*');
+        $this->db->from('list_group_teachers');
+        $this->db->where('id_teacher', intval($this->input->get('teacherId')));
+        $this->db->join('subjects', 'subjects.id = list_group_teachers.id_subject');
+        $this->db->join('groups', 'groups.id = list_group_teachers.id_group');
+        $query = $this->db->get();
+
+        return $query->result_array();
+    }
+
+    // заносимо нову нагрузку для вчителя
+    public function teacherWorkingWrite(){
+        $data['id_teacher'] = intval($this->input->get('teacherId'));
+        $data['id_group'] = intval($this->input->get('groupId'));
+        $data['id_subject'] = intval($this->input->get('subjectId'));
+
+        $this->db->select('*');
+        $this->db->from('list_group_teachers');
+        $this->db->where($data);
+        $query = $this->db->get();
+
+        if ($query->num_rows() == 0){
+            $this->db->insert('list_group_teachers', $data);
+            return 0;
+        }
+        // помилка, дані вже занесено
+        return 10;
+    }
+
+    // видалити нагрузку викладача
+    public function removeTeacherLoad(){
+        $query = $this->db->query( 'select count(id_teacher) as num from journals where id_teacher = '.
+            intval($this->input->get('teacherId')).
+            ' and id_group = '.intval($this->input->get('groupId')).
+            ' and id_subject = '.intval($this->input->get('subjectId')) );
+        $row = $query->row();
+        if ($row->num > 0 )
+            // помилка, для даної групи вже створено записи в таблиці
+            return 20;
+
+        $data['id_teacher'] = intval($this->input->get('teacherId'));
+        $data['id_group'] = intval($this->input->get('groupId'));
+        $data['id_subject'] = intval($this->input->get('subjectId'));
+        $this->db->delete('list_group_teachers', $data);
+        return 0;
+    }
+
     // Список груп в яких читаються відповідні придмети
     public function read_list_group_teacher(){
         //All filed:  id_teacher, id_group, id_subject, id, shortname, fullname, course, groupe, subgroup

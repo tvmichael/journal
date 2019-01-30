@@ -34,19 +34,24 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
             </div>
 
             <div class="collapse navbar-collapse" id="navbar-journal">
-                <?php if (($navbar_menu == 'journal') || ($navbar_menu == 'settings') || ($navbar_menu == 'message') ) { ?>
-                    <ul class="nav navbar-nav">
-                        <li>
-                            <a href="<?php echo base_url('teacher');?>"><b>Cписок груп</b></a>
-                        </li>
-                    </ul>
-                <?php }; ?>
-
+                <ul class="nav navbar-nav">
+                    <?php if (($navbar_menu != 'add_group') && ($navbar_menu != 'journal') ) { ?>
+                    <li>
+                        <a href="<?php echo base_url('teacher/working_load');?>"><span class="glyphicon glyphicon-list-alt"></span> Редагувати групи</a>
+                    </li>
+                    <?php }; ?>
+                    <?php if (($navbar_menu == 'journal') || ($navbar_menu == 'settings') || ($navbar_menu == 'message') || ($navbar_menu == 'add_group') ) { ?>
+                    <li>
+                        <a href="<?php echo base_url('teacher');?>"><b>Cписок груп</b></a>
+                    </li>
+                    <?php }; ?>
+                </ul>
                 <ul class="nav navbar-nav navbar-right">
                     <li>
-                        <a href="<?php echo base_url('teacher/message');?>"><span class="glyphicon glyphicon-envelope"></span></a>
+                        <a href="<?php echo base_url('teacher/message');?>"><span class="glyphicon glyphicon-envelope"></span> Повідомлення</a>
                     </li>
-                    <li><a href="<?php echo base_url('teacher/settings')?>">
+                    <li>
+                        <a href="<?php echo base_url('teacher/settings')?>">
                             <span class="glyphicon glyphicon-user"></span>
                             <?php echo $_SESSION['name'], ' ', $_SESSION['surname'] ?>
                         </a>

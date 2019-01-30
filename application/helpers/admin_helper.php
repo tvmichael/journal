@@ -11,40 +11,44 @@ if ( ! function_exists('teacher_working_table'))
      * Якщо записів немає то повертає - пустий рядок.
      *
      * @mas 	масив записів з БД
-     * @return	повертає таблицю
+     * @return	string - повертає таблицю
      *
      */
     function teacher_working_table($mas)
     {
         //id_teacher, id_group, id_subject, id, shortname, fullname, course, groupe, subgroup
-        echo "<thead><tr>";
-        echo "<th>№</th>";
-        echo "<th>Предмет</th>";
-        echo "<th>Курс</th>";
-        echo "<th>Група</th>";
-        echo "<th>Підгрупа</th>";
-        echo "<th class='text-center'>Видалити</th>";
-        echo "</tr></thead><tbody>";
+        $st_table = "<thead data-delete='"."'><tr>".
+        "<th>№</th>".
+        "<th>Предмет</th>".
+        "<th>Курс</th>".
+        "<th>Група</th>".
+        "<th>Підгрупа</th>".
+        "<th class='text-center'>Видалити</th>".
+        "</tr></thead><tbody>";
         $i = 1;
+        $st_tr = '';
         foreach ($mas as $m) {
-            echo '<tr>';
-            echo "<td>$i</td>";
-            echo '<td>'. $m['fullname'] . '</td>';
-            echo '<td>'. $m['course'] . '</td>';
-            echo '<td>'. $m['groupe'] . '</td>';
-            echo '<td>'. $m['subgroup'] . '</td>';
+            $st_tr = $st_tr.
+            '<tr>'.
+            "<td>$i</td>".
+            '<td>'.$m['fullname'].'</td>'.
+            '<td>'.$m['course'].'</td>'.
+            '<td>'.$m['groupe'].'</td>'.
+            '<td>'.$m['subgroup'].'</td>'.
 
-            echo "<td class='text-center'>";
-            echo "<a style='color: red' href='#teacher-working-load'";
-            echo "data-id-teacher='", $m['id_teacher'], "' ";
-            echo "data-id-subject='", $m['id_subject'], "' ";
-            echo "data-id-group='", $m['id_group'], "' ";
-            echo "'>";
-            echo "<span class='glyphicon glyphicon-remove-circle' aria-hidden='true'></span></a></td>";
-            echo '</tr>';
+            "<td class='text-center'>".
+            "<a style='color: red' href='javascript:void(0);'".
+            "data-id-teacher='".$m['id_teacher']."' ".
+            "data-id-subject='".$m['id_subject']."' ".
+            "data-id-group='".$m['id_group']."' ".
+            "'>".
+            "<span class='glyphicon glyphicon-remove-circle' aria-hidden='true'></span></a></td>".
+            '</tr>';
             $i++;
         }
-        echo "</tbody>";
+        $st_table = $st_table.$st_tr."</tbody>";
+
+        return $st_table;
     }
 }
 
