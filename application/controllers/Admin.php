@@ -160,6 +160,11 @@ class Admin extends CI_Controller
             echo $this->admin->edit_student_save();
             return;
         }
+        // змінити пароль
+        if($this->input->get('action') == 'saveNewPass'){
+            echo $this->admin->edit_student_password();
+            return;
+        }
 
         // завантажуємо дані по студенту з БД
         $main['student'] = $this->admin->load_student();

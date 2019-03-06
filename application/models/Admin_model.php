@@ -335,6 +335,25 @@ class Admin_model extends CI_Model
         return  $error;
     }
 
+    // зберігаємо новий пароль
+    public function edit_student_password(){
+        $id = $this->input->get('id_student');
+        $pass = sha1($this->input->get('new-pass'));
+        $name = $this->input->get('name');
+        $surname = $this->input->get('surname');
+        $patronymic = $this->input->get('patronymic');
+
+        $this->db->set('password', $pass);
+        $this->db->where('name', $name);
+        $this->db->where('surname', $surname);
+        $this->db->where('patronymic', $patronymic);
+        //$this->db->like('settings', $id);
+        $this->db->update('users');
+
+        $error = 'Зміни збережено '.$id.':'.$name.' '.$surname.' '.$patronymic.' | '.$this->db->affected_rows();
+        return  $error;
+    }
+
     // додаємо нових студентів до бази з ексель файла
     public function insert_new_students_excel($data){
         foreach ($data as &$value) {

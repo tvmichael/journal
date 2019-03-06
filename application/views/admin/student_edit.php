@@ -39,6 +39,33 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             </button>
                         </div>
                     </div>
+
+                    <div class="col-md-4">
+                        <input type="text" class="form-control" id="new-pass-x" value="" placeholder="Новий пароль">
+                    </div>
+                    <div class="col-md-4">
+                        <button id="new-pass-save" data-id-student="<?php echo $student[0]['id_student'];?>" type="button" class="btn btn-success">
+                            <span class="glyphicon glyphicon-save"></span>
+                            Зберегти новий пароль
+                        </button>
+                    </div>
+                    <script>
+                        // зміна пароля
+                        document.addEventListener("DOMContentLoaded", function () {
+                            $('#new-pass-save').click(function () {
+                                $.get("<?php echo base_url('admin/student_edit');?>", {
+                                    'action':'saveNewPass',
+                                    'id_student':$(this).attr('data-id-student'),
+                                    'new-pass':$('#new-pass-x').val(),
+                                    'surname':'<?php echo $student[0]['surname'];?>',
+                                    'name':'<?php echo $student[0]['name'];?>',
+                                    'patronymic':'<?php echo $student[0]['patronymic'];?>'
+                                }).done(function (error) {
+                                    console.log(error);
+                                });
+                            });
+                        });
+                    </script>
                 </div>
             </div>
         </div>
